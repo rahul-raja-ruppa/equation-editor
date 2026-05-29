@@ -10,11 +10,11 @@ Add a dark header bar above row 1 of the `ToolbarZone` containing a `☰ Menu` b
 
 ### Remove virtual-keyboard-toggle
 
-MathLive renders a virtual keyboard toggle button inside `<math-field>` by default. Suppress it by setting `virtual-keyboard-policy="off"` on the `<math-field>` element in `MathField.tsx`.
+MathLive renders a virtual keyboard toggle button inside `<math-field>` by default. Suppress it by setting `math-virtual-keyboard-policy="manual"` on the `<math-field>` element in `MathField.tsx`. The `manual` policy tells MathLive the keyboard is externally controlled, which hides the auto-rendered toggle.
 
 ### Add menu bar above row 1
 
-A new `menuBar` div is added as the first child of `ToolbarZone`, above the existing two symbol rows. It contains a single `☰ Menu` button. Clicking the button calls `mathFieldRef.current?.showMenu()`, which opens MathLive's native context menu anchored to the button.
+A new `menuBar` div is added as the first child of `ToolbarZone`, above the existing two symbol rows. It contains a single `☰ Menu` button. Clicking the button calls `mathFieldRef.current?.showMenu({ location: { x, y }, modifiers: {} })` where `x`/`y` come from the button's `getBoundingClientRect()`. This opens MathLive's native context menu anchored near the button.
 
 The bar uses a dark background (`#1f2937`) to visually distinguish editor-level controls from the symbol category rows below.
 
