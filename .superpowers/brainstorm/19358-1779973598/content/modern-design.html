@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Modern Equation Editor</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f0f13; color: #e0e0e0; padding: 28px;
+}
+
+h1 { font-size: 17px; font-weight: 700; color: #c4b5fd; margin-bottom: 4px; }
+.sub { font-size: 12px; color: #555; margin-bottom: 24px; }
+
+/* ====== WINDOW CHROME ====== */
+.window {
+  max-width: 760px; margin: 0 auto;
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+}
+.titlebar {
+  background: linear-gradient(180deg, #f6f6f6 0%, #ebebeb 100%);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid #d0d0d0;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dr { background: #ff5f57; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12); }
+.dy { background: #febc2e; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12); }
+.dg { background: #28c840; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12); }
+.wintitle { margin: 0 auto; font-size: 11px; color: #888; font-weight: 500; letter-spacing: 0.2px; }
+
+/* ====== EDITOR BODY ====== */
+.editor { background: #ffffff; }
+
+/* ====== FIXED QUICK-ACCESS ROWS ====== */
+.quickbar {
+  background: #f7f8fc;
+  border-bottom: 1px solid #e8eaf0;
+  padding: 8px 14px 6px;
+}
+.qbar-label {
+  font-size: 9px; font-weight: 700; color: #bbb;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+.qrow { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 4px; }
+.qrow:last-child { margin-bottom: 0; }
+
+.qbtn {
+  width: 30px; height: 30px;
+  background: white;
+  border: 1px solid #e4e6ef;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #374151;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.qbtn:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.12);
+  transform: translateY(-1px);
+}
+.qbtn.wide { width: auto; padding: 0 8px; font-size: 11px; font-weight: 600; }
+.qbtn.template {
+  background: #f0f7ff;
+  border-color: #dbeafe;
+  color: #2563eb;
+}
+.qbtn.template:hover {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* divider between rows */
+.qdivider { width: 1px; height: 30px; background: #e8eaf0; margin: 0 4px; flex-shrink: 0; }
+
+/* ====== TABBED EXPRESSION LIBRARY ====== */
+.expr-library { border-bottom: 1px solid #e8eaf0; }
+
+.tab-strip {
+  display: flex; background: #f0f2fa;
+  border-bottom: 1px solid #e0e3f0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-strip::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 8px 16px;
+  font-size: 11px; font-weight: 500; color: #7c8ab0;
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  user-select: none;
+}
+.tab:hover { color: #2563eb; background: rgba(37,99,235,0.04); }
+.tab.active {
+  color: #2563eb; font-weight: 600;
+  border-bottom-color: #2563eb;
+  background: white;
+}
+
+.expr-row {
+  padding: 10px 14px;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  min-height: 56px;
+  background: white;
+}
+
+.expr-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: #f8f9ff;
+  border: 1px solid #e0e5ff;
+  border-radius: 8px;
+  font-size: 13px; color: #2c3e7a;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.expr-chip:hover {
+  background: #2563eb; color: white;
+  border-color: #2563eb;
+  box-shadow: 0 3px 10px rgba(37,99,235,0.25);
+  transform: translateY(-1px);
+}
+.expr-chip .chip-label {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  opacity: 0.5; margin-left: 2px;
+}
+
+/* ====== MATH CANVAS ====== */
+.canvas-wrap {
+  background: white;
+  padding: 24px 20px 20px;
+  min-height: 100px;
+  position: relative;
+  border-bottom: 1px solid #eef0f8;
+}
+.canvas-hint {
+  position: absolute; top: 8px; right: 12px;
+  font-size: 10px; color: #c5cadc; font-weight: 500;
+}
+.math-render {
+  font-size: 26px; color: #111;
+  display: flex; align-items: center; gap: 4px;
+  min-height: 48px;
+}
+.math-render .frac { display: inline-flex; flex-direction: column; align-items: center; margin: 0 2px; }
+.math-render .frac .num { font-size: 16px; border-bottom: 1.5px solid #111; padding: 0 4px; }
+.math-render .math-cursor { display: inline-block; width: 2px; height: 30px; background: #2563eb; border-radius: 1px; animation: blink 1s step-end infinite; vertical-align: middle; margin: 0 1px; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ====== FOOTER ====== */
+.footer {
+  background: #f7f8fc;
+  border-top: 1px solid #e8eaf0;
+  padding: 9px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.latex-pill {
+  flex: 1;
+  background: white;
+  border: 1px solid #e4e6ef;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px; color: #6b7280;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ctrl-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.ctrl-label { font-size: 10px; color: #9ca3af; }
+.ctrl-select {
+  font-size: 10px; padding: 4px 8px;
+  border: 1px solid #e4e6ef; border-radius: 5px;
+  background: white; color: #374151;
+  cursor: pointer;
+  outline: none;
+}
+.sep { width: 1px; height: 22px; background: #e4e6ef; margin: 0 4px; flex-shrink: 0; }
+.btn {
+  padding: 6px 18px; border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer; border: none;
+  transition: all 0.12s;
+}
+.btn-cancel {
+  background: white; color: #6b7280;
+  border: 1px solid #e4e6ef;
+}
+.btn-cancel:hover { background: #f3f4f6; }
+.btn-insert {
+  background: #2563eb; color: white;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.3);
+}
+.btn-insert:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+  transform: translateY(-1px);
+}
+
+/* ====== ANNOTATIONS ====== */
+.annotations {
+  max-width: 760px; margin: 16px auto 0;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+}
+.ann {
+  background: #13131a; border: 1px solid #2a2a35;
+  border-radius: 8px; padding: 10px 12px;
+}
+.ann-num { font-size: 18px; font-weight: 800; color: #2a2a42; margin-bottom: 4px; }
+.ann-title { font-size: 11px; font-weight: 700; color: #a78bfa; margin-bottom: 3px; }
+.ann-desc { font-size: 10px; color: #666; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>Modern Equation Editor — Light Pro</h1>
+<p class="sub">MathType flavor · Web-native · Eye-friendly · Built on MathLive</p>
+
+<!-- THE EDITOR MOCKUP -->
+<div class="window">
+  <div class="titlebar">
+    <div class="dot dr"></div>
+    <div class="dot dy"></div>
+    <div class="dot dg"></div>
+    <div class="wintitle">Equation Editor</div>
+  </div>
+
+  <div class="editor">
+
+    <!-- ZONE 1: Fixed quick-access rows (always visible) -->
+    <div class="quickbar">
+      <div class="qbar-label">Quick Access</div>
+      <!-- Row 1: Relations & Logic -->
+      <div class="qrow">
+        <div class="qbtn" title="Less than or equal">≤</div>
+        <div class="qbtn" title="Greater than or equal">≥</div>
+        <div class="qbtn" title="Approximately equal">≈</div>
+        <div class="qbtn" title="Not equal">≠</div>
+        <div class="qbtn" title="Identical">≡</div>
+        <div class="qbtn" title="Plus minus">±</div>
+        <div class="qbtn" title="Times">×</div>
+        <div class="qbtn" title="Divide">÷</div>
+        <div class="qdivider"></div>
+        <div class="qbtn" title="Right arrow">→</div>
+        <div class="qbtn" title="Implies">⇒</div>
+        <div class="qbtn" title="Iff">⟺</div>
+        <div class="qbtn" title="Up arrow">↑</div>
+        <div class="qdivider"></div>
+        <div class="qbtn" title="Element of">∈</div>
+        <div class="qbtn" title="Not element">∉</div>
+        <div class="qbtn" title="Subset">⊂</div>
+        <div class="qbtn" title="Union">∪</div>
+        <div class="qbtn" title="Intersection">∩</div>
+        <div class="qbtn" title="Empty set">∅</div>
+        <div class="qdivider"></div>
+        <div class="qbtn" title="Therefore">∴</div>
+        <div class="qbtn" title="Exists">∃</div>
+        <div class="qbtn" title="For all">∀</div>
+        <div class="qbtn" title="Infinity">∞</div>
+        <div class="qbtn" title="Partial">∂</div>
+        <div class="qbtn" title="Nabla">∇</div>
+      </div>
+      <!-- Row 2: Templates -->
+      <div class="qrow">
+        <div class="qbtn template" title="Fraction">½</div>
+        <div class="qbtn template" title="Square root">√</div>
+        <div class="qbtn template" title="Cube root">∛</div>
+        <div class="qbtn template" title="Superscript">x²</div>
+        <div class="qbtn template" title="Subscript">xₙ</div>
+        <div class="qbtn template wide" title="Sub+superscript">x²ₙ</div>
+        <div class="qdivider"></div>
+        <div class="qbtn template" title="Parentheses">()</div>
+        <div class="qbtn template" title="Brackets">[]</div>
+        <div class="qbtn template" title="Braces">{}</div>
+        <div class="qbtn template" title="Absolute value">|x|</div>
+        <div class="qbtn template" title="Floor">⌊⌋</div>
+        <div class="qbtn template" title="Ceiling">⌈⌉</div>
+        <div class="qdivider"></div>
+        <div class="qbtn template" title="Sum">∑</div>
+        <div class="qbtn template" title="Product">∏</div>
+        <div class="qbtn template" title="Integral">∫</div>
+        <div class="qbtn template" title="Double integral">∬</div>
+        <div class="qbtn template" title="Contour integral">∮</div>
+        <div class="qdivider"></div>
+        <div class="qbtn template wide" title="Limit">lim</div>
+        <div class="qbtn template wide" title="Matrix">[ ]</div>
+        <div class="qbtn template wide" title="Overline">x̄</div>
+      </div>
+    </div>
+
+    <!-- ZONE 2: Tabbed expression library -->
+    <div class="expr-library">
+      <div class="tab-strip">
+        <div class="tab active">Algebra</div>
+        <div class="tab">Calculus</div>
+        <div class="tab">Statistics</div>
+        <div class="tab">Matrices</div>
+        <div class="tab">Sets</div>
+        <div class="tab">Trig</div>
+        <div class="tab">Geometry</div>
+        <div class="tab">Greek</div>
+        <div class="tab">Arrows</div>
+        <div class="tab">More +</div>
+      </div>
+      <div class="expr-row">
+        <div class="expr-chip">√(a²+b²) <span class="chip-label">Root</span></div>
+        <div class="expr-chip">lim(x→∞) <span class="chip-label">Limit</span></div>
+        <div class="expr-chip">(-b ± √Δ)/2a <span class="chip-label">Quadratic</span></div>
+        <div class="expr-chip">n! / r!(n−r)! <span class="chip-label">Combo</span></div>
+        <div class="expr-chip">∫ f(x) dx <span class="chip-label">Integral</span></div>
+        <div class="expr-chip">aₙ = a₁ + (n−1)d <span class="chip-label">AP</span></div>
+      </div>
+    </div>
+
+    <!-- ZONE 3: MathLive canvas -->
+    <div class="canvas-wrap">
+      <div class="canvas-hint">MathLive · WYSIWYG</div>
+      <div class="math-render">
+        ∫<sub style="font-size:14px;">a</sub><sup style="font-size:14px;">b</sup>&nbsp;f(x)&nbsp;dx&nbsp;=&nbsp;F(b)&nbsp;−&nbsp;F(a)
+        <div class="math-cursor"></div>
+      </div>
+    </div>
+
+    <!-- ZONE 4: Footer -->
+    <div class="footer">
+      <div class="latex-pill">\int_{a}^{b} f(x)\,dx = F(b) - F(a)</div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Type</span>
+        <select class="ctrl-select"><option>Display</option><option>Inline</option></select>
+      </div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Size</span>
+        <select class="ctrl-select"><option>12pt</option><option>10pt</option><option>14pt</option></select>
+      </div>
+      <div class="sep"></div>
+      <button class="btn btn-cancel">Cancel</button>
+      <button class="btn btn-insert">Insert</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ZONE ANNOTATIONS -->
+<div class="annotations">
+  <div class="ann">
+    <div class="ann-num">①</div>
+    <div class="ann-title">Quick Access</div>
+    <div class="ann-desc">2 rows always visible. Row 1: symbols. Row 2: templates (blue tint). Instant insert on click.</div>
+  </div>
+  <div class="ann">
+    <div class="ann-num">②</div>
+    <div class="ann-title">Expression Library</div>
+    <div class="ann-desc">10 tabs: Algebra, Calculus, Statistics… Chips show full expressions. Hover = insert.</div>
+  </div>
+  <div class="ann">
+    <div class="ann-num">③</div>
+    <div class="ann-title">MathLive Canvas</div>
+    <div class="ann-desc">Full WYSIWYG via &lt;math-field&gt;. Keyboard nav, auto-formatting, cursor blinking.</div>
+  </div>
+  <div class="ann">
+    <div class="ann-num">④</div>
+    <div class="ann-title">LaTeX Strip</div>
+    <div class="ann-desc">Live read-only view of current LaTeX. Click to edit raw if needed.</div>
+  </div>
+  <div class="ann">
+    <div class="ann-num">⑤</div>
+    <div class="ann-title">Insert</div>
+    <div class="ann-desc">Fires LaTeX + MathML + image (via /api/texconversion) → postMessage to CMS.</div>
+  </div>
+</div>
+
+</body>
+</html>

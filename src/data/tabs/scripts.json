@@ -1,0 +1,19 @@
+{
+  "id": "scripts",
+  "label": "Scripts & Layouts",
+  "sections": [
+    {
+      "header": "Positioning",
+      "symbols": [
+        { "latex": "#0^{#1}", "display": "x²", "tooltip": "Superscript", "isTemplate": true },
+        { "latex": "#0_{#1}", "display": "x₂", "tooltip": "Subscript", "isTemplate": true },
+        { "latex": "#0^{#1}_{#2}", "display": "x²₂", "tooltip": "Super + Subscript", "isTemplate": true },
+        { "latex": "\\overline{#0}", "display": "x̄", "tooltip": "Overline", "isTemplate": true },
+        { "latex": "\\underline{#0}", "display": "x̲", "tooltip": "Underline", "isTemplate": true },
+        { "latex": "\\hat{#0}", "display": "x̂", "tooltip": "Hat", "isTemplate": true },
+        { "latex": "\\tilde{#0}", "display": "x̃", "tooltip": "Tilde", "isTemplate": true },
+        { "latex": "\\vec{#0}", "display": "x⃗", "tooltip": "Vector arrow", "isTemplate": true }
+      ]
+    }
+  ]
+}

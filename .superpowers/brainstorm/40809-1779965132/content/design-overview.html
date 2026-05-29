@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Design — Full Architecture</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e0e0e0; padding: 24px; font-size: 13px; }
+h1 { font-size: 18px; font-weight: 700; color: #c4b5fd; margin-bottom: 4px; }
+.sub { font-size: 12px; color: #555; margin-bottom: 20px; }
+h2 { font-size: 13px; font-weight: 700; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.8px; margin: 20px 0 10px; }
+
+/* ======= SECTION CARDS ======= */
+.section { background: #13131a; border: 1px solid #2a2a35; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.section-title { font-size: 14px; font-weight: 600; color: #e0e0e0; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #1e1b4b; color: #a78bfa; }
+
+/* ======= COMPONENT TREE ======= */
+.tree { font-family: monospace; font-size: 12px; line-height: 1.8; color: #9ca3af; background: #0d0d14; border-radius: 6px; padding: 12px 16px; }
+.tree .root { color: #c4b5fd; font-weight: 700; }
+.tree .comp { color: #60a5fa; }
+.tree .leaf { color: #34d399; }
+.tree .note { color: #4b5563; font-style: italic; }
+
+/* ======= DATA FLOW ======= */
+.flow { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 4px 0; }
+.fbox {
+  flex-shrink: 0; padding: 8px 12px; border-radius: 6px; text-align: center;
+  font-size: 11px; line-height: 1.5;
+}
+.farrow { color: #4b5563; font-size: 18px; padding: 0 6px; flex-shrink: 0; }
+.f-cms { background: #1e1b4b; border: 1px solid #4c1d95; }
+.f-cms .ft { color: #c4b5fd; font-weight: 700; }
+.f-iframe { background: #0f1f3d; border: 1px solid #1e40af; }
+.f-iframe .ft { color: #60a5fa; font-weight: 700; }
+.f-ml { background: #064e3b; border: 1px solid #065f46; }
+.f-ml .ft { color: #34d399; font-weight: 700; }
+.f-api { background: #1f1005; border: 1px solid #78350f; }
+.f-api .ft { color: #fbbf24; font-weight: 700; }
+.f-sub { color: #6b7280; font-size: 10px; margin-top: 2px; }
+
+/* ======= TABS TABLE ======= */
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 6px 10px; background: #1a1a24; color: #666; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 7px 10px; border-bottom: 1px solid #1a1a24; color: #ccc; }
+td:first-child { color: #a78bfa; font-weight: 600; }
+td code { color: #60a5fa; background: #0d0d18; padding: 1px 4px; border-radius: 3px; font-size: 11px; }
+tr:last-child td { border-bottom: none; }
+
+/* ======= FILE TREE ======= */
+.ftree { font-family: monospace; font-size: 11px; line-height: 1.9; color: #6b7280; background: #0d0d14; border-radius: 6px; padding: 12px 16px; }
+.ftree .dir { color: #fbbf24; }
+.ftree .file { color: #9ca3af; }
+.ftree .file.key { color: #34d399; font-weight: 700; }
+.ftree .comment { color: #374151; font-style: italic; }
+
+/* ======= POSTMESSAGE ======= */
+.msg-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+.msg-dir { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; flex-shrink: 0; margin-top: 2px; }
+.dir-in { background: #1e1b4b; color: #a78bfa; }
+.dir-out { background: #064e3b; color: #34d399; }
+.msg-code { font-family: monospace; font-size: 11px; color: #9ca3af; background: #0d0d14; padding: 6px 10px; border-radius: 5px; flex: 1; line-height: 1.6; }
+.msg-code .key { color: #60a5fa; }
+.msg-code .val { color: #fbbf24; }
+.msg-code .str { color: #34d399; }
+</style>
+</head>
+<body>
+
+<h1>Equation Editor — Full Design</h1>
+<p class="sub">React + Vite · MathLive · Light Pro · iframe + postMessage · All three outputs</p>
+
+<!-- ===== SECTION 1: COMPONENT TREE ===== -->
+<div class="section">
+  <div class="section-title">🧩 Component Tree <span class="badge">Architecture</span></div>
+  <div class="tree">
+    <div><span class="root">App</span></div>
+    <div>&nbsp;├─ <span class="comp">Toolbar</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="comp">TabBar</span> &nbsp;<span class="note">// 10 tabs, keyboard nav</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="comp">SymbolGrid</span> &nbsp;<span class="note">// active tab's symbols, lazy loaded</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="leaf">SymbolButton</span> &nbsp;<span class="note">// tooltip + click → mathfield.insert()</span></div>
+    <div>&nbsp;├─ <span class="comp">EditorCanvas</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="leaf">MathField</span> &nbsp;<span class="note">// wraps &lt;math-field&gt; web component</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="leaf">LaTeXBar</span> &nbsp;<span class="note">// read-write LaTeX strip at bottom of canvas</span></div>
+    <div>&nbsp;└─ <span class="comp">ActionBar</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="leaf">MathTypeToggle</span> &nbsp;<span class="note">// display | inline</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="leaf">FontSizeControl</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="leaf">CancelButton</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="leaf">InsertButton</span> &nbsp;<span class="note">// triggers API call + postMessage</span></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: DATA FLOW ===== -->
+<div class="section">
+  <div class="section-title">🔄 Data Flow <span class="badge">End-to-End</span></div>
+  <div class="flow">
+    <div class="fbox f-cms"><div class="ft">CMS</div><div class="f-sub">postMessage<br>load + config</div></div>
+    <div class="farrow">→</div>
+    <div class="fbox f-iframe"><div class="ft">React App</div><div class="f-sub">usePostMessage<br>hook</div></div>
+    <div class="farrow">→</div>
+    <div class="fbox f-ml"><div class="ft">MathLive</div><div class="f-sub">&lt;math-field&gt;<br>WYSIWYG</div></div>
+    <div class="farrow">→</div>
+    <div class="fbox f-api"><div class="ft">/api/texconversion</div><div class="f-sub">LaTeX + config<br>→ PNG/SVG</div></div>
+    <div class="farrow">→</div>
+    <div class="fbox f-cms"><div class="ft">CMS</div><div class="f-sub">{ latex, mathml,<br>imageUrl, fontSize,<br>mathType }</div></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: POSTMESSAGE PROTOCOL ===== -->
+<div class="section">
+  <div class="section-title">📨 postMessage Protocol <span class="badge">iframe ↔ CMS</span></div>
+  <div class="msg-row">
+    <div class="msg-dir dir-in">CMS → Editor</div>
+    <div class="msg-code">{ <span class="key">type</span>: <span class="str">'load'</span>, <span class="key">latex</span>: <span class="str">'\frac{a}{b}'</span>, <span class="key">config</span>: { <span class="key">fontSize</span>: <span class="val">12</span>, <span class="key">mathType</span>: <span class="str">'display'</span> } }</div>
+  </div>
+  <div class="msg-row">
+    <div class="msg-dir dir-out">Editor → CMS</div>
+    <div class="msg-code">{ <span class="key">type</span>: <span class="str">'insert'</span>, <span class="key">latex</span>: <span class="str">'...'</span>, <span class="key">mathml</span>: <span class="str">'&lt;math&gt;...&lt;/math&gt;'</span>, <span class="key">imageUrl</span>: <span class="str">'/api/...'</span>, <span class="key">fontSize</span>: <span class="val">12</span>, <span class="key">mathType</span>: <span class="str">'display'</span> }</div>
+  </div>
+  <div class="msg-row">
+    <div class="msg-dir dir-out">Editor → CMS</div>
+    <div class="msg-code">{ <span class="key">type</span>: <span class="str">'cancel'</span> }</div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: 10 TOOLBAR TABS ===== -->
+<div class="section">
+  <div class="section-title">🗂️ Toolbar Tabs (10) <span class="badge">MathType Parity</span></div>
+  <table>
+    <tr><th>#</th><th>Tab</th><th>Shortcut</th><th>Sample symbols / templates</th></tr>
+    <tr><td>1</td><td>General</td><td>Alt+1</td><td>½ √ ∛ x² xₙ |x| ⌊⌋ ⌈⌉ … fractions, roots, fences</td></tr>
+    <tr><td>2</td><td>Symbols</td><td>Alt+2</td><td>± × ÷ ∞ ∅ ∈ ∉ ⊂ ⊃ ∪ ∩ … operators + set theory</td></tr>
+    <tr><td>3</td><td>Arrows</td><td>Alt+3</td><td>→ ← ↔ ⇒ ⟹ ⟺ ↑ ↓ ↗ ↙ …</td></tr>
+    <tr><td>4</td><td>Greek</td><td>Alt+4</td><td>α β γ δ ε θ λ μ π σ φ ω … Γ Δ Λ Σ Φ Ω …</td></tr>
+    <tr><td>5</td><td>Matrices</td><td>Alt+5</td><td>2×2 3×3 augmented column vector pmatrix bmatrix …</td></tr>
+    <tr><td>6</td><td>Scripts</td><td>Alt+6</td><td>x^n x_n x^n_m \overset \underset stacked relations …</td></tr>
+    <tr><td>7</td><td>Decorations</td><td>Alt+7</td><td>x̄ x̂ x̃ x⃗ ẋ x̊ \overline \underline \overbrace \underbrace …</td></tr>
+    <tr><td>8</td><td>Big Operators</td><td>Alt+8</td><td>∑ ∏ ∐ ⊕ ⊗ ⊙ ⊎ with/without limits</td></tr>
+    <tr><td>9</td><td>Calculus</td><td>Alt+9</td><td>∫ ∬ ∭ ∮ lim d/dx ∂/∂x ∇ Δ … with proper limit slots</td></tr>
+    <tr><td>10</td><td>More</td><td>Alt+0</td><td>Chemical, logic, typography, special spacing, custom</td></tr>
+  </table>
+</div>
+
+<!-- ===== SECTION 5: FILE STRUCTURE ===== -->
+<div class="section">
+  <div class="section-title">📁 File Structure <span class="badge">Vite + React</span></div>
+  <div class="ftree">
+    <div><span class="dir">src/</span></div>
+    <div>&nbsp;├─ <span class="dir">components/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="dir">Toolbar/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file key">TabBar.tsx</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file key">SymbolGrid.tsx</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ <span class="file">SymbolButton.tsx</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="dir">Editor/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file key">MathField.tsx</span> <span class="comment">// wraps &lt;math-field&gt;</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ <span class="file">LaTeXBar.tsx</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="dir">ActionBar/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file">ActionBar.tsx</span></div>
+    <div>&nbsp;├─ <span class="dir">data/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="dir">tabs/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file">general.json</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file">symbols.json</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file">greek.json</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ <span class="file">arrows.json</span> <span class="comment">// + 6 more tabs</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="file key">index.ts</span> <span class="comment">// exports all tab data</span></div>
+    <div>&nbsp;├─ <span class="dir">hooks/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;├─ <span class="file key">useMathField.ts</span> <span class="comment">// MathLive ref + insert()</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="file key">usePostMessage.ts</span> <span class="comment">// CMS bridge</span></div>
+    <div>&nbsp;├─ <span class="dir">api/</span></div>
+    <div>&nbsp;│&nbsp;&nbsp;└─ <span class="file">texconversion.ts</span> <span class="comment">// POST /api/texconversion</span></div>
+    <div>&nbsp;├─ <span class="file key">App.tsx</span></div>
+    <div>&nbsp;└─ <span class="file">main.tsx</span></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 6: PERFORMANCE ===== -->
+<div class="section">
+  <div class="section-title">⚡ Performance Targets</div>
+  <table>
+    <tr><th>Metric</th><th>Target</th><th>How</th></tr>
+    <tr><td>Bundle size</td><td>&lt; 200 KB gzip</td><td>MathLive ~150KB + thin React shell. No jQuery, no EasyUI, no MathJax.</td></tr>
+    <tr><td>Time to interactive</td><td>&lt; 1s</td><td>Vite code-split; symbol JSONs lazy-loaded per tab (only active tab loads)</td></tr>
+    <tr><td>Symbol click → render</td><td>&lt; 16ms</td><td>MathLive insert() is synchronous; no round-trips</td></tr>
+    <tr><td>Insert (with image)</td><td>&lt; 800ms</td><td>LaTeX + MathML ready instantly; only image call is async</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

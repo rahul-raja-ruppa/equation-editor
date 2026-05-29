@@ -1,0 +1,25 @@
+.root {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.styleBar { overflow: hidden; flex-shrink: 0; }
+.tabStrip { overflow: hidden; flex-shrink: 0; }
+.symbolGrid { overflow: hidden; flex-shrink: 0; }
+
+.canvas {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+.canvas > :first-child {
+  flex: 1;
+  min-height: 0;
+}
+
+.actionBar { overflow: hidden; flex-shrink: 0; }

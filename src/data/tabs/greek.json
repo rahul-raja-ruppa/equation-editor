@@ -1,0 +1,48 @@
+{
+  "id": "greek",
+  "label": "Greek & Letters",
+  "sections": [
+    {
+      "header": "Lowercase Greek",
+      "symbols": [
+        { "latex": "\\alpha", "display": "α", "tooltip": "Alpha" },
+        { "latex": "\\beta", "display": "β", "tooltip": "Beta" },
+        { "latex": "\\gamma", "display": "γ", "tooltip": "Gamma" },
+        { "latex": "\\delta", "display": "δ", "tooltip": "Delta" },
+        { "latex": "\\epsilon", "display": "ε", "tooltip": "Epsilon" },
+        { "latex": "\\zeta", "display": "ζ", "tooltip": "Zeta" },
+        { "latex": "\\eta", "display": "η", "tooltip": "Eta" },
+        { "latex": "\\theta", "display": "θ", "tooltip": "Theta" },
+        { "latex": "\\iota", "display": "ι", "tooltip": "Iota" },
+        { "latex": "\\kappa", "display": "κ", "tooltip": "Kappa" },
+        { "latex": "\\lambda", "display": "λ", "tooltip": "Lambda" },
+        { "latex": "\\mu", "display": "μ", "tooltip": "Mu" },
+        { "latex": "\\nu", "display": "ν", "tooltip": "Nu" },
+        { "latex": "\\xi", "display": "ξ", "tooltip": "Xi" },
+        { "latex": "\\pi", "display": "π", "tooltip": "Pi" },
+        { "latex": "\\rho", "display": "ρ", "tooltip": "Rho" },
+        { "latex": "\\sigma", "display": "σ", "tooltip": "Sigma" },
+        { "latex": "\\tau", "display": "τ", "tooltip": "Tau" },
+        { "latex": "\\phi", "display": "φ", "tooltip": "Phi" },
+        { "latex": "\\chi", "display": "χ", "tooltip": "Chi" },
+        { "latex": "\\psi", "display": "ψ", "tooltip": "Psi" },
+        { "latex": "\\omega", "display": "ω", "tooltip": "Omega" }
+      ]
+    },
+    {
+      "header": "Uppercase Greek",
+      "symbols": [
+        { "latex": "\\Gamma", "display": "Γ", "tooltip": "Gamma (upper)" },
+        { "latex": "\\Delta", "display": "Δ", "tooltip": "Delta (upper)" },
+        { "latex": "\\Theta", "display": "Θ", "tooltip": "Theta (upper)" },
+        { "latex": "\\Lambda", "display": "Λ", "tooltip": "Lambda (upper)" },
+        { "latex": "\\Xi", "display": "Ξ", "tooltip": "Xi (upper)" },
+        { "latex": "\\Pi", "display": "Π", "tooltip": "Pi (upper)" },
+        { "latex": "\\Sigma", "display": "Σ", "tooltip": "Sigma (upper)" },
+        { "latex": "\\Phi", "display": "Φ", "tooltip": "Phi (upper)" },
+        { "latex": "\\Psi", "display": "Ψ", "tooltip": "Psi (upper)" },
+        { "latex": "\\Omega", "display": "Ω", "tooltip": "Omega (upper)" }
+      ]
+    }
+  ]
+}

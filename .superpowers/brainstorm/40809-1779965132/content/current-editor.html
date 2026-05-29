@@ -1,0 +1,92 @@
+<h2>Current Editor — What We're Replacing</h2>
+<p class="subtitle">Understanding the existing stack before designing the replacement</p>
+
+<div class="split" style="gap:24px;margin-top:20px;">
+  <div class="mockup">
+    <div class="mockup-header">🏚️ Current Stack (Heavy)</div>
+    <div class="mockup-body" style="font-size:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#3d1515;border:1px solid #7f3232;border-radius:4px;padding:8px;">
+          <strong style="color:#f87171;">jQuery 1.8.0</strong> <span style="color:#888;">— 2013-era DOM manipulation</span>
+        </div>
+        <div style="background:#3d1515;border:1px solid #7f3232;border-radius:4px;padding:8px;">
+          <strong style="color:#f87171;">jQuery EasyUI 1.3.3</strong> <span style="color:#888;">— Heavy accordion/panel UI</span>
+        </div>
+        <div style="background:#3d1515;border:1px solid #7f3232;border-radius:4px;padding:8px;">
+          <strong style="color:#f87171;">MathJax 2.7.0</strong> <span style="color:#888;">— Slow 2017 renderer (deprecated)</span>
+        </div>
+        <div style="background:#3d2b00;border:1px solid #7f6000;border-radius:4px;padding:8px;">
+          <strong style="color:#fbbf24;">CodeMirror</strong> <span style="color:#888;">— LaTeX text input with syntax hl</span>
+        </div>
+        <div style="background:#3d2b00;border:1px solid #7f6000;border-radius:4px;padding:8px;">
+          <strong style="color:#fbbf24;">31 HTML symbol files</strong> <span style="color:#888;">— Loaded on demand</span>
+        </div>
+        <div style="background:#3d2b00;border:1px solid #7f6000;border-radius:4px;padding:8px;">
+          <strong style="color:#fbbf24;">VisualMathEditorNew.js</strong> <span style="color:#888;">3,858 lines of spaghetti</span>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;padding:8px;background:#1a1a1a;border-radius:4px;font-size:11px;">
+        <div style="color:#666;margin-bottom:4px;">LAYOUT (EasyUI North/West/Center):</div>
+        <div style="display:grid;grid-template-rows:auto 1fr;gap:4px;height:120px;">
+          <div style="background:#2d2d2d;border:1px solid #444;padding:4px;text-align:center;font-size:10px;color:#aaa;">Menu Bar (File | Insert | Tools | View | Convert...)</div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:4px;">
+            <div style="background:#2d2d2d;border:1px solid #444;padding:4px;font-size:10px;color:#aaa;overflow:hidden;">
+              <div>📂 Accordion</div>
+              <div style="color:#666;">▸ Greek</div>
+              <div style="color:#666;">▸ Operators</div>
+              <div style="color:#666;">▸ Arrows</div>
+              <div style="color:#666;">▸ 28 more...</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="background:#2d2d2d;border:1px solid #444;padding:4px;font-size:10px;color:#aaa;flex:1;">CodeMirror (LaTeX text input)</div>
+              <div style="background:#1a2a1a;border:1px solid #2d5a2d;padding:4px;font-size:10px;color:#6fa;flex:1;">MathJax Preview (SVG)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">🚀 Target Stack (Lean)</div>
+    <div class="mockup-body" style="font-size:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#0f2d0f;border:1px solid #2d7a2d;border-radius:4px;padding:8px;">
+          <strong style="color:#4ade80;">MathLive</strong> <span style="color:#888;">— Visual WYSIWYG math input (replaces CodeMirror + MathJax)</span>
+        </div>
+        <div style="background:#0f2d0f;border:1px solid #2d7a2d;border-radius:4px;padding:8px;">
+          <strong style="color:#4ade80;">Vanilla JS / Lightweight framework</strong> <span style="color:#888;">— No jQuery dependency</span>
+        </div>
+        <div style="background:#0f2d0f;border:1px solid #2d7a2d;border-radius:4px;padding:8px;">
+          <strong style="color:#4ade80;">MathType-style tabbed toolbar</strong> <span style="color:#888;">— Replaces EasyUI accordion</span>
+        </div>
+        <div style="background:#0f1d30;border:1px solid #1d4a7a;border-radius:4px;padding:8px;">
+          <strong style="color:#60a5fa;">Same API contract</strong> <span style="color:#888;">— /api/texconversion, opener.kriya.general.updateEquation()</span>
+        </div>
+        <div style="background:#0f1d30;border:1px solid #1d4a7a;border-radius:4px;padding:8px;">
+          <strong style="color:#60a5fa;">Same symbol coverage</strong> <span style="color:#888;">— 30+ categories, LaTeX output</span>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;padding:8px;background:#1a1a1a;border-radius:4px;font-size:11px;">
+        <div style="color:#666;margin-bottom:4px;">TARGET LAYOUT (MathType-inspired):</div>
+        <div style="display:flex;flex-direction:column;gap:4px;height:120px;">
+          <div style="background:#1e2d1e;border:1px solid #2d5a2d;padding:4px;text-align:center;font-size:10px;color:#6fa;">Tabbed Toolbar [General][Symbols][Greek][Matrices][Calculus...]</div>
+          <div style="background:#1a2a1a;border:1px solid #2d5a2d;padding:4px;font-size:10px;color:#6fa;flex:1;display:flex;align-items:center;justify-content:center;">
+            <span>MathLive &lt;math-field&gt; — WYSIWYG equation canvas</span>
+          </div>
+          <div style="background:#1e1e2d;border:1px solid #2d2d5a;padding:4px;font-size:10px;color:#a0a0f0;display:flex;justify-content:space-between;">
+            <span>LaTeX: \frac{a}{b}</span>
+            <span>[ Cancel ] [ Insert ]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px;padding:12px;background:#0d1117;border:1px solid #30363d;border-radius:8px;font-size:12px;">
+  <strong style="color:#a78bfa;">Integration contract to preserve:</strong>
+  <span style="color:#888;margin-left:8px;">Opens as popup from CMS → user edits → calls <code style="color:#60a5fa;">opener.kriya.general.updateEquation(mml, tex, data, fontSize, mathType)</code></span>
+</div>

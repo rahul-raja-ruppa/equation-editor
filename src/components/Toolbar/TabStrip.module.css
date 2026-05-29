@@ -1,0 +1,41 @@
+.tabStrip {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;       /* Firefox */
+  padding: 0 8px;
+  background: #f3f4f6;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tabStrip::-webkit-scrollbar {
+  display: none;               /* Chrome/Safari */
+}
+
+.tab {
+  flex-shrink: 0;
+  padding: 6px 11px 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #4f46e5;
+  background: #eef1ff;
+}
+
+.active {
+  color: #4f46e5;
+  font-weight: 700;
+  border-bottom-color: #4f46e5;
+  background: #fff;
+}

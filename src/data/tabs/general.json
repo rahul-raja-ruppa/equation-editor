@@ -1,0 +1,40 @@
+{
+  "id": "general",
+  "label": "General",
+  "sections": [
+    {
+      "header": "Templates",
+      "symbols": [
+        { "latex": "\\frac{#0}{#1}", "display": "½", "tooltip": "Fraction", "isTemplate": true },
+        { "latex": "\\sqrt{#0}", "display": "√□", "tooltip": "Square Root", "isTemplate": true },
+        { "latex": "#0^{#1}", "display": "x²", "tooltip": "Superscript", "isTemplate": true },
+        { "latex": "#0_{#1}", "display": "x₂", "tooltip": "Subscript", "isTemplate": true },
+        { "latex": "\\left(#0\\right)", "display": "(□)", "tooltip": "Parentheses", "isTemplate": true },
+        { "latex": "\\left|#0\\right|", "display": "|□|", "tooltip": "Absolute Value", "isTemplate": true },
+        { "latex": "\\left[#0\\right]", "display": "[□]", "tooltip": "Brackets", "isTemplate": true },
+        { "latex": "\\left\\{#0\\right\\}", "display": "{□}", "tooltip": "Braces", "isTemplate": true }
+      ]
+    },
+    {
+      "header": "Relations",
+      "symbols": [
+        { "latex": "\\le", "display": "≤", "tooltip": "Less than or equal" },
+        { "latex": "\\ge", "display": "≥", "tooltip": "Greater than or equal" },
+        { "latex": "\\ne", "display": "≠", "tooltip": "Not equal" },
+        { "latex": "\\approx", "display": "≈", "tooltip": "Approximately equal" },
+        { "latex": "\\equiv", "display": "≡", "tooltip": "Identical to" },
+        { "latex": "\\propto", "display": "∝", "tooltip": "Proportional to" },
+        { "latex": "\\pm", "display": "±", "tooltip": "Plus or minus" },
+        { "latex": "\\mp", "display": "∓", "tooltip": "Minus or plus" },
+        { "latex": "\\times", "display": "×", "tooltip": "Multiplication" },
+        { "latex": "\\div", "display": "÷", "tooltip": "Division" },
+        { "latex": "\\cdot", "display": "·", "tooltip": "Dot product" },
+        { "latex": "\\ast", "display": "∗", "tooltip": "Asterisk" },
+        { "latex": "\\therefore", "display": "∴", "tooltip": "Therefore", "extra": true },
+        { "latex": "\\because", "display": "∵", "tooltip": "Because", "extra": true },
+        { "latex": "\\sim", "display": "∼", "tooltip": "Similar to", "extra": true },
+        { "latex": "\\cong", "display": "≅", "tooltip": "Congruent to", "extra": true }
+      ]
+    }
+  ]
+}

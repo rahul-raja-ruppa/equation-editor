@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.local
+
+# Samples (reference images, not source)
+samples/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

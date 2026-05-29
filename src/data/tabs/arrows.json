@@ -1,0 +1,31 @@
+{
+  "id": "arrows",
+  "label": "Arrows",
+  "sections": [
+    {
+      "header": "Simple Arrows",
+      "symbols": [
+        { "latex": "\\to", "display": "→", "tooltip": "Right arrow" },
+        { "latex": "\\leftarrow", "display": "←", "tooltip": "Left arrow" },
+        { "latex": "\\uparrow", "display": "↑", "tooltip": "Up arrow" },
+        { "latex": "\\downarrow", "display": "↓", "tooltip": "Down arrow" },
+        { "latex": "\\leftrightarrow", "display": "↔", "tooltip": "Left-right arrow" },
+        { "latex": "\\nearrow", "display": "↗", "tooltip": "Northeast arrow" },
+        { "latex": "\\searrow", "display": "↘", "tooltip": "Southeast arrow" },
+        { "latex": "\\mapsto", "display": "↦", "tooltip": "Maps to" }
+      ]
+    },
+    {
+      "header": "Double Arrows",
+      "symbols": [
+        { "latex": "\\Rightarrow", "display": "⇒", "tooltip": "Double right arrow" },
+        { "latex": "\\Leftarrow", "display": "⇐", "tooltip": "Double left arrow" },
+        { "latex": "\\Leftrightarrow", "display": "⇔", "tooltip": "Double left-right" },
+        { "latex": "\\longrightarrow", "display": "⟶", "tooltip": "Long right arrow" },
+        { "latex": "\\longleftarrow", "display": "⟵", "tooltip": "Long left arrow" },
+        { "latex": "\\implies", "display": "⟹", "tooltip": "Implies" },
+        { "latex": "\\iff", "display": "⟺", "tooltip": "If and only if" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+/* Container */
+.grid {
+  background: #fff;
+  border-bottom: 1px solid #e8eaf0;
+  padding: 6px 10px 8px;
+}
+
+/* Skeleton placeholders */
+.skeleton {
+  height: 26px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Section header */
+.sectionHeader {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin-bottom: 3px;
+  margin-top: 4px;
+}
+
+/* Symbol row */
+.symRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+/* Extra symbols row (behind expander) */
+.extraRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 3px;
+  border-top: 1px dashed #e0e7ff;
+  padding-top: 3px;
+}
+
+/* Section divider */
+.secDiv {
+  height: 1px;
+  background: #e8eaf0;
+  margin: 6px 0;
+}
+
+/* Base button — regular symbol */
+.sym {
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 3px;
+  font-size: 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 4px;
+  background: #fafbff;
+  color: #1f2937;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.1s, box-shadow 0.12s;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sym:hover {
+  background: #eef1ff;
+  border-color: #6366f1;
+  color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.18);
+}
+
+.sym:active {
+  transform: scale(0.93);
+}
+
+/* Tooltip via CSS pseudo-element */
+.sym::after,
+.tmpl::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1b4b;
+  color: #f5f3ff;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.sym:hover::after,
+.tmpl:hover::after {
+  opacity: 1;
+}
+
+/* Template button */
+.tmpl {
+  position: relative;
+  min-width: 36px;
+  height: 34px;
+  padding: 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid #e0e4f8;
+  border-radius: 4px;
+  background: #f5f3ff;
+  color: #5b21b6;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.1s, box-shadow 0.12s;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tmpl:hover {
+  background: #ede9fe;
+  border-color: #7c3aed;
+  color: #4c1d95;
+  box-shadow: 0 3px 8px rgba(124, 58, 237, 0.2);
+}
+
+.tmpl:active {
+  transform: scale(0.93);
+}
+
+/* Expander button */
+.expander {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef1ff;
+  border: 1px dashed #a5b4fc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.expander:hover {
+  background: #e0e7ff;
+  border-color: #6366f1;
+}
