@@ -1,79 +1,84 @@
-export interface QuickButtonDef {
-  latex: string;
-  glyph: string;
-  tooltip: string;
+// Toolbar data model
+export interface PaletteItem {
+  latex: string      // inserted into MathLive on click
+  display: string    // shown on the palette button face (Unicode or HTML entity)
+  tooltip: string
+  isTemplate?: boolean  // true → renders wider, violet-tinted
 }
 
-export interface ExpressionDef {
-  latex: string;
-  display: string;
-  label: string;
+export interface ToolbarCategory {
+  id: string
+  glyph: string          // shown on the compact category button face
+  tooltip: string        // button tooltip
+  palette: PaletteItem[]
 }
 
-export interface SymbolDef {
-  latex: string; // what gets inserted into MathLive
-  display: string; // what appears on the button face
-  tooltip: string; // hover label
-  isTemplate?: boolean; // true → renders as large violet template button
-  extra?: boolean; // true → hidden behind ▼ More expander
+// Expression library (Zone 3 tabs)
+export type ExpressionTabId =
+  | 'algebra'
+  | 'calculus'
+  | 'statistics'
+  | 'matrices'
+  | 'sets'
+  | 'trig'
+  | 'geometry'
+  | 'more'
+
+export const EXPRESSION_TAB_IDS: ExpressionTabId[] = [
+  'algebra', 'calculus', 'statistics', 'matrices',
+  'sets', 'trig', 'geometry', 'more',
+]
+
+export const EXPRESSION_TAB_LABELS: Record<ExpressionTabId, string> = {
+  algebra: 'Algebra',
+  calculus: 'Calculus',
+  statistics: 'Statistics',
+  matrices: 'Matrices',
+  sets: 'Sets',
+  trig: 'Trig',
+  geometry: 'Geometry',
+  more: 'More',
 }
 
-export interface Section {
-  header: string; // section label shown in small caps above the row
-  symbols: SymbolDef[];
+export interface ExpressionItem {
+  latex: string     // full formula inserted on click; #0, #1 are MathLive slots
+  display: string   // rendered chip label (Unicode approximation)
+  label: string     // small badge below chip
 }
 
-export interface TabData {
-  id: TabId;
-  label: string;
-  sections: Section[];
+export interface ExpressionTab {
+  id: ExpressionTabId
+  label: string
+  items: ExpressionItem[]
 }
 
-export interface TabDef {
-  id: string;
-  label: string;
-  expressions: ExpressionDef[];
-}
-
+// postMessage protocol (unchanged)
 export interface LoadConfig {
-  fontSize: number;
-  mathType: 'display' | 'inline';
-  customer: string;
-  project: string;
-  doi: string;
+  fontSize: number
+  mathType: 'display' | 'inline'
+  customer: string
+  project: string
+  doi: string
 }
 
 export interface InsertPayload {
-  type: 'insert';
-  latex: string;
-  mathml: string;
-  imageUrl: string;
-  fontSize: number;
-  mathType: 'display' | 'inline';
+  type: 'insert'
+  latex: string
+  mathml: string
+  imageUrl: string
+  fontSize: number
+  mathType: 'display' | 'inline'
 }
 
 export interface CancelPayload {
-  type: 'cancel';
+  type: 'cancel'
 }
 
 export interface LoadMessage {
-  type: 'load';
-  latex: string;
-  config: LoadConfig;
+  type: 'load'
+  latex: string
+  config: LoadConfig
 }
 
-export type OutboundMessage = InsertPayload | CancelPayload;
-export type InboundMessage = LoadMessage;
-
-export const TAB_IDS = [
-  'general',
-  'symbols',
-  'arrows',
-  'greek',
-  'matrices',
-  'scripts',
-  'bigops',
-  'calculus',
-] as const;
-
-export type TabId = (typeof TAB_IDS)[number];
+export type OutboundMessage = InsertPayload | CancelPayload
+export type InboundMessage = LoadMessage

@@ -1,0 +1,49 @@
+.palette {
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  min-width: 160px;
+  max-width: 280px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 4px;
+  font-size: 16px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 80ms, border-color 80ms;
+  font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
+  line-height: 1;
+}
+
+.item:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.item.template {
+  grid-column: span 2;
+  font-size: 13px;
+  font-family: inherit;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+.item.template:hover {
+  background: #ede9fe;
+  border-color: #a78bfa;
+}

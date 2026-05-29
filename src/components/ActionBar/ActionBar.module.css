@@ -3,44 +3,43 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  background: #fafbff;
-  border-top: 1px solid #e8eaf0;
+  padding: 7px 12px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border-normal);
 }
 
-/* ── Spacer ─────────────────────────────────────────────────── */
-.spacer {
-  flex: 1;
-}
+.spacer { flex: 1; }
 
 /* ── Display / Inline pill toggle ──────────────────────────── */
 .typeToggle {
   display: flex;
   align-items: center;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 20px;
+  border: 1px solid var(--border-normal);
+  border-radius: var(--r-pill);
   overflow: hidden;
-  background: #f9fafb;
+  background: var(--bg-app);
+  box-shadow: var(--shadow-xs);
 }
 
 .typeOption {
-  padding: 4px 13px;
+  padding: 4px 12px;
   font-size: 11px;
-  font-weight: 600;
-  color: #9ca3af;
+  font-weight: 500;
+  font-family: var(--ui-font);
+  color: var(--text-1);
   cursor: pointer;
   background: transparent;
   border: none;
   outline: none;
   line-height: 1.4;
-  transition:
-    background 0.15s,
-    color 0.15s;
+  transition: background var(--t-fast), color var(--t-fast);
+  letter-spacing: 0.01em;
 }
 
 .typeOptionActive {
-  background: #4f46e5;
-  color: #fff;
+  background: var(--indigo);
+  color: #ffffff;
+  font-weight: 600;
 }
 
 /* ── Font size pill ─────────────────────────────────────────── */
@@ -53,87 +52,95 @@
 .sizeSelect {
   appearance: none;
   -webkit-appearance: none;
-  padding: 4px 24px 4px 10px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background: #f8f9ff;
-  color: #4f46e5;
-  font-size: 12px;
+  padding: 4px 22px 4px 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-normal);
+  background: var(--bg-app);
+  color: var(--text-0);
+  font-size: 11px;
   font-weight: 500;
+  font-family: var(--ui-font);
   cursor: pointer;
   outline: none;
-  transition:
-    border-color 0.15s,
-    background 0.15s;
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--t-fast), background var(--t-fast);
 }
 
 .sizeSelect:hover {
-  border-color: #a5b4fc;
-  background: #eef1ff;
+  border-color: var(--border-strong);
+  background: var(--bg-btn-hov);
 }
 
 .sizeArrow {
   pointer-events: none;
   position: absolute;
-  right: 9px;
-  font-size: 9px;
-  color: #4f46e5;
+  right: 8px;
+  font-size: 8px;
+  color: var(--text-1);
 }
 
 /* ── Cancel button ──────────────────────────────────────────── */
 .cancelBtn {
-  padding: 5px 16px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background: transparent;
-  color: #6b7280;
-  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-normal);
+  background: var(--bg-app);
+  color: var(--text-1);
+  font-size: 11px;
   font-weight: 500;
+  font-family: var(--ui-font);
   cursor: pointer;
-  transition:
-    border-color 0.15s,
-    color 0.15s,
-    background 0.15s;
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
 }
 
 .cancelBtn:hover {
-  border-color: #d1d5db;
-  color: #374151;
-  background: #f9fafb;
+  border-color: var(--border-strong);
+  color: var(--text-0);
+  background: var(--bg-surface);
 }
 
 /* ── Insert button ──────────────────────────────────────────── */
 .insertBtn {
   padding: 5px 22px;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   border: none;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  color: #fff;
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+  color: #ffffff;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
+  font-family: var(--ui-font);
+  letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.32);
+  box-shadow: 0 2px 10px var(--indigo-glow);
   transition:
-    background 0.15s,
-    box-shadow 0.15s,
-    transform 0.15s;
+    filter var(--t-fast),
+    box-shadow var(--t-fast),
+    transform 80ms ease;
 }
 
 .insertBtn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #4338ca, #4f46e5);
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.42);
+  filter: brightness(1.08);
+  box-shadow: 0 4px 16px var(--indigo-glow);
   transform: translateY(-1px);
 }
 
+.insertBtn:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 1px 6px var(--indigo-glow);
+}
+
 .insertBtn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
   transform: none;
+  box-shadow: none;
 }
 
 /* ── Error message ──────────────────────────────────────────── */
 .errorMsg {
-  font-size: 11px;
-  color: #d32f2f;
+  font-size: 10px;
+  color: #dc2626;
   margin-left: 4px;
+  font-family: var(--ui-font);
 }

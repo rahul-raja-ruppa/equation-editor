@@ -1,0 +1,20 @@
+.zone {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.row + .row {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 2px;
+  padding-top: 4px;
+}

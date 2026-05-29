@@ -1,0 +1,13 @@
+{
+  "id": "statistics",
+  "label": "Statistics",
+  "items": [
+    { "latex": "\\bar{x} = \\frac{\\sum x}{n}", "display": "x̄=Σx/n", "label": "Mean" },
+    { "latex": "\\sigma^2 = \\frac{\\sum(x-\\mu)^2}{n}", "display": "σ²=Σ(x-μ)²/n", "label": "Variance" },
+    { "latex": "P(A \\cap B)", "display": "P(A∩B)", "label": "Joint prob." },
+    { "latex": "P(A | B) = \\frac{P(A \\cap B)}{P(B)}", "display": "P(A|B)", "label": "Conditional" },
+    { "latex": "\\binom{n}{r} = \\frac{n!}{r!(n-r)!}", "display": "nCr", "label": "Combination" },
+    { "latex": "z = \\frac{x - \\mu}{\\sigma}", "display": "z=(x-μ)/σ", "label": "Z-score" },
+    { "latex": "E(X) = \\sum x \\cdot P(x)", "display": "E(X)=ΣxP(x)", "label": "Expected val." }
+  ]
+}

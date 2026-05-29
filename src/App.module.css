@@ -1,21 +1,18 @@
 .root {
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   height: 100vh;
   width: 100%;
   overflow: hidden;
   background: #fff;
 }
 
-.styleBar {
-  overflow: hidden;
+.toolbar {
+  overflow: visible; /* must not clip flyout portals */
   flex-shrink: 0;
 }
-.tabStrip {
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.symbolGrid {
+
+.expressions {
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -25,7 +22,11 @@
   flex-direction: column;
   overflow: hidden;
   min-height: 0;
+  background-color: #ffffff;
+  background-image: radial-gradient(circle, #dde0ef 1px, transparent 1px);
+  background-size: 20px 20px;
 }
+
 .canvas > :first-child {
   flex: 1;
   min-height: 0;

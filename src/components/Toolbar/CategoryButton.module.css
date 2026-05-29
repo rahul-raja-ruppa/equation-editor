@@ -1,0 +1,36 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 6px;
+  font-size: 13px;
+  font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 80ms, border-color 80ms;
+  user-select: none;
+}
+
+.btn:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.btn.open {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+.chevron {
+  font-size: 7px;
+  margin-left: 2px;
+  opacity: 0.5;
+  font-family: sans-serif;
+}

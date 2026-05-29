@@ -1,0 +1,15 @@
+{
+  "id": "more",
+  "label": "More",
+  "items": [
+    { "latex": "\\ce{H_2O}", "display": "H₂O", "label": "Chemical" },
+    { "latex": "\\ce{CO_2}", "display": "CO₂", "label": "Chemical" },
+    { "latex": "\\hbar = \\frac{h}{2\\pi}", "display": "ℏ=h/2π", "label": "Physics" },
+    { "latex": "E = mc^2", "display": "E=mc²", "label": "Einstein" },
+    { "latex": "F = ma", "display": "F=ma", "label": "Newton" },
+    { "latex": "p \\Rightarrow q", "display": "p⇒q", "label": "Implication" },
+    { "latex": "p \\Leftrightarrow q", "display": "p⟺q", "label": "Biconditional" },
+    { "latex": "\\lfloor #0 \\rfloor", "display": "⌊x⌋", "label": "Floor" },
+    { "latex": "\\lceil #0 \\rceil", "display": "⌈x⌉", "label": "Ceiling" }
+  ]
+}

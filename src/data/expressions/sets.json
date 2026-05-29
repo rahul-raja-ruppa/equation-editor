@@ -1,0 +1,13 @@
+{
+  "id": "sets",
+  "label": "Sets",
+  "items": [
+    { "latex": "A \\cup B", "display": "A∪B", "label": "Union" },
+    { "latex": "A \\cap B", "display": "A∩B", "label": "Intersection" },
+    { "latex": "A \\subseteq B", "display": "A⊆B", "label": "Subset" },
+    { "latex": "A^{\\complement}", "display": "Aᶜ", "label": "Complement" },
+    { "latex": "A \\times B", "display": "A×B", "label": "Cartesian" },
+    { "latex": "P(A) = 2^A", "display": "P(A)", "label": "Power set" },
+    { "latex": "|A \\cup B| = |A| + |B| - |A \\cap B|", "display": "|A∪B|", "label": "Inclusion-excl." }
+  ]
+}
