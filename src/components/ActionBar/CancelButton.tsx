@@ -1,7 +1,6 @@
-
 interface CancelButtonProps {
-  onCancel: () => void
-  className?: string
+  onCancel: () => void;
+  className?: string;
 }
 
 export function CancelButton({ onCancel, className }: CancelButtonProps) {
@@ -9,5 +8,5 @@ export function CancelButton({ onCancel, className }: CancelButtonProps) {
     <button type="button" className={className} onClick={onCancel}>
       Cancel
     </button>
-  )
+  );
 }

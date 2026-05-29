@@ -1,55 +1,58 @@
-import { useState, useCallback } from 'react'
-import { useMathField } from './hooks/useMathField'
-import { usePostMessage } from './hooks/usePostMessage'
-import { StyleBar } from './components/Toolbar/StyleBar'
-import TabStrip from './components/Toolbar/TabStrip'
-import SymbolGrid from './components/Toolbar/SymbolGrid'
-import { MathField } from './components/Editor/MathField'
-import { LaTeXBar } from './components/Editor/LaTeXBar'
-import { ActionBar } from './components/ActionBar/ActionBar'
-import type { LoadMessage, LoadConfig, OutboundMessage, TabId } from './types'
-import { TAB_IDS } from './types'
-import styles from './App.module.css'
+import { useState, useCallback } from 'react';
+import { useMathField } from './hooks/useMathField';
+import { usePostMessage } from './hooks/usePostMessage';
+import { StyleBar } from './components/Toolbar/StyleBar';
+import TabStrip from './components/Toolbar/TabStrip';
+import SymbolGrid from './components/Toolbar/SymbolGrid';
+import { MathField } from './components/Editor/MathField';
+import { LaTeXBar } from './components/Editor/LaTeXBar';
+import { ActionBar } from './components/ActionBar/ActionBar';
+import type { LoadMessage, LoadConfig, OutboundMessage, TabId } from './types';
+import { TAB_IDS } from './types';
+import styles from './App.module.css';
 
 export default function App() {
-  const mathField = useMathField()
+  const mathField = useMathField();
 
-  let [activeTab, setActiveTab] = useState<TabId>(TAB_IDS[0])
-  let [mathType, setMathType] = useState<'display' | 'inline'>('display')
-  let [fontSize, setFontSize] = useState<number>(12)
-  let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null)
-  let [currentLatex, setCurrentLatex] = useState<string>('')
+  let [activeTab, setActiveTab] = useState<TabId>(TAB_IDS[0]);
+  let [mathType, setMathType] = useState<'display' | 'inline'>('display');
+  let [fontSize, setFontSize] = useState<number>(12);
+  let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
+  let [currentLatex, setCurrentLatex] = useState<string>('');
 
-  const onLoad = useCallback((msg: LoadMessage) => {
-    mathField.setValue(msg.latex)
-    setCurrentLatex(msg.latex)
-    setMathType(msg.config.mathType)
-    setFontSize(msg.config.fontSize)
-    setLoadConfig(msg.config)
-  }, [mathField])
+  const onLoad = useCallback(
+    (msg: LoadMessage) => {
+      mathField.setValue(msg.latex);
+      setCurrentLatex(msg.latex);
+      setMathType(msg.config.mathType);
+      setFontSize(msg.config.fontSize);
+      setLoadConfig(msg.config);
+    },
+    [mathField]
+  );
 
-  const { send } = usePostMessage(onLoad)
+  const { send } = usePostMessage(onLoad);
 
   function handleInsert(latex: string) {
-    mathField.insert(latex)
+    mathField.insert(latex);
   }
 
   function handleLatexCommit(latex: string) {
-    mathField.setValue(latex)
-    setCurrentLatex(latex)
+    mathField.setValue(latex);
+    setCurrentLatex(latex);
   }
 
   function handleCancel() {
-    const payload: OutboundMessage = { type: 'cancel' }
-    send(payload)
+    const payload: OutboundMessage = { type: 'cancel' };
+    send(payload);
   }
 
   function getLatex() {
-    return mathField.getValue('latex')
+    return mathField.getValue('latex');
   }
 
   function getMathML() {
-    return mathField.getValue('math-ml')
+    return mathField.getValue('math-ml');
   }
 
   return (
@@ -61,7 +64,7 @@ export default function App() {
         <TabStrip activeTab={activeTab} onTabChange={setActiveTab} />
       </div>
       <div className={styles.symbolGrid}>
-        <SymbolGrid activeTab={activeTab} onInsert={handleInsert} />
+        <SymbolGrid key={activeTab} activeTab={activeTab} onInsert={handleInsert} />
       </div>
       <div className={styles.canvas}>
         <MathField mathFieldRef={mathField.ref} onChange={setCurrentLatex} />
@@ -81,5 +84,5 @@ export default function App() {
         />
       </div>
     </div>
-  )
+  );
 }

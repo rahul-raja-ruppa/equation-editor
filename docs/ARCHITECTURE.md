@@ -50,11 +50,11 @@ App
 
 ## Custom Hooks
 
-| Hook | Owns | Exposes |
-|------|------|---------|
-| `useMathField` | `ref` to `<math-field>` DOM element | `insert(latex)`, `getValue(format)`, `setValue(latex)` |
+| Hook             | Owns                                 | Exposes                                                     |
+| ---------------- | ------------------------------------ | ----------------------------------------------------------- |
+| `useMathField`   | `ref` to `<math-field>` DOM element  | `insert(latex)`, `getValue(format)`, `setValue(latex)`      |
 | `usePostMessage` | `message` event listener on `window` | fires `onLoad({ latex, config })` callback; `send(payload)` |
-| `useTabData` | lazy-loaded tab JSON cache | `{ expressions, loading }` for active tab |
+| `useTabData`     | lazy-loaded tab JSON cache           | `{ expressions, loading }` for active tab                   |
 
 ---
 
@@ -129,8 +129,8 @@ User clicks Cancel (or CMS closes iframe)
     "fontSize": 12,
     "mathType": "display",
     "customer": "bmj",
-    "project":  "bjophthalmol",
-    "doi":      "article-doi"
+    "project": "bjophthalmol",
+    "doi": "article-doi"
   }
 }
 ```
@@ -143,9 +143,9 @@ User clicks Cancel (or CMS closes iframe)
 
 ```json
 {
-  "type":     "insert",
-  "latex":    "\\frac{a}{b}",
-  "mathml":   "<math xmlns='http://www.w3.org/1998/Math/MathML'>...</math>",
+  "type": "insert",
+  "latex": "\\frac{a}{b}",
+  "mathml": "<math xmlns='http://www.w3.org/1998/Math/MathML'>...</math>",
   "imageUrl": "https://s3.../equations/abc123.png",
   "fontSize": 12,
   "mathType": "display"
@@ -190,6 +190,7 @@ Content-Type: application/json
 
 `200 OK` — body is the downstream texConversion service response.
 Inferred shape (verify against live instance):
+
 ```json
 { "imageUrl": "https://s3.../equations/abc123.png" }
 ```
@@ -202,11 +203,11 @@ The old editor passed the full `response.body` as the `data` argument to
 
 ### Error cases
 
-| HTTP | Meaning | Editor behaviour |
-|------|---------|-----------------|
-| 500 `ERROR:Parameter missing.` | Missing tex/customer/project/doi | Show inline error, block insert |
-| 500 `ERROR: Config not found.` | No indesignAutoPageConfig for customer/project | Show inline error |
-| Network failure | CMS unreachable | Show retry option |
+| HTTP                           | Meaning                                        | Editor behaviour                |
+| ------------------------------ | ---------------------------------------------- | ------------------------------- |
+| 500 `ERROR:Parameter missing.` | Missing tex/customer/project/doi               | Show inline error, block insert |
+| 500 `ERROR: Config not found.` | No indesignAutoPageConfig for customer/project | Show inline error               |
+| Network failure                | CMS unreachable                                | Show retry option               |
 
 ---
 
@@ -216,14 +217,14 @@ The old editor passed the full `response.body` as the `data` argument to
 
 ```ts
 export const symbols: QuickButtonDef[] = [
-  { latex: '\\leq',  glyph: '≤', tooltip: 'Less than or equal' },
+  { latex: '\\leq', glyph: '≤', tooltip: 'Less than or equal' },
   // ...
-]
+];
 
 export const templates: QuickButtonDef[] = [
   { latex: '\\frac{#0}{#1}', glyph: '½', tooltip: 'Fraction' },
   // ...
-]
+];
 ```
 
 ### Tab JSON (`src/data/tabs/<name>.json`)
@@ -233,9 +234,13 @@ export const templates: QuickButtonDef[] = [
   "id": "algebra",
   "label": "Algebra",
   "expressions": [
-    { "latex": "\\sqrt{#0}",                           "display": "√(…)",      "label": "Root" },
-    { "latex": "\\lim_{x \\to #0} #1",                "display": "lim(x→…)", "label": "Limit" },
-    { "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}", "display": "(-b±√Δ)/2a","label": "Quadratic" }
+    { "latex": "\\sqrt{#0}", "display": "√(…)", "label": "Root" },
+    { "latex": "\\lim_{x \\to #0} #1", "display": "lim(x→…)", "label": "Limit" },
+    {
+      "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
+      "display": "(-b±√Δ)/2a",
+      "label": "Quadratic"
+    }
   ]
 }
 ```
@@ -246,12 +251,12 @@ export const templates: QuickButtonDef[] = [
 
 ## Performance Targets
 
-| Metric | Target |
-|--------|--------|
-| Bundle size (gzip) | < 200 KB |
-| Time to interactive | < 1 s |
-| Symbol insert → render | < 16 ms (synchronous) |
-| Insert with image | < 800 ms (texconversion round-trip) |
+| Metric                 | Target                              |
+| ---------------------- | ----------------------------------- |
+| Bundle size (gzip)     | < 200 KB                            |
+| Time to interactive    | < 1 s                               |
+| Symbol insert → render | < 16 ms (synchronous)               |
+| Insert with image      | < 800 ms (texconversion round-trip) |
 
 ---
 

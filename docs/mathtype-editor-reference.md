@@ -42,18 +42,18 @@ MathType is a **WYSIWYG (What You See Is What You Get) equation/formula editor**
 
 ## 3. Toolbar Tabs (Web Interface — 10 Tabs)
 
-| # | Tab Name | Keyboard Shortcut | Content |
-|---|----------|-------------------|---------|
-| 1 | **General** | Alt+1 (Win/Linux) / Ctrl+1 (Mac) | Basic math elements, common operators |
-| 2 | **Symbols** | Alt+2 | Mathematical symbols (∞, ∈, ≠, …) |
-| 3 | **Arrows** | Alt+3 | All arrow variants (→, ⇒, ↔, ⟹, …) |
-| 4 | **Greek, letters & numbers** | Alt+4 | Full Greek alphabet (α β γ…), blackboard bold, Fraktur |
-| 5 | **Matrices and elementary** | Alt+5 | Table/matrix templates, long division, stacked operations |
-| 6 | **Scripts and layouts** | Alt+6 | Superscript, subscript, structural templates |
-| 7 | **Decorations** | Alt+7 | Accents, overlines, underlines, wide hats, arrows above |
-| 8 | **Big operators** | Alt+8 | ∑ ∏ ∫ with/without limits, ⊕ ⊗ … |
-| 9 | **Calculus** | Alt+9 | Integrals, derivatives, limits, differential notation |
-| 10 | **Contextual** | Alt+0 | Dynamic — changes based on cursor position (matrix borders, alignment, spacing) |
+| #   | Tab Name                     | Keyboard Shortcut                | Content                                                                         |
+| --- | ---------------------------- | -------------------------------- | ------------------------------------------------------------------------------- |
+| 1   | **General**                  | Alt+1 (Win/Linux) / Ctrl+1 (Mac) | Basic math elements, common operators                                           |
+| 2   | **Symbols**                  | Alt+2                            | Mathematical symbols (∞, ∈, ≠, …)                                               |
+| 3   | **Arrows**                   | Alt+3                            | All arrow variants (→, ⇒, ↔, ⟹, …)                                              |
+| 4   | **Greek, letters & numbers** | Alt+4                            | Full Greek alphabet (α β γ…), blackboard bold, Fraktur                          |
+| 5   | **Matrices and elementary**  | Alt+5                            | Table/matrix templates, long division, stacked operations                       |
+| 6   | **Scripts and layouts**      | Alt+6                            | Superscript, subscript, structural templates                                    |
+| 7   | **Decorations**              | Alt+7                            | Accents, overlines, underlines, wide hats, arrows above                         |
+| 8   | **Big operators**            | Alt+8                            | ∑ ∏ ∫ with/without limits, ⊕ ⊗ …                                                |
+| 9   | **Calculus**                 | Alt+9                            | Integrals, derivatives, limits, differential notation                           |
+| 10  | **Contextual**               | Alt+0                            | Dynamic — changes based on cursor position (matrix borders, alignment, spacing) |
 
 > **Publishers Tab** (admin-activated): Advanced MathML editing controls — inline/block display toggles, invisible operator insertion.
 
@@ -63,13 +63,13 @@ MathType is a **WYSIWYG (What You See Is What You Get) equation/formula editor**
 
 The desktop application has additional toolbar rows:
 
-| Toolbar Row | Description |
-|-------------|-------------|
-| **Small Bar** | User-customizable; stores frequently-used symbols/expressions |
-| **Large Tabbed Bar** | Tabbed; stores full expressions and complex templates |
-| **Small Tabbed Bar** | Tabbed; stores symbols and templates with labeled tabs |
-| **Symbol Palettes** | Opened via F2/F5 (Cmd+F5 on Mac) |
-| **Template Palettes** | Opened via F6 (Cmd+F6 on Mac) |
+| Toolbar Row           | Description                                                   |
+| --------------------- | ------------------------------------------------------------- |
+| **Small Bar**         | User-customizable; stores frequently-used symbols/expressions |
+| **Large Tabbed Bar**  | Tabbed; stores full expressions and complex templates         |
+| **Small Tabbed Bar**  | Tabbed; stores symbols and templates with labeled tabs        |
+| **Symbol Palettes**   | Opened via F2/F5 (Cmd+F5 on Mac)                              |
+| **Template Palettes** | Opened via F6 (Cmd+F6 on Mac)                                 |
 
 Toolbar bars can be **docked or floating** (Windows), **resized** (3 size options), **toggled** on/off, and **tabs renamed**.
 
@@ -78,20 +78,23 @@ Toolbar bars can be **docked or floating** (Windows), **resized** (3 size option
 ## 5. Input Modes
 
 ### 5a. Classic Input Mode
+
 - Select symbols and templates from toolbar tabs
 - Combine them to build equations step by step
 - Can type characters directly with the keyboard
 
 ### 5b. Handwriting Input Mode
+
 - Write math by hand (touch/stylus/mouse)
 - **AI-powered handwriting recognition** converts to clean digital equations instantly
 - Preview shown before insertion — can switch back to classic mode to correct
 
 ### 5c. Direct Code Input
-| Shortcut | Opens |
-|----------|-------|
+
+| Shortcut     | Opens                                 |
+| ------------ | ------------------------------------- |
 | Ctrl+Shift+X | **MathML editor** window (read/write) |
-| Ctrl+Shift+L | **LaTeX editor** window (read/write) |
+| Ctrl+Shift+L | **LaTeX editor** window (read/write)  |
 
 Both support direct code editing + "Submit Query" to instantly update the visual formula.
 
@@ -112,35 +115,36 @@ Both support direct code editing + "Submit Query" to instantly update the visual
 
 ## 7. Auto-Formatting Intelligence
 
-| Feature | Behavior |
-|---------|----------|
-| **Autoitalics** | Single-letter variables auto-italicized; function names (sin, cos, tan, log, ln) stay upright |
-| **Autoformat** | Keyboard symbols upgraded to enhanced counterparts; brackets/braces auto-close |
-| **Fence scaling** | Toolbar-inserted fences auto-scale to match content height; keyboard-typed `()` stay static |
-| **Smart delete** | Delete at template edge twice → removes container, keeps content; delete opening fence → removes both fences |
+| Feature           | Behavior                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Autoitalics**   | Single-letter variables auto-italicized; function names (sin, cos, tan, log, ln) stay upright                |
+| **Autoformat**    | Keyboard symbols upgraded to enhanced counterparts; brackets/braces auto-close                               |
+| **Fence scaling** | Toolbar-inserted fences auto-scale to match content height; keyboard-typed `()` stay static                  |
+| **Smart delete**  | Delete at template edge twice → removes container, keeps content; delete opening fence → removes both fences |
 
 ---
 
 ## 8. Keyboard Shortcuts
 
-| Action | Windows/Linux | macOS |
-|--------|--------------|-------|
-| Superscript | Ctrl+↑ | Cmd+↑ |
-| Subscript | Ctrl+↓ | Cmd+↓ |
-| Bold | Ctrl+B | Cmd+B |
-| Italic | Ctrl+I | Cmd+I |
-| Cut / Copy / Paste | Ctrl+X/C/V | Cmd+X/C/V |
-| Undo / Redo | Ctrl+Z / Ctrl+Y | Cmd+Z / Cmd+Y |
-| Select | Shift+arrow keys | Shift+arrow keys |
-| Navigate tabs | Alt+1…0 | Ctrl+1…0 |
-| Open MathML editor | Ctrl+Shift+X | Cmd+Shift+X |
-| Open LaTeX editor | Ctrl+Shift+L | Cmd+Shift+L |
+| Action             | Windows/Linux    | macOS            |
+| ------------------ | ---------------- | ---------------- |
+| Superscript        | Ctrl+↑           | Cmd+↑            |
+| Subscript          | Ctrl+↓           | Cmd+↓            |
+| Bold               | Ctrl+B           | Cmd+B            |
+| Italic             | Ctrl+I           | Cmd+I            |
+| Cut / Copy / Paste | Ctrl+X/C/V       | Cmd+X/C/V        |
+| Undo / Redo        | Ctrl+Z / Ctrl+Y  | Cmd+Z / Cmd+Y    |
+| Select             | Shift+arrow keys | Shift+arrow keys |
+| Navigate tabs      | Alt+1…0          | Ctrl+1…0         |
+| Open MathML editor | Ctrl+Shift+X     | Cmd+Shift+X      |
+| Open LaTeX editor  | Ctrl+Shift+L     | Cmd+Shift+L      |
 
 ---
 
 ## 9. Chemistry Support (ChemType)
 
 A switchable mode inside MathType with a **chemistry-specific toolbar**:
+
 - Periodic table access
 - Inorganic chemistry symbols
 - Bond notation
@@ -151,35 +155,35 @@ A switchable mode inside MathType with a **chemistry-specific toolbar**:
 
 ## 10. Format & Style Options
 
-| Scope | Options |
-|-------|---------|
-| Whole formula | 6 built-in font styles |
+| Scope         | Options                                          |
+| ------------- | ------------------------------------------------ |
+| Whole formula | 6 built-in font styles                           |
 | Single symbol | Double-struck (ℝ, ℕ…), Script (𝒜…), Fraktur (𝔄…) |
-| Selection | Bold, Italic, Bold+Italic combinations |
+| Selection     | Bold, Italic, Bold+Italic combinations           |
 
 ---
 
 ## 11. Output Formats
 
-| Format | Use case |
-|--------|----------|
-| **SVG** | Scalable, crisp at any size — preferred for web |
-| **PNG** | Raster image for legacy/email contexts |
-| **PDF** | Print-ready documents |
+| Format     | Use case                                         |
+| ---------- | ------------------------------------------------ |
+| **SVG**    | Scalable, crisp at any size — preferred for web  |
+| **PNG**    | Raster image for legacy/email contexts           |
+| **PDF**    | Print-ready documents                            |
 | **MathML** | Semantic markup for accessibility/screen readers |
-| **LaTeX** | TeX-based documents and academic publishing |
+| **LaTeX**  | TeX-based documents and academic publishing      |
 
 ---
 
 ## 12. Platform Integrations
 
-| Category | Tools |
-|----------|-------|
-| **Office** | Microsoft Word, PowerPoint, Google Docs, Google Slides, WPS |
-| **Rich Text Editors** | CKEditor 4 & 5, TinyMCE |
-| **LMS** | Blackboard, D2L Brightspace |
-| **Publishing** | XML editors, HTML editors |
-| **Devices** | Desktop (Win/Mac), Browser, Mobile, Tablet |
+| Category              | Tools                                                       |
+| --------------------- | ----------------------------------------------------------- |
+| **Office**            | Microsoft Word, PowerPoint, Google Docs, Google Slides, WPS |
+| **Rich Text Editors** | CKEditor 4 & 5, TinyMCE                                     |
+| **LMS**               | Blackboard, D2L Brightspace                                 |
+| **Publishing**        | XML editors, HTML editors                                   |
+| **Devices**           | Desktop (Win/Mac), Browser, Mobile, Tablet                  |
 
 ---
 
@@ -195,6 +199,7 @@ A switchable mode inside MathType with a **chemistry-specific toolbar**:
 ## 14. Status Bar (Desktop — MathType 7)
 
 Displayed at the bottom of the desktop window:
+
 - Current **style** assignment
 - **Font size** setting
 - **Zoom level**
@@ -205,15 +210,15 @@ Displayed at the bottom of the desktop window:
 
 ## 15. Key Conceptual Differences vs. Word Equation Editor
 
-| Feature | MathType | Word Equation Editor |
-|---------|----------|---------------------|
-| Platform | Web + Desktop | Desktop only |
-| Handwriting input | Yes (AI) | Limited |
-| Chemistry support | Yes (ChemType) | No |
-| MathML/LaTeX export | Yes | Limited |
-| LMS integration | Yes | No |
-| Symbol count | 500+ | ~300 |
-| Custom toolbars | Yes | No |
+| Feature             | MathType       | Word Equation Editor |
+| ------------------- | -------------- | -------------------- |
+| Platform            | Web + Desktop  | Desktop only         |
+| Handwriting input   | Yes (AI)       | Limited              |
+| Chemistry support   | Yes (ChemType) | No                   |
+| MathML/LaTeX export | Yes            | Limited              |
+| LMS integration     | Yes            | No                   |
+| Symbol count        | 500+           | ~300                 |
+| Custom toolbars     | Yes            | No                   |
 
 ---
 

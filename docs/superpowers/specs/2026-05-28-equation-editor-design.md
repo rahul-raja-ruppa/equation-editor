@@ -21,14 +21,14 @@ Build a lightweight, fast, web-based equation editor that:
 
 ## 2. Technology Decisions
 
-| Concern | Choice | Reason |
-|---------|--------|--------|
-| Framework | React 18 + Vite | Component boundaries map cleanly to toolbar/canvas/footer; fast HMR in dev |
-| Math input engine | MathLive (`mathlive` npm) | WYSIWYG `<math-field>` web component; replaces both CodeMirror (input) and MathJax (preview); ~150 KB gzip |
-| Styling | Plain CSS modules | No runtime overhead; predictable scoping |
-| CMS integration | `<iframe>` + `postMessage` | Zero changes to CMS HTML; clean separation |
-| Image generation | Existing `/api/texconversion` | Unchanged backend contract |
-| Symbol data | JSON files per tab | Editable without touching component code |
+| Concern           | Choice                        | Reason                                                                                                     |
+| ----------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Framework         | React 18 + Vite               | Component boundaries map cleanly to toolbar/canvas/footer; fast HMR in dev                                 |
+| Math input engine | MathLive (`mathlive` npm)     | WYSIWYG `<math-field>` web component; replaces both CodeMirror (input) and MathJax (preview); ~150 KB gzip |
+| Styling           | Plain CSS modules             | No runtime overhead; predictable scoping                                                                   |
+| CMS integration   | `<iframe>` + `postMessage`    | Zero changes to CMS HTML; clean separation                                                                 |
+| Image generation  | Existing `/api/texconversion` | Unchanged backend contract                                                                                 |
+| Symbol data       | JSON files per tab            | Editable without touching component code                                                                   |
 
 **What we drop:** jQuery, jQuery EasyUI, MathJax 2.7, CodeMirror, canvg, jquery-colorpicker — all gone.
 
@@ -72,18 +72,18 @@ Clicking any button calls `mathfield.insert(latex)` at the current cursor positi
 
 10 tabs. Each tab shows a horizontal row of **expression chips** — full formula shortcuts, not just single symbols. Each chip has a small category badge label.
 
-| Tab | Sample expressions |
-|-----|--------------------|
-| Algebra | √(a²+b²), lim(x→∞), (-b±√Δ)/2a, n!/r!(n−r)!, aₙ=a₁+(n−1)d |
-| Calculus | ∫f(x)dx, d/dx f(x), ∂f/∂x, ∫ₐᵇf(x)dx, ∇f, Δx→0 |
-| Statistics | x̄ = Σx/n, σ², P(A∩B), nCr, z=(x−μ)/σ |
-| Matrices | 2×2, 3×3, augmented, column vector, row vector |
-| Sets | A∪B, A∩B, A⊆B, Aᶜ, A×B, P(A) |
-| Trig | sin²θ+cos²θ=1, tanθ=sinθ/cosθ, sin(A±B), law of cosines |
-| Geometry | Pythagorean a²+b²=c², area formulas, circle equations |
-| Greek | Full alphabet α…ω and Α…Ω as individual chips |
-| Arrows | All arrow variants as individual chips |
-| More + | Chemical notation, logic symbols, spacing, typography |
+| Tab        | Sample expressions                                        |
+| ---------- | --------------------------------------------------------- |
+| Algebra    | √(a²+b²), lim(x→∞), (-b±√Δ)/2a, n!/r!(n−r)!, aₙ=a₁+(n−1)d |
+| Calculus   | ∫f(x)dx, d/dx f(x), ∂f/∂x, ∫ₐᵇf(x)dx, ∇f, Δx→0            |
+| Statistics | x̄ = Σx/n, σ², P(A∩B), nCr, z=(x−μ)/σ                      |
+| Matrices   | 2×2, 3×3, augmented, column vector, row vector            |
+| Sets       | A∪B, A∩B, A⊆B, Aᶜ, A×B, P(A)                              |
+| Trig       | sin²θ+cos²θ=1, tanθ=sinθ/cosθ, sin(A±B), law of cosines   |
+| Geometry   | Pythagorean a²+b²=c², area formulas, circle equations     |
+| Greek      | Full alphabet α…ω and Α…Ω as individual chips             |
+| Arrows     | All arrow variants as individual chips                    |
+| More +     | Chemical notation, logic symbols, spacing, typography     |
 
 Clicking a chip calls `mathfield.insert(latex)` with the full expression template.
 
@@ -103,13 +103,13 @@ The canvas has comfortable vertical padding so the equation has room to breathe 
 
 A single bar containing:
 
-| Element | Detail |
-|---------|--------|
-| **LaTeX pill** | Read-only monospace strip showing current `mathfield.value`. Clickable to switch to raw LaTeX edit mode. |
-| **Type selector** | `Display` / `Inline` dropdown. Affects `\displaystyle` wrapping and how the CMS renders the equation. |
-| **Size selector** | Font size in pt (10, 11, 12, 14, 16). Passed to `/api/texconversion`. |
-| **Cancel button** | Posts `{ type: 'cancel' }` via postMessage. |
-| **Insert button** | Triggers the insert flow (see §5). |
+| Element           | Detail                                                                                                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------- |
+| **LaTeX pill**    | Read-only monospace strip showing current `mathfield.value`. Clickable to switch to raw LaTeX edit mode. |
+| **Type selector** | `Display` / `Inline` dropdown. Affects `\displaystyle` wrapping and how the CMS renders the equation.    |
+| **Size selector** | Font size in pt (10, 11, 12, 14, 16). Passed to `/api/texconversion`.                                    |
+| **Cancel button** | Posts `{ type: 'cancel' }` via postMessage.                                                              |
+| **Insert button** | Triggers the insert flow (see §5).                                                                       |
 
 ---
 
@@ -135,11 +135,11 @@ App
 
 ### Custom hooks
 
-| Hook | Responsibility |
-|------|---------------|
-| `useMathField` | Holds ref to `<math-field>`, exposes `insert(latex)`, `getValue()`, `setValue(latex)` |
+| Hook             | Responsibility                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| `useMathField`   | Holds ref to `<math-field>`, exposes `insert(latex)`, `getValue()`, `setValue(latex)` |
 | `usePostMessage` | Listens for `load` messages from CMS on mount; sends `insert`/`cancel` on user action |
-| `useTabData` | Lazy-loads the JSON for the active tab (only fetches on first activation) |
+| `useTabData`     | Lazy-loads the JSON for the active tab (only fetches on first activation)             |
 
 ---
 
@@ -222,9 +222,13 @@ Each tab's data lives in `src/data/tabs/<tabname>.json`:
   "id": "algebra",
   "label": "Algebra",
   "expressions": [
-    { "latex": "\\sqrt{#0}",            "display": "√(…)",        "label": "Root" },
-    { "latex": "\\lim_{x \\to #0} #1", "display": "lim(x→…)",    "label": "Limit" },
-    { "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}", "display": "(-b±√Δ)/2a", "label": "Quadratic" }
+    { "latex": "\\sqrt{#0}", "display": "√(…)", "label": "Root" },
+    { "latex": "\\lim_{x \\to #0} #1", "display": "lim(x→…)", "label": "Limit" },
+    {
+      "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
+      "display": "(-b±√Δ)/2a",
+      "label": "Quadratic"
+    }
   ]
 }
 ```
@@ -289,12 +293,12 @@ equation-editor-poc/
 
 ## 9. Performance Targets
 
-| Metric | Target | Mechanism |
-|--------|--------|-----------|
-| Bundle size (gzip) | < 200 KB | MathLive ~150 KB + thin React shell; no jQuery/EasyUI/MathJax |
-| Time to interactive | < 1 s | Vite code-split; tab JSON lazy-loaded on first tab activation |
-| Symbol insert → render | < 16 ms | `mathfield.insert()` is synchronous; no network round-trip |
-| Insert with image | < 800 ms | LaTeX + MathML ready instantly; only `/api/texconversion` is async |
+| Metric                 | Target   | Mechanism                                                          |
+| ---------------------- | -------- | ------------------------------------------------------------------ |
+| Bundle size (gzip)     | < 200 KB | MathLive ~150 KB + thin React shell; no jQuery/EasyUI/MathJax      |
+| Time to interactive    | < 1 s    | Vite code-split; tab JSON lazy-loaded on first tab activation      |
+| Symbol insert → render | < 16 ms  | `mathfield.insert()` is synchronous; no network round-trip         |
+| Insert with image      | < 800 ms | LaTeX + MathML ready instantly; only `/api/texconversion` is async |
 
 ---
 
@@ -323,15 +327,20 @@ Add to the CMS page where the equation editor is triggered:
 ```
 
 On open (send existing equation if editing):
+
 ```js
-document.getElementById('eq-editor').contentWindow.postMessage({
-  type: 'load',
-  latex: existingLatex || '',
-  config: { fontSize: 12, mathType: 'display', customer, project, doi }
-}, '*');
+document.getElementById('eq-editor').contentWindow.postMessage(
+  {
+    type: 'load',
+    latex: existingLatex || '',
+    config: { fontSize: 12, mathType: 'display', customer, project, doi },
+  },
+  '*'
+);
 ```
 
 On receive:
+
 ```js
 window.addEventListener('message', (e) => {
   if (e.data.type === 'insert') {

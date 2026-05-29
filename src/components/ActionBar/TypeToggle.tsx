@@ -1,8 +1,8 @@
-import styles from './ActionBar.module.css'
+import styles from './ActionBar.module.css';
 
 interface TypeToggleProps {
-  value: 'display' | 'inline'
-  onChange: (v: 'display' | 'inline') => void
+  value: 'display' | 'inline';
+  onChange: (v: 'display' | 'inline') => void;
 }
 
 export function TypeToggle({ value, onChange }: TypeToggleProps) {
@@ -23,5 +23,5 @@ export function TypeToggle({ value, onChange }: TypeToggleProps) {
         Inline
       </button>
     </div>
-  )
+  );
 }

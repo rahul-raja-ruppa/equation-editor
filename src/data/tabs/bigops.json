@@ -5,8 +5,18 @@
     {
       "header": "Summation & Products",
       "symbols": [
-        { "latex": "\\sum_{#0}^{#1}", "display": "∑", "tooltip": "Sum with limits", "isTemplate": true },
-        { "latex": "\\prod_{#0}^{#1}", "display": "∏", "tooltip": "Product with limits", "isTemplate": true },
+        {
+          "latex": "\\sum_{#0}^{#1}",
+          "display": "∑",
+          "tooltip": "Sum with limits",
+          "isTemplate": true
+        },
+        {
+          "latex": "\\prod_{#0}^{#1}",
+          "display": "∏",
+          "tooltip": "Product with limits",
+          "isTemplate": true
+        },
         { "latex": "\\sum", "display": "Σ", "tooltip": "Sum" },
         { "latex": "\\prod", "display": "Π", "tooltip": "Product" },
         { "latex": "\\coprod", "display": "∐", "tooltip": "Co-product" },

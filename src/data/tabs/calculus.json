@@ -5,7 +5,12 @@
     {
       "header": "Integrals",
       "symbols": [
-        { "latex": "\\int_{#0}^{#1}", "display": "∫", "tooltip": "Integral with limits", "isTemplate": true },
+        {
+          "latex": "\\int_{#0}^{#1}",
+          "display": "∫",
+          "tooltip": "Integral with limits",
+          "isTemplate": true
+        },
         { "latex": "\\iint", "display": "∬", "tooltip": "Double integral" },
         { "latex": "\\iiint", "display": "∭", "tooltip": "Triple integral" },
         { "latex": "\\oint", "display": "∮", "tooltip": "Contour integral" },
@@ -15,7 +20,12 @@
     {
       "header": "Derivatives",
       "symbols": [
-        { "latex": "\\frac{\\partial #0}{\\partial #1}", "display": "∂/∂", "tooltip": "Partial derivative", "isTemplate": true },
+        {
+          "latex": "\\frac{\\partial #0}{\\partial #1}",
+          "display": "∂/∂",
+          "tooltip": "Partial derivative",
+          "isTemplate": true
+        },
         { "latex": "\\nabla", "display": "∇", "tooltip": "Nabla" },
         { "latex": "\\partial", "display": "∂", "tooltip": "Partial" },
         { "latex": "^{\\prime}", "display": "′", "tooltip": "Prime" },

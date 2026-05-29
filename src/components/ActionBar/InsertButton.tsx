@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { convertEquation } from '../../api/texconversion'
-import type { LoadConfig, OutboundMessage } from '../../types'
+import { useState } from 'react';
+import { convertEquation } from '../../api/texconversion';
+import type { LoadConfig, OutboundMessage } from '../../types';
 
 interface InsertButtonProps {
-  getLatex: () => string
-  getMathML: () => string
-  fontSize: number
-  mathType: 'display' | 'inline'
-  loadConfig: LoadConfig | null
-  send: (payload: OutboundMessage) => void
-  buttonClassName?: string
-  errorClassName?: string
+  getLatex: () => string;
+  getMathML: () => string;
+  fontSize: number;
+  mathType: 'display' | 'inline';
+  loadConfig: LoadConfig | null;
+  send: (payload: OutboundMessage) => void;
+  buttonClassName?: string;
+  errorClassName?: string;
 }
 
-type Status = 'idle' | 'loading' | 'error'
+type Status = 'idle' | 'loading' | 'error';
 
 export function InsertButton({
   getLatex,
@@ -25,26 +25,26 @@ export function InsertButton({
   buttonClassName,
   errorClassName,
 }: InsertButtonProps) {
-  let [status, setStatus] = useState<Status>('idle')
-  let [errorMsg, setErrorMsg] = useState<string>('')
+  let [status, setStatus] = useState<Status>('idle');
+  let [errorMsg, setErrorMsg] = useState<string>('');
 
   async function handleClick() {
-    if (status === 'loading') return
+    if (status === 'loading') return;
 
-    setStatus('loading')
+    setStatus('loading');
 
-    const latex = getLatex()
+    const latex = getLatex();
     if (latex === '') {
-      setStatus('idle')
-      return
+      setStatus('idle');
+      return;
     }
 
-    const mathml = getMathML()
+    const mathml = getMathML();
 
     if (loadConfig === null) {
-      setStatus('error')
-      setErrorMsg('No config loaded')
-      return
+      setStatus('error');
+      setErrorMsg('No config loaded');
+      return;
     }
 
     try {
@@ -54,7 +54,7 @@ export function InsertButton({
         project: loadConfig.project,
         doi: loadConfig.doi,
         mathmode: mathType,
-      })
+      });
 
       send({
         type: 'insert',
@@ -63,16 +63,16 @@ export function InsertButton({
         imageUrl: result.imageUrl,
         fontSize,
         mathType,
-      })
+      });
 
-      setStatus('idle')
+      setStatus('idle');
     } catch (err) {
-      setStatus('error')
-      setErrorMsg((err as Error).message)
+      setStatus('error');
+      setErrorMsg((err as Error).message);
     }
   }
 
-  const isLoading = status === 'loading'
+  const isLoading = status === 'loading';
 
   return (
     <>
@@ -81,5 +81,5 @@ export function InsertButton({
       </button>
       {status === 'error' && <span className={errorClassName}>{errorMsg}</span>}
     </>
-  )
+  );
 }

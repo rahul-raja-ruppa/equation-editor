@@ -46,6 +46,7 @@
 ## Phase 3 — Components ✅
 
 ### Toolbar
+
 - [x] `QuickButton.tsx` — variant symbol/template, tooltip, calls `onInsert`
 - [x] `QuickAccessBar.tsx` + CSS module
 - [x] `TabStrip.tsx` + CSS module — `TAB_IDS` driven, "More +" label
@@ -53,10 +54,12 @@
 - [x] `ExpressionLibrary.tsx` + CSS module — skeleton loader while lazy-loading
 
 ### Editor
+
 - [x] `MathField.tsx` + CSS module — eager `import 'mathlive'`, `input` event wired
 - [x] `LaTeXBar.tsx` + CSS module — pill → input toggle, Enter/blur commit, Escape cancel, autoFocus
 
 ### Action Bar
+
 - [x] `TypeToggle.tsx` — controlled display/inline select
 - [x] `SizeControl.tsx` — controlled pt select (10/11/12/14/16)
 - [x] `CancelButton.tsx`
@@ -110,8 +113,8 @@
 
 ## Open Questions
 
-| # | Question | How to resolve |
-|---|----------|---------------|
-| 1 | Exact `response.body` shape from `/api/texconversion` — is the field `imageUrl`? | Live request in kriya2.0 dev, log response |
-| 2 | CMS origin validation — whitelist for staging/prod? | Check with team |
-| 3 | MathLive `getValue('math-ml')` — correct format string? | Confirmed in MathLive source; `OutputFormat` includes `'math-ml'` |
+| #   | Question                                                                         | How to resolve                                                    |
+| --- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 1   | Exact `response.body` shape from `/api/texconversion` — is the field `imageUrl`? | Live request in kriya2.0 dev, log response                        |
+| 2   | CMS origin validation — whitelist for staging/prod?                              | Check with team                                                   |
+| 3   | MathLive `getValue('math-ml')` — correct format string?                          | Confirmed in MathLive source; `OutputFormat` includes `'math-ml'` |

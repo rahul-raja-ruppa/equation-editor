@@ -1,33 +1,28 @@
-import { useState, useEffect, type FC } from 'react'
-import type { TabId } from '../../types'
-import { useTabData } from '../../hooks/useTabData'
-import styles from './SymbolGrid.module.css'
+import { useState, type FC } from 'react';
+import type { TabId } from '../../types';
+import { useTabData } from '../../hooks/useTabData';
+import styles from './SymbolGrid.module.css';
 
 interface SymbolGridProps {
-  activeTab: TabId
-  onInsert: (latex: string) => void
+  activeTab: TabId;
+  onInsert: (latex: string) => void;
 }
 
 const SymbolGrid: FC<SymbolGridProps> = ({ activeTab, onInsert }) => {
-  const { sections, loading } = useTabData(activeTab)
-  let [expandedSections, setExpandedSections] = useState<Set<number>>(new Set())
-
-  // Reset expander state whenever the active tab changes
-  useEffect(() => {
-    setExpandedSections(new Set())
-  }, [activeTab])
+  const { sections, loading } = useTabData(activeTab);
+  let [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
 
   const toggleExpander = (sectionIndex: number) => {
     setExpandedSections((prev) => {
-      const next = new Set(prev)
+      const next = new Set(prev);
       if (next.has(sectionIndex)) {
-        next.delete(sectionIndex)
+        next.delete(sectionIndex);
       } else {
-        next.add(sectionIndex)
+        next.add(sectionIndex);
       }
-      return next
-    })
-  }
+      return next;
+    });
+  };
 
   if (loading) {
     return (
@@ -36,17 +31,17 @@ const SymbolGrid: FC<SymbolGridProps> = ({ activeTab, onInsert }) => {
         <div className={styles.skeleton} />
         <div className={styles.skeleton} />
       </div>
-    )
+    );
   }
 
   return (
     <div className={styles.grid}>
       {sections.map((section, sectionIndex) => {
-        const mainSymbols = section.symbols.filter((sym) => sym.extra !== true)
-        const extraSymbols = section.symbols.filter((sym) => sym.extra === true)
-        const hasExtras = extraSymbols.length > 0
-        const isExpanded = expandedSections.has(sectionIndex)
-        const isLastSection = sectionIndex === sections.length - 1
+        const mainSymbols = section.symbols.filter((sym) => sym.extra !== true);
+        const extraSymbols = section.symbols.filter((sym) => sym.extra === true);
+        const hasExtras = extraSymbols.length > 0;
+        const isExpanded = expandedSections.has(sectionIndex);
+        const isLastSection = sectionIndex === sections.length - 1;
 
         return (
           <div key={sectionIndex}>
@@ -90,10 +85,10 @@ const SymbolGrid: FC<SymbolGridProps> = ({ activeTab, onInsert }) => {
             )}
             {!isLastSection && <div className={styles.secDiv} />}
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default SymbolGrid
+export default SymbolGrid;

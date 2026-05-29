@@ -7,9 +7,18 @@
   background: #fff;
 }
 
-.styleBar { overflow: hidden; flex-shrink: 0; }
-.tabStrip { overflow: hidden; flex-shrink: 0; }
-.symbolGrid { overflow: hidden; flex-shrink: 0; }
+.styleBar {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tabStrip {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.symbolGrid {
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
 .canvas {
   display: flex;
@@ -22,4 +31,7 @@
   min-height: 0;
 }
 
-.actionBar { overflow: hidden; flex-shrink: 0; }
+.actionBar {
+  overflow: hidden;
+  flex-shrink: 0;
+}

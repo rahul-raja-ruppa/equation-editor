@@ -16,8 +16,12 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Section header */
@@ -71,7 +75,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.1s, box-shadow 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s,
+    transform 0.1s,
+    box-shadow 0.12s;
   line-height: 1;
   white-space: nowrap;
 }
@@ -130,7 +139,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.1s, box-shadow 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s,
+    transform 0.1s,
+    box-shadow 0.12s;
   line-height: 1;
   white-space: nowrap;
 }
@@ -160,7 +174,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
   white-space: nowrap;
 }
 

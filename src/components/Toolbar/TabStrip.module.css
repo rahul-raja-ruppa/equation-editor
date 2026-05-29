@@ -2,14 +2,14 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-width: none;       /* Firefox */
+  scrollbar-width: none; /* Firefox */
   padding: 0 8px;
   background: #f3f4f6;
   border-bottom: 2px solid #e5e7eb;
 }
 
 .tabStrip::-webkit-scrollbar {
-  display: none;               /* Chrome/Safari */
+  display: none; /* Chrome/Safari */
 }
 
 .tab {

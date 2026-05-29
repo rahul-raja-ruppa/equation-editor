@@ -9,10 +9,30 @@
         { "latex": "\\sqrt{#0}", "display": "√□", "tooltip": "Square Root", "isTemplate": true },
         { "latex": "#0^{#1}", "display": "x²", "tooltip": "Superscript", "isTemplate": true },
         { "latex": "#0_{#1}", "display": "x₂", "tooltip": "Subscript", "isTemplate": true },
-        { "latex": "\\left(#0\\right)", "display": "(□)", "tooltip": "Parentheses", "isTemplate": true },
-        { "latex": "\\left|#0\\right|", "display": "|□|", "tooltip": "Absolute Value", "isTemplate": true },
-        { "latex": "\\left[#0\\right]", "display": "[□]", "tooltip": "Brackets", "isTemplate": true },
-        { "latex": "\\left\\{#0\\right\\}", "display": "{□}", "tooltip": "Braces", "isTemplate": true }
+        {
+          "latex": "\\left(#0\\right)",
+          "display": "(□)",
+          "tooltip": "Parentheses",
+          "isTemplate": true
+        },
+        {
+          "latex": "\\left|#0\\right|",
+          "display": "|□|",
+          "tooltip": "Absolute Value",
+          "isTemplate": true
+        },
+        {
+          "latex": "\\left[#0\\right]",
+          "display": "[□]",
+          "tooltip": "Brackets",
+          "isTemplate": true
+        },
+        {
+          "latex": "\\left\\{#0\\right\\}",
+          "display": "{□}",
+          "tooltip": "Braces",
+          "isTemplate": true
+        }
       ]
     },
     {

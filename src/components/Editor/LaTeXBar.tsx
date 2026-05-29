@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
-import styles from './LaTeXBar.module.css'
+import React, { useState } from 'react';
+import styles from './LaTeXBar.module.css';
 
 interface LaTeXBarProps {
-  value: string
-  onCommit: (latex: string) => void
+  value: string;
+  onCommit: (latex: string) => void;
 }
 
 export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
-  let [editing, setEditing] = useState(false)
-  let [draft, setDraft] = useState('')
+  let [editing, setEditing] = useState(false);
+  let [draft, setDraft] = useState('');
 
   function handlePillClick() {
-    setDraft(value)
-    setEditing(true)
+    setDraft(value);
+    setEditing(true);
   }
 
   function handleCommit() {
-    onCommit(draft)
-    setEditing(false)
+    onCommit(draft);
+    setEditing(false);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
-      handleCommit()
+      handleCommit();
     } else if (e.key === 'Escape') {
-      setEditing(false)
+      setEditing(false);
     }
   }
 
@@ -34,7 +34,7 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
         <input
           className={styles.input}
           value={draft}
-          onChange={e => setDraft(e.target.value)}
+          onChange={(e) => setDraft(e.target.value)}
           onBlur={handleCommit}
           onKeyDown={handleKeyDown}
           autoFocus
@@ -45,5 +45,5 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
         </div>
       )}
     </div>
-  )
+  );
 }
