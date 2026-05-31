@@ -144,7 +144,26 @@ export function UtilityRow({
     <div className={styles.utility}>
       <div className={styles.search}>
         <div className={styles.field}>
-          <span className={styles.icon} aria-hidden="true" />
+          <svg
+            className={styles.icon}
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="6" cy="6" r="4" stroke="currentColor" strokeWidth="1.75" />
+            <line
+              x1="9.2"
+              y1="9.2"
+              x2="13"
+              y2="13"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+            />
+          </svg>
           <input
             ref={inputRef}
             value={query}

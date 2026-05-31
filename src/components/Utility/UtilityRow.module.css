@@ -35,23 +35,9 @@
 .icon {
   width: 15px;
   height: 15px;
-  color: var(--ee-muted);
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  position: relative;
   flex: 0 0 auto;
-}
-
-.icon::after {
-  content: '';
-  width: 7px;
-  height: 2px;
-  background: currentColor;
-  position: absolute;
-  right: -6px;
-  bottom: -3px;
-  transform: rotate(45deg);
-  border-radius: 2px;
+  color: var(--ee-muted);
+  display: block;
 }
 
 .field input {
