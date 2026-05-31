@@ -152,3 +152,35 @@
   margin-left: 4px;
   font-family: var(--ui-font);
 }
+
+@media (max-width: 520px) {
+  .actionBar {
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .typeToggle,
+  .sizeControl {
+    display: none;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .cancelBtn {
+    flex: 1;
+    justify-content: center;
+    min-height: 44px;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  .insertBtn {
+    flex: 1;
+    justify-content: center;
+    min-height: 44px;
+    font-size: 14px;
+    padding: 0;
+  }
+}
