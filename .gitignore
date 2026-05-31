@@ -19,8 +19,12 @@ Thumbs.db
 
 # Samples (reference images, not source)
 samples/
+todo/
 
 # Logs
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Superpowers
+.superpowers
