@@ -13,40 +13,43 @@
 ## File Map
 
 ### New files
-| Path | Responsibility |
-|------|----------------|
-| `src/data/toolbar/row1.ts` | 9 symbol-category definitions with full palette arrays |
-| `src/data/toolbar/row2.ts` | 8 template-category definitions with full palette arrays |
-| `src/data/expressions/algebra.json` | Formula chips for Algebra tab |
-| `src/data/expressions/calculus.json` | Formula chips for Calculus tab |
-| `src/data/expressions/statistics.json` | Formula chips for Statistics tab |
-| `src/data/expressions/matrices.json` | Formula chips for Matrices tab |
-| `src/data/expressions/sets.json` | Formula chips for Sets tab |
-| `src/data/expressions/trig.json` | Formula chips for Trig tab |
-| `src/data/expressions/geometry.json` | Formula chips for Geometry tab |
-| `src/data/expressions/more.json` | Formula chips for More tab |
-| `src/hooks/useFlyout.ts` | Single-open flyout state + click-outside + Escape |
-| `src/components/Toolbar/FlyoutPalette.tsx` | Portal-rendered symbol/template grid |
-| `src/components/Toolbar/FlyoutPalette.module.css` | Palette styles |
-| `src/components/Toolbar/CategoryButton.tsx` | Compact toolbar button that triggers its palette |
-| `src/components/Toolbar/CategoryButton.module.css` | Button styles |
-| `src/components/Toolbar/ToolbarZone.tsx` | Two-row toolbar container |
-| `src/components/Toolbar/ToolbarZone.module.css` | Toolbar zone styles |
-| `src/components/ExpressionZone/ExpressionZone.tsx` | Tab bar + chips container |
-| `src/components/ExpressionZone/ExpressionZone.module.css` | Zone styles |
-| `src/components/ExpressionZone/ExpressionTabStrip.tsx` | Tab headers |
-| `src/components/ExpressionZone/ExpressionTabStrip.module.css` | Tab strip styles |
-| `src/components/ExpressionZone/ExpressionChips.tsx` | Horizontal chip row for active tab |
-| `src/components/ExpressionZone/ExpressionChips.module.css` | Chip styles |
+
+| Path                                                          | Responsibility                                           |
+| ------------------------------------------------------------- | -------------------------------------------------------- |
+| `src/data/toolbar/row1.ts`                                    | 9 symbol-category definitions with full palette arrays   |
+| `src/data/toolbar/row2.ts`                                    | 8 template-category definitions with full palette arrays |
+| `src/data/expressions/algebra.json`                           | Formula chips for Algebra tab                            |
+| `src/data/expressions/calculus.json`                          | Formula chips for Calculus tab                           |
+| `src/data/expressions/statistics.json`                        | Formula chips for Statistics tab                         |
+| `src/data/expressions/matrices.json`                          | Formula chips for Matrices tab                           |
+| `src/data/expressions/sets.json`                              | Formula chips for Sets tab                               |
+| `src/data/expressions/trig.json`                              | Formula chips for Trig tab                               |
+| `src/data/expressions/geometry.json`                          | Formula chips for Geometry tab                           |
+| `src/data/expressions/more.json`                              | Formula chips for More tab                               |
+| `src/hooks/useFlyout.ts`                                      | Single-open flyout state + click-outside + Escape        |
+| `src/components/Toolbar/FlyoutPalette.tsx`                    | Portal-rendered symbol/template grid                     |
+| `src/components/Toolbar/FlyoutPalette.module.css`             | Palette styles                                           |
+| `src/components/Toolbar/CategoryButton.tsx`                   | Compact toolbar button that triggers its palette         |
+| `src/components/Toolbar/CategoryButton.module.css`            | Button styles                                            |
+| `src/components/Toolbar/ToolbarZone.tsx`                      | Two-row toolbar container                                |
+| `src/components/Toolbar/ToolbarZone.module.css`               | Toolbar zone styles                                      |
+| `src/components/ExpressionZone/ExpressionZone.tsx`            | Tab bar + chips container                                |
+| `src/components/ExpressionZone/ExpressionZone.module.css`     | Zone styles                                              |
+| `src/components/ExpressionZone/ExpressionTabStrip.tsx`        | Tab headers                                              |
+| `src/components/ExpressionZone/ExpressionTabStrip.module.css` | Tab strip styles                                         |
+| `src/components/ExpressionZone/ExpressionChips.tsx`           | Horizontal chip row for active tab                       |
+| `src/components/ExpressionZone/ExpressionChips.module.css`    | Chip styles                                              |
 
 ### Modified files
-| Path | Change |
-|------|--------|
+
+| Path                 | Change                                                                                                                                                      |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/types/index.ts` | Add `ToolbarCategory`, `PaletteItem`, `ExpressionItem`, `ExpressionTabId` types; remove old `TabId`, `TAB_IDS`, `Section`, `SymbolDef`, `TabData`, `TabDef` |
-| `src/App.tsx` | Replace StyleBar/TabStrip/SymbolGrid imports with ToolbarZone + ExpressionZone |
-| `src/App.module.css` | Update grid rows from 5 zones to 4 zones |
+| `src/App.tsx`        | Replace StyleBar/TabStrip/SymbolGrid imports with ToolbarZone + ExpressionZone                                                                              |
+| `src/App.module.css` | Update grid rows from 5 zones to 4 zones                                                                                                                    |
 
 ### Deleted files (remove at end)
+
 - `src/components/Toolbar/StyleBar.tsx` + `.module.css`
 - `src/components/Toolbar/SymbolGrid.tsx` + `.module.css`
 - `src/components/Toolbar/TabStrip.tsx` + `.module.css`
@@ -59,6 +62,7 @@
 ## Task 1: Update types
 
 **Files:**
+
 - Modify: `src/types/index.ts`
 
 - [ ] **Step 1: Replace the contents of `src/types/index.ts` with the new type set**
@@ -66,17 +70,17 @@
 ```typescript
 // Toolbar data model
 export interface PaletteItem {
-  latex: string      // inserted into MathLive on click
-  display: string    // shown on the palette button face (Unicode or HTML entity)
-  tooltip: string
-  isTemplate?: boolean  // true → renders wider, violet-tinted
+  latex: string; // inserted into MathLive on click
+  display: string; // shown on the palette button face (Unicode or HTML entity)
+  tooltip: string;
+  isTemplate?: boolean; // true → renders wider, violet-tinted
 }
 
 export interface ToolbarCategory {
-  id: string
-  glyph: string          // shown on the compact category button face
-  tooltip: string        // button tooltip
-  palette: PaletteItem[]
+  id: string;
+  glyph: string; // shown on the compact category button face
+  tooltip: string; // button tooltip
+  palette: PaletteItem[];
 }
 
 // Expression library (Zone 3 tabs)
@@ -88,12 +92,18 @@ export type ExpressionTabId =
   | 'sets'
   | 'trig'
   | 'geometry'
-  | 'more'
+  | 'more';
 
 export const EXPRESSION_TAB_IDS: ExpressionTabId[] = [
-  'algebra', 'calculus', 'statistics', 'matrices',
-  'sets', 'trig', 'geometry', 'more',
-]
+  'algebra',
+  'calculus',
+  'statistics',
+  'matrices',
+  'sets',
+  'trig',
+  'geometry',
+  'more',
+];
 
 export const EXPRESSION_TAB_LABELS: Record<ExpressionTabId, string> = {
   algebra: 'Algebra',
@@ -104,50 +114,50 @@ export const EXPRESSION_TAB_LABELS: Record<ExpressionTabId, string> = {
   trig: 'Trig',
   geometry: 'Geometry',
   more: 'More',
-}
+};
 
 export interface ExpressionItem {
-  latex: string     // full formula inserted on click; #0, #1 are MathLive slots
-  display: string   // rendered chip label (Unicode approximation)
-  label: string     // small badge below chip
+  latex: string; // full formula inserted on click; #0, #1 are MathLive slots
+  display: string; // rendered chip label (Unicode approximation)
+  label: string; // small badge below chip
 }
 
 export interface ExpressionTab {
-  id: ExpressionTabId
-  label: string
-  items: ExpressionItem[]
+  id: ExpressionTabId;
+  label: string;
+  items: ExpressionItem[];
 }
 
 // postMessage protocol (unchanged)
 export interface LoadConfig {
-  fontSize: number
-  mathType: 'display' | 'inline'
-  customer: string
-  project: string
-  doi: string
+  fontSize: number;
+  mathType: 'display' | 'inline';
+  customer: string;
+  project: string;
+  doi: string;
 }
 
 export interface InsertPayload {
-  type: 'insert'
-  latex: string
-  mathml: string
-  imageUrl: string
-  fontSize: number
-  mathType: 'display' | 'inline'
+  type: 'insert';
+  latex: string;
+  mathml: string;
+  imageUrl: string;
+  fontSize: number;
+  mathType: 'display' | 'inline';
 }
 
 export interface CancelPayload {
-  type: 'cancel'
+  type: 'cancel';
 }
 
 export interface LoadMessage {
-  type: 'load'
-  latex: string
-  config: LoadConfig
+  type: 'load';
+  latex: string;
+  config: LoadConfig;
 }
 
-export type OutboundMessage = InsertPayload | CancelPayload
-export type InboundMessage = LoadMessage
+export type OutboundMessage = InsertPayload | CancelPayload;
+export type InboundMessage = LoadMessage;
 ```
 
 - [ ] **Step 2: Verify the build still compiles (existing components will have type errors — that is expected and will be fixed in later tasks)**
@@ -163,12 +173,13 @@ Expected: type errors referencing `TabId`, `Section`, `SymbolDef` in old compone
 ## Task 2: Write toolbar data — Row 1 (symbol categories)
 
 **Files:**
+
 - Create: `src/data/toolbar/row1.ts`
 
 - [ ] **Step 1: Create `src/data/toolbar/row1.ts`**
 
 ```typescript
-import type { ToolbarCategory } from '../../types'
+import type { ToolbarCategory } from '../../types';
 
 const row1: ToolbarCategory[] = [
   {
@@ -384,9 +395,9 @@ const row1: ToolbarCategory[] = [
       { latex: '\\Omega', display: 'Ω', tooltip: 'Omega' },
     ],
   },
-]
+];
 
-export default row1
+export default row1;
 ```
 
 - [ ] **Step 2: Build check**
@@ -402,12 +413,13 @@ Expected: same pre-existing type errors from old components — no new errors fr
 ## Task 3: Write toolbar data — Row 2 (template categories)
 
 **Files:**
+
 - Create: `src/data/toolbar/row2.ts`
 
 - [ ] **Step 1: Create `src/data/toolbar/row2.ts`**
 
 ```typescript
-import type { ToolbarCategory } from '../../types'
+import type { ToolbarCategory } from '../../types';
 
 const row2: ToolbarCategory[] = [
   {
@@ -418,15 +430,35 @@ const row2: ToolbarCategory[] = [
       { latex: '\\left(#0\\right)', display: '(…)', tooltip: 'Parentheses', isTemplate: true },
       { latex: '\\left[#0\\right]', display: '[…]', tooltip: 'Square brackets', isTemplate: true },
       { latex: '\\left\\{#0\\right\\}', display: '{…}', tooltip: 'Curly braces', isTemplate: true },
-      { latex: '\\left\\langle#0\\right\\rangle', display: '⟨…⟩', tooltip: 'Angle brackets', isTemplate: true },
+      {
+        latex: '\\left\\langle#0\\right\\rangle',
+        display: '⟨…⟩',
+        tooltip: 'Angle brackets',
+        isTemplate: true,
+      },
       { latex: '\\left|#0\\right|', display: '|…|', tooltip: 'Absolute value', isTemplate: true },
       { latex: '\\left\\|#0\\right\\|', display: '‖…‖', tooltip: 'Norm', isTemplate: true },
-      { latex: '\\left\\lfloor#0\\right\\rfloor', display: '⌊…⌋', tooltip: 'Floor', isTemplate: true },
-      { latex: '\\left\\lceil#0\\right\\rceil', display: '⌈…⌉', tooltip: 'Ceiling', isTemplate: true },
+      {
+        latex: '\\left\\lfloor#0\\right\\rfloor',
+        display: '⌊…⌋',
+        tooltip: 'Floor',
+        isTemplate: true,
+      },
+      {
+        latex: '\\left\\lceil#0\\right\\rceil',
+        display: '⌈…⌉',
+        tooltip: 'Ceiling',
+        isTemplate: true,
+      },
       { latex: '\\left(#0\\right]', display: '(…]', tooltip: 'Half-open (', isTemplate: true },
       { latex: '\\left[#0\\right)', display: '[…)', tooltip: 'Half-open [', isTemplate: true },
       { latex: '\\left\\{#0\\right.', display: '{…', tooltip: 'Open brace only', isTemplate: true },
-      { latex: '\\left.#0\\right\\}', display: '…}', tooltip: 'Close brace only', isTemplate: true },
+      {
+        latex: '\\left.#0\\right\\}',
+        display: '…}',
+        tooltip: 'Close brace only',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -454,8 +486,8 @@ const row2: ToolbarCategory[] = [
       { latex: '{}^{#0}#1', display: '²x', tooltip: 'Pre-superscript', isTemplate: true },
       { latex: '{}_{#0}#1', display: '₂x', tooltip: 'Pre-subscript', isTemplate: true },
       { latex: '{}_{#0}^{#1}#2', display: '²₂x', tooltip: 'Pre sub+super', isTemplate: true },
-      { latex: '#0\\prime', display: "x′", tooltip: 'Prime', isTemplate: true },
-      { latex: '#0\\prime\\prime', display: "x″", tooltip: 'Double prime', isTemplate: true },
+      { latex: '#0\\prime', display: 'x′', tooltip: 'Prime', isTemplate: true },
+      { latex: '#0\\prime\\prime', display: 'x″', tooltip: 'Double prime', isTemplate: true },
     ],
   },
   {
@@ -465,8 +497,18 @@ const row2: ToolbarCategory[] = [
     palette: [
       { latex: '\\sum #0', display: 'Σ', tooltip: 'Sum (no limits)', isTemplate: true },
       { latex: '\\sum_{#0} #1', display: 'Σₙ', tooltip: 'Sum (lower limit)', isTemplate: true },
-      { latex: '\\sum_{#0}^{#1} #2', display: 'Σₙᵐ', tooltip: 'Sum (both limits)', isTemplate: true },
-      { latex: '\\displaystyle\\sum_{#0}^{#1} #2', display: '⬛Σ', tooltip: 'Display sum', isTemplate: true },
+      {
+        latex: '\\sum_{#0}^{#1} #2',
+        display: 'Σₙᵐ',
+        tooltip: 'Sum (both limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\displaystyle\\sum_{#0}^{#1} #2',
+        display: '⬛Σ',
+        tooltip: 'Display sum',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -475,13 +517,33 @@ const row2: ToolbarCategory[] = [
     tooltip: 'Integrals',
     palette: [
       { latex: '\\int #0 \\, d#1', display: '∫', tooltip: 'Integral', isTemplate: true },
-      { latex: '\\int_{#0} #1 \\, d#2', display: '∫₀', tooltip: 'Integral (lower)', isTemplate: true },
-      { latex: '\\int_{#0}^{#1} #2 \\, d#3', display: '∫₀¹', tooltip: 'Integral (both)', isTemplate: true },
+      {
+        latex: '\\int_{#0} #1 \\, d#2',
+        display: '∫₀',
+        tooltip: 'Integral (lower)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\int_{#0}^{#1} #2 \\, d#3',
+        display: '∫₀¹',
+        tooltip: 'Integral (both)',
+        isTemplate: true,
+      },
       { latex: '\\iint #0 \\, d#1', display: '∬', tooltip: 'Double integral', isTemplate: true },
-      { latex: '\\iint_{#0} #1 \\, d#2', display: '∬₀', tooltip: 'Double integral (lower)', isTemplate: true },
+      {
+        latex: '\\iint_{#0} #1 \\, d#2',
+        display: '∬₀',
+        tooltip: 'Double integral (lower)',
+        isTemplate: true,
+      },
       { latex: '\\iiint #0 \\, d#1', display: '∭', tooltip: 'Triple integral', isTemplate: true },
       { latex: '\\oint #0 \\, d#1', display: '∮', tooltip: 'Contour integral', isTemplate: true },
-      { latex: '\\oint_{#0} #1 \\, d#2', display: '∮ₒ', tooltip: 'Contour (lower)', isTemplate: true },
+      {
+        latex: '\\oint_{#0} #1 \\, d#2',
+        display: '∮ₒ',
+        tooltip: 'Contour (lower)',
+        isTemplate: true,
+      },
       { latex: '\\oiint #0 \\, d#1', display: '∯', tooltip: 'Surface integral', isTemplate: true },
     ],
   },
@@ -501,8 +563,18 @@ const row2: ToolbarCategory[] = [
       { latex: '\\overbrace{#0}^{#1}', display: '⏞', tooltip: 'Overbrace', isTemplate: true },
       { latex: '\\underbrace{#0}_{#1}', display: '⏟', tooltip: 'Underbrace', isTemplate: true },
       { latex: '\\overleftarrow{#0}', display: '←', tooltip: 'Over left arrow', isTemplate: true },
-      { latex: '\\overrightarrow{#0}', display: '→', tooltip: 'Over right arrow', isTemplate: true },
-      { latex: '\\overleftrightarrow{#0}', display: '↔', tooltip: 'Over both arrows', isTemplate: true },
+      {
+        latex: '\\overrightarrow{#0}',
+        display: '→',
+        tooltip: 'Over right arrow',
+        isTemplate: true,
+      },
+      {
+        latex: '\\overleftrightarrow{#0}',
+        display: '↔',
+        tooltip: 'Over both arrows',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -511,11 +583,31 @@ const row2: ToolbarCategory[] = [
     tooltip: 'Big Operators',
     palette: [
       { latex: '\\prod #0', display: 'Π', tooltip: 'Product (no limits)', isTemplate: true },
-      { latex: '\\prod_{#0}^{#1} #2', display: 'Πₙᵐ', tooltip: 'Product (limits)', isTemplate: true },
+      {
+        latex: '\\prod_{#0}^{#1} #2',
+        display: 'Πₙᵐ',
+        tooltip: 'Product (limits)',
+        isTemplate: true,
+      },
       { latex: '\\bigcup #0', display: '⋃', tooltip: 'Big union (no limits)', isTemplate: true },
-      { latex: '\\bigcup_{#0}^{#1} #2', display: '⋃ₙᵐ', tooltip: 'Big union (limits)', isTemplate: true },
-      { latex: '\\bigcap #0', display: '⋂', tooltip: 'Big intersection (no limits)', isTemplate: true },
-      { latex: '\\bigcap_{#0}^{#1} #2', display: '⋂ₙᵐ', tooltip: 'Big intersection (limits)', isTemplate: true },
+      {
+        latex: '\\bigcup_{#0}^{#1} #2',
+        display: '⋃ₙᵐ',
+        tooltip: 'Big union (limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\bigcap #0',
+        display: '⋂',
+        tooltip: 'Big intersection (no limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\bigcap_{#0}^{#1} #2',
+        display: '⋂ₙᵐ',
+        tooltip: 'Big intersection (limits)',
+        isTemplate: true,
+      },
       { latex: '\\bigoplus #0', display: '⊕', tooltip: 'Big direct sum', isTemplate: true },
       { latex: '\\bigotimes #0', display: '⊗', tooltip: 'Big tensor product', isTemplate: true },
     ],
@@ -525,21 +617,71 @@ const row2: ToolbarCategory[] = [
     glyph: '▦',
     tooltip: 'Matrices',
     palette: [
-      { latex: '\\begin{pmatrix} #0 \\end{pmatrix}', display: '1×1()', tooltip: '1×1 pmatrix', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 \\\\ #2 & #3 \\end{pmatrix}', display: '2×2()', tooltip: '2×2 pmatrix', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{pmatrix}', display: '3×3()', tooltip: '3×3 pmatrix', isTemplate: true },
-      { latex: '\\begin{bmatrix} #0 & #1 \\\\ #2 & #3 \\end{bmatrix}', display: '2×2[]', tooltip: '2×2 bmatrix', isTemplate: true },
-      { latex: '\\begin{bmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{bmatrix}', display: '3×3[]', tooltip: '3×3 bmatrix', isTemplate: true },
-      { latex: '\\begin{vmatrix} #0 & #1 \\\\ #2 & #3 \\end{vmatrix}', display: '2×2||', tooltip: '2×2 determinant', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 \\\\ #1 \\end{pmatrix}', display: 'col2', tooltip: '2-row column vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 \\\\ #1 \\\\ #2 \\end{pmatrix}', display: 'col3', tooltip: '3-row column vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 \\end{pmatrix}', display: 'row2', tooltip: '2-col row vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 & #2 \\end{pmatrix}', display: 'row3', tooltip: '3-col row vector', isTemplate: true },
+      {
+        latex: '\\begin{pmatrix} #0 \\end{pmatrix}',
+        display: '1×1()',
+        tooltip: '1×1 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 \\\\ #2 & #3 \\end{pmatrix}',
+        display: '2×2()',
+        tooltip: '2×2 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{pmatrix}',
+        display: '3×3()',
+        tooltip: '3×3 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{bmatrix} #0 & #1 \\\\ #2 & #3 \\end{bmatrix}',
+        display: '2×2[]',
+        tooltip: '2×2 bmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{bmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{bmatrix}',
+        display: '3×3[]',
+        tooltip: '3×3 bmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{vmatrix} #0 & #1 \\\\ #2 & #3 \\end{vmatrix}',
+        display: '2×2||',
+        tooltip: '2×2 determinant',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 \\\\ #1 \\end{pmatrix}',
+        display: 'col2',
+        tooltip: '2-row column vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 \\\\ #1 \\\\ #2 \\end{pmatrix}',
+        display: 'col3',
+        tooltip: '3-row column vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 \\end{pmatrix}',
+        display: 'row2',
+        tooltip: '2-col row vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 & #2 \\end{pmatrix}',
+        display: 'row3',
+        tooltip: '3-col row vector',
+        isTemplate: true,
+      },
     ],
   },
-]
+];
 
-export default row2
+export default row2;
 ```
 
 - [ ] **Step 2: Build check**
@@ -555,6 +697,7 @@ Expected: no new errors from row2.ts.
 ## Task 4: Write expression chip data (8 JSON files)
 
 **Files:**
+
 - Create: `src/data/expressions/algebra.json`
 - Create: `src/data/expressions/calculus.json`
 - Create: `src/data/expressions/statistics.json`
@@ -573,7 +716,11 @@ Expected: no new errors from row2.ts.
   "items": [
     { "latex": "\\sqrt{a^2+b^2}", "display": "√(a²+b²)", "label": "Pythagorean" },
     { "latex": "\\lim_{x \\to #0} #1", "display": "lim(x→…)", "label": "Limit" },
-    { "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}", "display": "(-b±√Δ)/2a", "label": "Quadratic" },
+    {
+      "latex": "\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
+      "display": "(-b±√Δ)/2a",
+      "label": "Quadratic"
+    },
     { "latex": "\\frac{n!}{r!(n-r)!}", "display": "n!/r!(n-r)!", "label": "Combination" },
     { "latex": "a_n = a_1 + (n-1)d", "display": "aₙ=a₁+(n-1)d", "label": "Arithmetic" },
     { "latex": "a_n = a_1 \\cdot r^{n-1}", "display": "aₙ=a₁rⁿ⁻¹", "label": "Geometric" },
@@ -595,9 +742,17 @@ Expected: no new errors from row2.ts.
     { "latex": "\\frac{\\partial #0}{\\partial #1}", "display": "∂f/∂x", "label": "Partial" },
     { "latex": "\\int_{#0}^{#1} #2 \\, d#3", "display": "∫ₐᵇf dx", "label": "Def. integral" },
     { "latex": "\\nabla #0", "display": "∇f", "label": "Gradient" },
-    { "latex": "\\lim_{\\Delta x \\to 0} \\frac{f(x+\\Delta x)-f(x)}{\\Delta x}", "display": "lim Δx→0", "label": "Def. of deriv." },
+    {
+      "latex": "\\lim_{\\Delta x \\to 0} \\frac{f(x+\\Delta x)-f(x)}{\\Delta x}",
+      "display": "lim Δx→0",
+      "label": "Def. of deriv."
+    },
     { "latex": "\\frac{d^2#0}{d#1^2}", "display": "d²f/dx²", "label": "2nd deriv." },
-    { "latex": "\\int_{#0}^{#1} #2 \\, d#3 = \\left[#4\\right]_{#0}^{#1}", "display": "FTC", "label": "Fund. theorem" }
+    {
+      "latex": "\\int_{#0}^{#1} #2 \\, d#3 = \\left[#4\\right]_{#0}^{#1}",
+      "display": "FTC",
+      "label": "Fund. theorem"
+    }
   ]
 }
 ```
@@ -610,9 +765,17 @@ Expected: no new errors from row2.ts.
   "label": "Statistics",
   "items": [
     { "latex": "\\bar{x} = \\frac{\\sum x}{n}", "display": "x̄=Σx/n", "label": "Mean" },
-    { "latex": "\\sigma^2 = \\frac{\\sum(x-\\mu)^2}{n}", "display": "σ²=Σ(x-μ)²/n", "label": "Variance" },
+    {
+      "latex": "\\sigma^2 = \\frac{\\sum(x-\\mu)^2}{n}",
+      "display": "σ²=Σ(x-μ)²/n",
+      "label": "Variance"
+    },
     { "latex": "P(A \\cap B)", "display": "P(A∩B)", "label": "Joint prob." },
-    { "latex": "P(A | B) = \\frac{P(A \\cap B)}{P(B)}", "display": "P(A|B)", "label": "Conditional" },
+    {
+      "latex": "P(A | B) = \\frac{P(A \\cap B)}{P(B)}",
+      "display": "P(A|B)",
+      "label": "Conditional"
+    },
     { "latex": "\\binom{n}{r} = \\frac{n!}{r!(n-r)!}", "display": "nCr", "label": "Combination" },
     { "latex": "z = \\frac{x - \\mu}{\\sigma}", "display": "z=(x-μ)/σ", "label": "Z-score" },
     { "latex": "E(X) = \\sum x \\cdot P(x)", "display": "E(X)=ΣxP(x)", "label": "Expected val." }
@@ -627,12 +790,36 @@ Expected: no new errors from row2.ts.
   "id": "matrices",
   "label": "Matrices",
   "items": [
-    { "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}", "display": "2×2", "label": "2×2 matrix" },
-    { "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}", "display": "3×3", "label": "3×3 matrix" },
-    { "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\end{pmatrix}", "display": "2×3", "label": "2×3 matrix" },
-    { "latex": "\\begin{pmatrix} a \\\\ b \\\\ c \\end{pmatrix}", "display": "col", "label": "Column vector" },
-    { "latex": "\\begin{pmatrix} a & b & c \\end{pmatrix}", "display": "row", "label": "Row vector" },
-    { "latex": "\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc", "display": "det", "label": "Determinant" },
+    {
+      "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+      "display": "2×2",
+      "label": "2×2 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}",
+      "display": "3×3",
+      "label": "3×3 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\end{pmatrix}",
+      "display": "2×3",
+      "label": "2×3 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a \\\\ b \\\\ c \\end{pmatrix}",
+      "display": "col",
+      "label": "Column vector"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\end{pmatrix}",
+      "display": "row",
+      "label": "Row vector"
+    },
+    {
+      "latex": "\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc",
+      "display": "det",
+      "label": "Determinant"
+    },
     { "latex": "A^{-1} = \\frac{1}{\\det A} \\text{adj}(A)", "display": "A⁻¹", "label": "Inverse" }
   ]
 }
@@ -651,7 +838,11 @@ Expected: no new errors from row2.ts.
     { "latex": "A^{\\complement}", "display": "Aᶜ", "label": "Complement" },
     { "latex": "A \\times B", "display": "A×B", "label": "Cartesian" },
     { "latex": "P(A) = 2^A", "display": "P(A)", "label": "Power set" },
-    { "latex": "|A \\cup B| = |A| + |B| - |A \\cap B|", "display": "|A∪B|", "label": "Inclusion-excl." }
+    {
+      "latex": "|A \\cup B| = |A| + |B| - |A \\cap B|",
+      "display": "|A∪B|",
+      "label": "Inclusion-excl."
+    }
   ]
 }
 ```
@@ -663,13 +854,41 @@ Expected: no new errors from row2.ts.
   "id": "trig",
   "label": "Trig",
   "items": [
-    { "latex": "\\sin^2\\theta + \\cos^2\\theta = 1", "display": "sin²+cos²=1", "label": "Pythagorean" },
-    { "latex": "\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}", "display": "tan=sin/cos", "label": "Tangent" },
-    { "latex": "\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B", "display": "sin(A±B)", "label": "Sum formula" },
-    { "latex": "\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B", "display": "cos(A±B)", "label": "Sum formula" },
-    { "latex": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta", "display": "sin2θ", "label": "Double angle" },
-    { "latex": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}", "display": "a/sinA=b/sinB", "label": "Sine rule" },
-    { "latex": "c^2 = a^2 + b^2 - 2ab\\cos C", "display": "c²=a²+b²-2ab cosC", "label": "Cosine rule" }
+    {
+      "latex": "\\sin^2\\theta + \\cos^2\\theta = 1",
+      "display": "sin²+cos²=1",
+      "label": "Pythagorean"
+    },
+    {
+      "latex": "\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}",
+      "display": "tan=sin/cos",
+      "label": "Tangent"
+    },
+    {
+      "latex": "\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B",
+      "display": "sin(A±B)",
+      "label": "Sum formula"
+    },
+    {
+      "latex": "\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B",
+      "display": "cos(A±B)",
+      "label": "Sum formula"
+    },
+    {
+      "latex": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta",
+      "display": "sin2θ",
+      "label": "Double angle"
+    },
+    {
+      "latex": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}",
+      "display": "a/sinA=b/sinB",
+      "label": "Sine rule"
+    },
+    {
+      "latex": "c^2 = a^2 + b^2 - 2ab\\cos C",
+      "display": "c²=a²+b²-2ab cosC",
+      "label": "Cosine rule"
+    }
   ]
 }
 ```
@@ -725,62 +944,63 @@ Expected: no new errors.
 ## Task 5: Build `useFlyout` hook
 
 **Files:**
+
 - Create: `src/hooks/useFlyout.ts`
 
 - [ ] **Step 1: Create `src/hooks/useFlyout.ts`**
 
 ```typescript
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react';
 
 export interface FlyoutPosition {
-  top: number
-  left: number
+  top: number;
+  left: number;
 }
 
 interface UseFlyoutReturn {
-  openId: string | null
-  position: FlyoutPosition
-  open: (id: string, rect: DOMRect) => void
-  close: () => void
+  openId: string | null;
+  position: FlyoutPosition;
+  open: (id: string, rect: DOMRect) => void;
+  close: () => void;
 }
 
 export function useFlyout(): UseFlyoutReturn {
-  let [openId, setOpenId] = useState<string | null>(null)
-  let [position, setPosition] = useState<FlyoutPosition>({ top: 0, left: 0 })
+  let [openId, setOpenId] = useState<string | null>(null);
+  let [position, setPosition] = useState<FlyoutPosition>({ top: 0, left: 0 });
 
   const close = useCallback(() => {
-    setOpenId(null)
-  }, [])
+    setOpenId(null);
+  }, []);
 
   const open = useCallback((id: string, rect: DOMRect) => {
-    setOpenId(id)
-    setPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX })
-  }, [])
+    setOpenId(id);
+    setPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX });
+  }, []);
 
   useEffect(() => {
-    if (!openId) return
+    if (!openId) return;
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') close()
+      if (e.key === 'Escape') close();
     }
 
     function onPointerDown(e: PointerEvent) {
-      const target = e.target as Element
+      const target = e.target as Element;
       // Close if the click is outside any flyout-palette or category-button element
       if (!target.closest('[data-flyout]') && !target.closest('[data-category-btn]')) {
-        close()
+        close();
       }
     }
 
-    document.addEventListener('keydown', onKeyDown)
-    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
     return () => {
-      document.removeEventListener('keydown', onKeyDown)
-      document.removeEventListener('pointerdown', onPointerDown)
-    }
-  }, [openId, close])
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [openId, close]);
 
-  return { openId, position, open, close }
+  return { openId, position, open, close };
 }
 ```
 
@@ -797,6 +1017,7 @@ Expected: no errors from useFlyout.ts.
 ## Task 6: Build `FlyoutPalette` component
 
 **Files:**
+
 - Create: `src/components/Toolbar/FlyoutPalette.tsx`
 - Create: `src/components/Toolbar/FlyoutPalette.module.css`
 
@@ -830,7 +1051,9 @@ Expected: no errors from useFlyout.ts.
   border: 1px solid #e5e7eb;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 80ms, border-color 80ms;
+  transition:
+    background 80ms,
+    border-color 80ms;
   font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
   line-height: 1;
 }
@@ -918,6 +1141,7 @@ Expected: no errors from new files.
 ## Task 7: Build `CategoryButton` component
 
 **Files:**
+
 - Create: `src/components/Toolbar/CategoryButton.tsx`
 - Create: `src/components/Toolbar/CategoryButton.module.css`
 
@@ -939,7 +1163,9 @@ Expected: no errors from new files.
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 80ms, border-color 80ms;
+  transition:
+    background 80ms,
+    border-color 80ms;
   user-select: none;
 }
 
@@ -1037,6 +1263,7 @@ Expected: no errors from new files.
 ## Task 8: Build `ToolbarZone` component
 
 **Files:**
+
 - Create: `src/components/Toolbar/ToolbarZone.tsx`
 - Create: `src/components/Toolbar/ToolbarZone.module.css`
 
@@ -1127,6 +1354,7 @@ Expected: no errors from ToolbarZone and dependencies.
 ## Task 9: Build `ExpressionChips` component
 
 **Files:**
+
 - Create: `src/components/ExpressionZone/ExpressionChips.tsx`
 - Create: `src/components/ExpressionZone/ExpressionChips.module.css`
 
@@ -1156,7 +1384,9 @@ Expected: no errors from ToolbarZone and dependencies.
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 80ms, border-color 80ms;
+  transition:
+    background 80ms,
+    border-color 80ms;
 }
 
 .chip:hover {
@@ -1264,6 +1494,7 @@ cd /Users/rahul.rr/Documents/repos/equation-editor-poc && pnpm run build 2>&1 | 
 ## Task 10: Build `ExpressionTabStrip` component
 
 **Files:**
+
 - Create: `src/components/ExpressionZone/ExpressionTabStrip.tsx`
 - Create: `src/components/ExpressionZone/ExpressionTabStrip.module.css`
 
@@ -1293,7 +1524,9 @@ cd /Users/rahul.rr/Documents/repos/equation-editor-poc && pnpm run build 2>&1 | 
   border-bottom: 2px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 80ms, border-color 80ms;
+  transition:
+    color 80ms,
+    border-color 80ms;
   margin-bottom: -1px;
 }
 
@@ -1350,6 +1583,7 @@ cd /Users/rahul.rr/Documents/repos/equation-editor-poc && pnpm run build 2>&1 | 
 ## Task 11: Build `ExpressionZone` container
 
 **Files:**
+
 - Create: `src/components/ExpressionZone/ExpressionZone.tsx`
 - Create: `src/components/ExpressionZone/ExpressionZone.module.css`
 
@@ -1399,6 +1633,7 @@ cd /Users/rahul.rr/Documents/repos/equation-editor-poc && pnpm run build 2>&1 | 
 ## Task 12: Wire everything into `App.tsx`
 
 **Files:**
+
 - Modify: `src/App.tsx`
 - Modify: `src/App.module.css`
 
@@ -1539,6 +1774,7 @@ Expected: build succeeds with only the old unused files still present (they are 
 ## Task 13: Delete old files
 
 **Files to delete:**
+
 - `src/components/Toolbar/StyleBar.tsx`
 - `src/components/Toolbar/StyleBar.module.css`
 - `src/components/Toolbar/SymbolGrid.tsx`
@@ -1595,8 +1831,9 @@ Open `http://localhost:5173` in Chrome.
 - [ ] **Step 2: Verify toolbar renders**
 
 Confirm you see two rows of compact buttons at the top:
-- Row 1: ≤≥≈  …  ± • ⊗  →  ∴∀  ∈∩⊂  ∂∞ℓ  λωθ  ΛΩΘ
-- Row 2: ( )  ½√  x²  Σ  ∫  →̄  Π∪  ▦
+
+- Row 1: ≤≥≈ … ± • ⊗ → ∴∀ ∈∩⊂ ∂∞ℓ λωθ ΛΩΘ
+- Row 2: ( ) ½√ x² Σ ∫ →̄ Π∪ ▦
 
 - [ ] **Step 3: Verify flyout opens**
 
@@ -1656,18 +1893,18 @@ EOF
 
 ## Spec coverage check
 
-| Design requirement | Task |
-|---|---|
-| Row 1: 9 symbol category buttons | Tasks 2, 8 |
-| Row 2: 8 template category buttons | Tasks 3, 8 |
-| Each button opens flyout palette | Tasks 5, 6, 7 |
-| Portal-rendered (not clipped) | Task 6 — `createPortal(…, document.body)` |
-| Single palette open at a time | Task 5 — `useFlyout` enforces single `openId` |
-| Click-outside dismisses | Task 5 — `pointerdown` listener |
-| Escape dismisses | Task 5 — `keydown` listener |
-| Palette stays open on symbol insert | Task 6 — no `onClose()` call in `handleClick` |
-| Expression tab bar (8 tabs) | Tasks 10, 11 |
-| Formula chips per tab (lazy-loaded) | Tasks 4, 9 |
-| Remove StyleBar / SymbolGrid / TabStrip | Task 13 |
-| App.tsx wires new zones | Task 12 |
-| Clean build | Tasks 6–14 each verify |
+| Design requirement                      | Task                                          |
+| --------------------------------------- | --------------------------------------------- |
+| Row 1: 9 symbol category buttons        | Tasks 2, 8                                    |
+| Row 2: 8 template category buttons      | Tasks 3, 8                                    |
+| Each button opens flyout palette        | Tasks 5, 6, 7                                 |
+| Portal-rendered (not clipped)           | Task 6 — `createPortal(…, document.body)`     |
+| Single palette open at a time           | Task 5 — `useFlyout` enforces single `openId` |
+| Click-outside dismisses                 | Task 5 — `pointerdown` listener               |
+| Escape dismisses                        | Task 5 — `keydown` listener                   |
+| Palette stays open on symbol insert     | Task 6 — no `onClose()` call in `handleClick` |
+| Expression tab bar (8 tabs)             | Tasks 10, 11                                  |
+| Formula chips per tab (lazy-loaded)     | Tasks 4, 9                                    |
+| Remove StyleBar / SymbolGrid / TabStrip | Task 13                                       |
+| App.tsx wires new zones                 | Task 12                                       |
+| Clean build                             | Tasks 6–14 each verify                        |

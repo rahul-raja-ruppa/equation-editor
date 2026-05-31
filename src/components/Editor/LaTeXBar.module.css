@@ -31,7 +31,7 @@
 }
 
 .pill:empty::before {
-  content: "Empty equation";
+  content: 'Empty equation';
   color: var(--ee-muted);
 }
 
@@ -66,7 +66,9 @@
   border: 1px solid var(--ee-border-strong);
   border-radius: 6px;
   padding: 4px 9px;
-  transition: color 130ms ease, border-color 130ms ease;
+  transition:
+    color 130ms ease,
+    border-color 130ms ease;
 }
 
 .copyBtn:hover {

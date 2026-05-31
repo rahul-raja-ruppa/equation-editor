@@ -13,6 +13,7 @@
 ### Task 1: Create LaTeXPanel component
 
 **Files:**
+
 - Create: `src/components/Editor/LaTeXPanel.tsx`
 - Create: `src/components/Editor/LaTeXPanel.module.css`
 
@@ -109,9 +110,11 @@ git commit -m "feat: add LaTeXPanel component (full-height latex textarea)"
 ### Task 2: Update canvas CSS for 50/50 split
 
 **Files:**
+
 - Modify: `src/App.module.css`
 
 Current `.canvas` is:
+
 ```css
 .canvas {
   display: flex;
@@ -132,6 +135,7 @@ Current `.canvas` is:
 - [ ] **Step 1: Replace the canvas block in `src/App.module.css`**
 
 Remove these rules:
+
 ```css
 .canvas {
   display: flex;
@@ -150,6 +154,7 @@ Remove these rules:
 ```
 
 Replace with:
+
 ```css
 .canvas {
   display: flex;
@@ -199,6 +204,7 @@ git commit -m "feat: split canvas 50/50 — column flex with equal children"
 ### Task 3: Wire LaTeXPanel into App and delete LaTeXBar
 
 **Files:**
+
 - Modify: `src/App.tsx`
 - Delete: `src/components/Editor/LaTeXBar.tsx`
 - Delete: `src/components/Editor/LaTeXBar.module.css`
@@ -228,13 +234,16 @@ export default function App() {
   let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
   let [currentLatex, setCurrentLatex] = useState<string>('');
 
-  const onLoad = useCallback((msg: LoadMessage) => {
-    mathField.setValue(msg.latex);
-    setCurrentLatex(msg.latex);
-    setMathType(msg.config.mathType);
-    setFontSize(msg.config.fontSize);
-    setLoadConfig(msg.config);
-  }, [mathField]);
+  const onLoad = useCallback(
+    (msg: LoadMessage) => {
+      mathField.setValue(msg.latex);
+      setCurrentLatex(msg.latex);
+      setMathType(msg.config.mathType);
+      setFontSize(msg.config.fontSize);
+      setLoadConfig(msg.config);
+    },
+    [mathField]
+  );
 
   const { send } = usePostMessage(onLoad);
 
@@ -332,6 +341,7 @@ Open http://localhost:5173
 - [ ] **Step 2: Verify layout**
 
 Check:
+
 - Canvas area is split roughly 50/50 top/bottom
 - Top half shows the MathLive editor with the dotted grid background
 - Bottom half shows a "LATEX" label and an editable textarea
@@ -353,7 +363,11 @@ Open browser console and run:
 
 ```js
 window.postMessage(
-  { type: 'load', latex: '\\frac{a}{b}', config: { fontSize: 12, mathType: 'display', customer: 'test', project: 'test', doi: 'test' } },
+  {
+    type: 'load',
+    latex: '\\frac{a}{b}',
+    config: { fontSize: 12, mathType: 'display', customer: 'test', project: 'test', doi: 'test' },
+  },
   '*'
 );
 ```

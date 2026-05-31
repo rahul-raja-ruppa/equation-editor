@@ -23,7 +23,9 @@
   cursor: pointer;
   white-space: nowrap;
   position: relative;
-  transition: color 140ms ease, background 140ms ease;
+  transition:
+    color 140ms ease,
+    background 140ms ease;
 }
 
 .tab:hover {
@@ -36,7 +38,7 @@
 }
 
 .tab.active::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 10px;
   right: 10px;

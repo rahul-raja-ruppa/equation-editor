@@ -22,7 +22,9 @@
   background: var(--ee-bg);
   border: 1px solid var(--ee-border-strong);
   border-radius: 9px;
-  transition: border-color 140ms ease, box-shadow 140ms ease;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
 .field:focus-within {
@@ -41,7 +43,7 @@
 }
 
 .icon::after {
-  content: "";
+  content: '';
   width: 7px;
   height: 2px;
   background: currentColor;
@@ -198,7 +200,9 @@
   color: var(--ee-muted);
   padding: 5px 11px;
   border-radius: 6px;
-  transition: background 140ms ease, color 140ms ease;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
 }
 
 .toggle .selected {

@@ -18,30 +18,30 @@
   --ee-shadow: 0 10px 30px -8px rgba(22, 24, 34, 0.2), 0 2px 8px -3px rgba(22, 24, 34, 0.12);
 
   /* ── Background layers ───────────────────────────────────── */
-  --bg-base:    #f5f6fa;
-  --bg-app:     #ffffff;
-  --bg-panel:   #f8f9fc;
+  --bg-base: #f5f6fa;
+  --bg-app: #ffffff;
+  --bg-panel: #f8f9fc;
   --bg-surface: #f1f2f8;
-  --bg-btn:     #ffffff;
+  --bg-btn: #ffffff;
   --bg-btn-hov: #eef0fb;
 
   /* ── Borders ─────────────────────────────────────────────── */
-  --border-faint:  #e8eaf2;
+  --border-faint: #e8eaf2;
   --border-normal: #dde0ef;
   --border-strong: #c8ccdf;
-  --border-focus:  #4338ca;
+  --border-focus: #4338ca;
 
   /* ── Indigo accent ───────────────────────────────────────── */
-  --indigo:       #4338ca;
+  --indigo: #4338ca;
   --indigo-light: #6366f1;
-  --indigo-dim:   rgba(67, 56, 202, 0.08);
-  --indigo-glow:  rgba(67, 56, 202, 0.2);
-  --indigo-text:  #4338ca;
+  --indigo-dim: rgba(67, 56, 202, 0.08);
+  --indigo-glow: rgba(67, 56, 202, 0.2);
+  --indigo-text: #4338ca;
 
   /* ── Violet for templates ────────────────────────────────── */
-  --violet:       #7c3aed;
-  --violet-dim:   rgba(124, 58, 237, 0.08);
-  --violet-bg:    #f5f3ff;
+  --violet: #7c3aed;
+  --violet-dim: rgba(124, 58, 237, 0.08);
+  --violet-bg: #f5f3ff;
   --violet-border: #ddd6fe;
 
   /* ── Text ────────────────────────────────────────────────── */
@@ -55,19 +55,19 @@
   --shadow-md: 0 4px 14px rgba(30, 32, 48, 0.12);
 
   /* ── Radii ───────────────────────────────────────────────── */
-  --r-sm:   3px;
-  --r-md:   5px;
-  --r-lg:   8px;
+  --r-sm: 3px;
+  --r-md: 5px;
+  --r-lg: 8px;
   --r-pill: 100px;
 
   /* ── Font stacks ─────────────────────────────────────────── */
   --math-font: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
-  --ui-font:   'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ui-font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono-font: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* ── Transitions ─────────────────────────────────────────── */
   --t-fast: 80ms ease;
-  --t-med:  140ms ease;
+  --t-med: 140ms ease;
 }
 
 *,

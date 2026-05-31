@@ -1,4 +1,4 @@
-import type { ToolbarCategory } from '../../types'
+import type { ToolbarCategory } from '../../types';
 
 const row1: ToolbarCategory[] = [
   {
@@ -36,8 +36,20 @@ const row1: ToolbarCategory[] = [
       { latex: '\\ddots', display: '⋱', tooltip: 'Diagonal dots' },
       { latex: '\\,', display: '\\,', tooltip: 'Thin space', isSpace: true, spaceSize: 'thin' },
       { latex: '\\;', display: '\\;', tooltip: 'Medium space', isSpace: true, spaceSize: 'med' },
-      { latex: '\\quad', display: '\\quad', tooltip: 'Quad space', isSpace: true, spaceSize: 'quad' },
-      { latex: '\\qquad', display: '\\qquad', tooltip: 'Double quad space', isSpace: true, spaceSize: 'qquad' },
+      {
+        latex: '\\quad',
+        display: '\\quad',
+        tooltip: 'Quad space',
+        isSpace: true,
+        spaceSize: 'quad',
+      },
+      {
+        latex: '\\qquad',
+        display: '\\qquad',
+        tooltip: 'Double quad space',
+        isSpace: true,
+        spaceSize: 'qquad',
+      },
       { latex: '\\therefore', display: '∴', tooltip: 'Therefore' },
       { latex: '\\because', display: '∵', tooltip: 'Because' },
     ],
@@ -214,6 +226,6 @@ const row1: ToolbarCategory[] = [
       { latex: '\\Omega', display: 'Ω', tooltip: 'Omega' },
     ],
   },
-]
+];
 
-export default row1
+export default row1;

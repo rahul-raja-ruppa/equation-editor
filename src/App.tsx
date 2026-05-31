@@ -1,63 +1,66 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
-import { useMathField } from './hooks/useMathField'
-import { usePostMessage } from './hooks/usePostMessage'
-import { ToolbarZone } from './components/Toolbar/ToolbarZone'
-import { ExpressionZone } from './components/ExpressionZone/ExpressionZone'
-import { MathField } from './components/Editor/MathField'
-import { LaTeXBar } from './components/Editor/LaTeXBar'
-import { ActionBar } from './components/ActionBar/ActionBar'
-import { UtilityRow } from './components/Utility/UtilityRow'
-import type { LoadMessage, LoadConfig, OutboundMessage } from './types'
-import styles from './App.module.css'
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useMathField } from './hooks/useMathField';
+import { usePostMessage } from './hooks/usePostMessage';
+import { ToolbarZone } from './components/Toolbar/ToolbarZone';
+import { ExpressionZone } from './components/ExpressionZone/ExpressionZone';
+import { MathField } from './components/Editor/MathField';
+import { LaTeXBar } from './components/Editor/LaTeXBar';
+import { ActionBar } from './components/ActionBar/ActionBar';
+import { UtilityRow } from './components/Utility/UtilityRow';
+import type { LoadMessage, LoadConfig, OutboundMessage } from './types';
+import styles from './App.module.css';
 
 export default function App() {
-  const mathField = useMathField()
-  const seeded = useRef(false)
+  const mathField = useMathField();
+  const seeded = useRef(false);
 
-  let [mathType, setMathType] = useState<'display' | 'inline'>('display')
-  let [fontSize, setFontSize] = useState<number>(12)
-  let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null)
-  let [currentLatex, setCurrentLatex] = useState<string>('')
+  let [mathType, setMathType] = useState<'display' | 'inline'>('display');
+  let [fontSize, setFontSize] = useState<number>(12);
+  let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
+  let [currentLatex, setCurrentLatex] = useState<string>('');
 
-  const onLoad = useCallback((msg: LoadMessage) => {
-    mathField.setValue(msg.latex)
-    setCurrentLatex(msg.latex)
-    setMathType(msg.config.mathType)
-    setFontSize(msg.config.fontSize)
-    setLoadConfig(msg.config)
-  }, [mathField])
+  const onLoad = useCallback(
+    (msg: LoadMessage) => {
+      mathField.setValue(msg.latex);
+      setCurrentLatex(msg.latex);
+      setMathType(msg.config.mathType);
+      setFontSize(msg.config.fontSize);
+      setLoadConfig(msg.config);
+    },
+    [mathField]
+  );
 
-  const { send } = usePostMessage(onLoad)
+  const { send } = usePostMessage(onLoad);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       if (!seeded.current && !mathField.getValue('latex')) {
-        seeded.current = true
+        seeded.current = true;
       }
-    }, 100)
-    return () => window.clearTimeout(timer)
-  }, [mathField])
+    }, 100);
+    return () => window.clearTimeout(timer);
+  }, [mathField]);
 
   function handleInsert(latex: string) {
-    mathField.insert(latex)
+    mathField.insert(latex);
   }
 
   function handleLatexCommit(latex: string) {
-    mathField.setValue(latex)
-    setCurrentLatex(latex)
+    mathField.setValue(latex);
+    setCurrentLatex(latex);
   }
 
   function handleCancel() {
-    const payload: OutboundMessage = { type: 'cancel' }
-    send(payload)
+    const payload: OutboundMessage = { type: 'cancel' };
+    send(payload);
   }
 
   function getLatex() {
-    return mathField.getValue('latex')
+    return mathField.getValue('latex');
   }
 
   function getMathML() {
-    return mathField.getValue('math-ml')
+    return mathField.getValue('math-ml');
   }
 
   return (
@@ -93,5 +96,5 @@ export default function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }

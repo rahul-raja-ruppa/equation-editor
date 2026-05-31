@@ -9,7 +9,9 @@
   border-top: 1px solid var(--ee-border);
 }
 
-.spacer { flex: 1; }
+.spacer {
+  flex: 1;
+}
 
 /* ── Display / Inline pill toggle ──────────────────────────── */
 .typeToggle {
@@ -33,7 +35,9 @@
   border: none;
   outline: none;
   line-height: 1.4;
-  transition: background var(--t-fast), color var(--t-fast);
+  transition:
+    background var(--t-fast),
+    color var(--t-fast);
   letter-spacing: 0.01em;
 }
 
@@ -64,7 +68,9 @@
   cursor: pointer;
   outline: none;
   box-shadow: var(--shadow-xs);
-  transition: border-color var(--t-fast), background var(--t-fast);
+  transition:
+    border-color var(--t-fast),
+    background var(--t-fast);
 }
 
 .sizeSelect:hover {
@@ -91,7 +97,10 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 130ms ease, color 130ms ease, background 130ms ease;
+  transition:
+    border-color 130ms ease,
+    color 130ms ease,
+    background 130ms ease;
 }
 
 .cancelBtn:hover {

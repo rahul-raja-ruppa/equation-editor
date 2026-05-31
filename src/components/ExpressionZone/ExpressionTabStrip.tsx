@@ -1,10 +1,10 @@
-import type { FC } from 'react'
-import { EXPRESSION_TAB_IDS, EXPRESSION_TAB_LABELS, type ExpressionTabId } from '../../types'
-import styles from './ExpressionTabStrip.module.css'
+import type { FC } from 'react';
+import { EXPRESSION_TAB_IDS, EXPRESSION_TAB_LABELS, type ExpressionTabId } from '../../types';
+import styles from './ExpressionTabStrip.module.css';
 
 interface ExpressionTabStripProps {
-  activeTab: ExpressionTabId
-  onTabChange: (tab: ExpressionTabId) => void
+  activeTab: ExpressionTabId;
+  onTabChange: (tab: ExpressionTabId) => void;
 }
 
 const ExpressionTabStrip: FC<ExpressionTabStripProps> = ({ activeTab, onTabChange }) => {
@@ -21,7 +21,7 @@ const ExpressionTabStrip: FC<ExpressionTabStripProps> = ({ activeTab, onTabChang
         </button>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default ExpressionTabStrip
+export default ExpressionTabStrip;

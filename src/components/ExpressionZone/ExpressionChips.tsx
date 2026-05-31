@@ -1,41 +1,43 @@
-import { useState, useEffect } from 'react'
-import type { ExpressionTabId, ExpressionItem } from '../../types'
-import { MathPreview } from '../MathPreview/MathPreview'
-import styles from './ExpressionChips.module.css'
+import { useState, useEffect } from 'react';
+import type { ExpressionTabId, ExpressionItem } from '../../types';
+import { MathPreview } from '../MathPreview/MathPreview';
+import styles from './ExpressionChips.module.css';
 
 interface ExpressionChipsProps {
-  tabId: ExpressionTabId
-  onInsert: (latex: string) => void
+  tabId: ExpressionTabId;
+  onInsert: (latex: string) => void;
 }
 
 // Module-level cache so each tab only loads once per session
-const chipCache = new Map<ExpressionTabId, ExpressionItem[]>()
+const chipCache = new Map<ExpressionTabId, ExpressionItem[]>();
 
 export function ExpressionChips({ tabId, onInsert }: ExpressionChipsProps) {
   // forceUpdate is the only state — incremented in async callbacks after cache is populated
-  let [, forceUpdate] = useState(0)
+  let [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    if (chipCache.has(tabId)) return
+    if (chipCache.has(tabId)) return;
 
-    let cancelled = false
+    let cancelled = false;
     import(`../../data/expressions/${tabId}.json`)
       .then((mod) => {
-        if (cancelled) return
-        chipCache.set(tabId, (mod.default as { items: ExpressionItem[] }).items)
-        forceUpdate((n) => n + 1)
+        if (cancelled) return;
+        chipCache.set(tabId, (mod.default as { items: ExpressionItem[] }).items);
+        forceUpdate((n) => n + 1);
       })
       .catch(() => {
-        if (!cancelled) forceUpdate((n) => n + 1)
-      })
+        if (!cancelled) forceUpdate((n) => n + 1);
+      });
 
-    return () => { cancelled = true }
-  }, [tabId])
+    return () => {
+      cancelled = true;
+    };
+  }, [tabId]);
 
-  const items = chipCache.get(tabId)
+  const items = chipCache.get(tabId);
 
   if (!items) {
-    return <div className={styles.loading}>Loading…</div>
+    return <div className={styles.loading}>Loading…</div>;
   }
 
   return (
@@ -53,5 +55,5 @@ export function ExpressionChips({ tabId, onInsert }: ExpressionChipsProps) {
         </button>
       ))}
     </div>
-  )
+  );
 }

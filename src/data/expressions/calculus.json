@@ -7,8 +7,16 @@
     { "latex": "\\frac{\\partial #0}{\\partial #1}", "display": "∂f/∂x", "label": "Partial" },
     { "latex": "\\int_{#0}^{#1} #2 \\, d#3", "display": "∫ₐᵇf dx", "label": "Def. integral" },
     { "latex": "\\nabla #0", "display": "∇f", "label": "Gradient" },
-    { "latex": "\\lim_{\\Delta x \\to 0} \\frac{f(x+\\Delta x)-f(x)}{\\Delta x}", "display": "lim Δx→0", "label": "Def. of deriv." },
+    {
+      "latex": "\\lim_{\\Delta x \\to 0} \\frac{f(x+\\Delta x)-f(x)}{\\Delta x}",
+      "display": "lim Δx→0",
+      "label": "Def. of deriv."
+    },
     { "latex": "\\frac{d^2#0}{d#1^2}", "display": "d²f/dx²", "label": "2nd deriv." },
-    { "latex": "\\int_{#0}^{#1} #2 \\, d#3 = \\left[#4\\right]_{#0}^{#1}", "display": "FTC", "label": "Fund. theorem" }
+    {
+      "latex": "\\int_{#0}^{#1} #2 \\, d#3 = \\left[#4\\right]_{#0}^{#1}",
+      "display": "FTC",
+      "label": "Fund. theorem"
+    }
   ]
 }

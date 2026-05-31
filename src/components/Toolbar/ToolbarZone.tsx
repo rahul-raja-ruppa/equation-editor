@@ -1,49 +1,49 @@
-import { useCallback, useEffect, useRef } from 'react'
-import { useFlyout } from '../../hooks/useFlyout'
-import { CategoryButton } from './CategoryButton'
-import row1 from '../../data/toolbar/row1'
-import row2 from '../../data/toolbar/row2'
-import quick from '../../data/quick'
-import { MathPreview } from '../MathPreview/MathPreview'
-import styles from './ToolbarZone.module.css'
+import { useCallback, useEffect, useRef } from 'react';
+import { useFlyout } from '../../hooks/useFlyout';
+import { CategoryButton } from './CategoryButton';
+import row1 from '../../data/toolbar/row1';
+import row2 from '../../data/toolbar/row2';
+import quick from '../../data/quick';
+import { MathPreview } from '../MathPreview/MathPreview';
+import styles from './ToolbarZone.module.css';
 
 interface ToolbarZoneProps {
-  onInsert: (latex: string) => void
+  onInsert: (latex: string) => void;
 }
 
 export function ToolbarZone({ onInsert }: ToolbarZoneProps) {
-  const { openId, position, open, close } = useFlyout()
-  const closeTimer = useRef<number | null>(null)
+  const { openId, position, open, close } = useFlyout();
+  const closeTimer = useRef<number | null>(null);
 
   const cancelClose = useCallback(() => {
     if (closeTimer.current) {
-      window.clearTimeout(closeTimer.current)
-      closeTimer.current = null
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
     }
-  }, [])
+  }, []);
 
   const scheduleClose = useCallback(() => {
-    cancelClose()
+    cancelClose();
     closeTimer.current = window.setTimeout(() => {
-      close()
-      closeTimer.current = null
-    }, 180)
-  }, [cancelClose, close])
+      close();
+      closeTimer.current = null;
+    }, 180);
+  }, [cancelClose, close]);
 
   const openCategory = useCallback(
     (id: string, rect: DOMRect) => {
-      cancelClose()
-      open(id, rect)
+      cancelClose();
+      open(id, rect);
     },
-    [cancelClose, open],
-  )
+    [cancelClose, open]
+  );
 
   const closeCategory = useCallback(() => {
-    cancelClose()
-    close()
-  }, [cancelClose, close])
+    cancelClose();
+    close();
+  }, [cancelClose, close]);
 
-  useEffect(() => cancelClose, [cancelClose])
+  useEffect(() => cancelClose, [cancelClose]);
 
   function getQuickButtonClass(latex: string, isTemplate?: boolean) {
     return [
@@ -52,7 +52,7 @@ export function ToolbarZone({ onInsert }: ToolbarZoneProps) {
       /\\(?:sum|int)_/.test(latex) ? styles.wideTemplate : '',
     ]
       .filter(Boolean)
-      .join(' ')
+      .join(' ');
   }
 
   return (
@@ -104,5 +104,5 @@ export function ToolbarZone({ onInsert }: ToolbarZoneProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

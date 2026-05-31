@@ -1,4 +1,4 @@
-import type { ToolbarCategory } from '../../types'
+import type { ToolbarCategory } from '../../types';
 
 const row2: ToolbarCategory[] = [
   {
@@ -9,15 +9,35 @@ const row2: ToolbarCategory[] = [
       { latex: '\\left(#0\\right)', display: '(…)', tooltip: 'Parentheses', isTemplate: true },
       { latex: '\\left[#0\\right]', display: '[…]', tooltip: 'Square brackets', isTemplate: true },
       { latex: '\\left\\{#0\\right\\}', display: '{…}', tooltip: 'Curly braces', isTemplate: true },
-      { latex: '\\left\\langle#0\\right\\rangle', display: '⟨…⟩', tooltip: 'Angle brackets', isTemplate: true },
+      {
+        latex: '\\left\\langle#0\\right\\rangle',
+        display: '⟨…⟩',
+        tooltip: 'Angle brackets',
+        isTemplate: true,
+      },
       { latex: '\\left|#0\\right|', display: '|…|', tooltip: 'Absolute value', isTemplate: true },
       { latex: '\\left\\|#0\\right\\|', display: '‖…‖', tooltip: 'Norm', isTemplate: true },
-      { latex: '\\left\\lfloor#0\\right\\rfloor', display: '⌊…⌋', tooltip: 'Floor', isTemplate: true },
-      { latex: '\\left\\lceil#0\\right\\rceil', display: '⌈…⌉', tooltip: 'Ceiling', isTemplate: true },
+      {
+        latex: '\\left\\lfloor#0\\right\\rfloor',
+        display: '⌊…⌋',
+        tooltip: 'Floor',
+        isTemplate: true,
+      },
+      {
+        latex: '\\left\\lceil#0\\right\\rceil',
+        display: '⌈…⌉',
+        tooltip: 'Ceiling',
+        isTemplate: true,
+      },
       { latex: '\\left(#0\\right]', display: '(…]', tooltip: 'Half-open (', isTemplate: true },
       { latex: '\\left[#0\\right)', display: '[…)', tooltip: 'Half-open [', isTemplate: true },
       { latex: '\\left\\{#0\\right.', display: '{…', tooltip: 'Open brace only', isTemplate: true },
-      { latex: '\\left.#0\\right\\}', display: '…}', tooltip: 'Close brace only', isTemplate: true },
+      {
+        latex: '\\left.#0\\right\\}',
+        display: '…}',
+        tooltip: 'Close brace only',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -45,8 +65,8 @@ const row2: ToolbarCategory[] = [
       { latex: '{}^{#0}#1', display: '²x', tooltip: 'Pre-superscript', isTemplate: true },
       { latex: '{}_{#0}#1', display: '₂x', tooltip: 'Pre-subscript', isTemplate: true },
       { latex: '{}_{#0}^{#1}#2', display: '²₂x', tooltip: 'Pre sub+super', isTemplate: true },
-      { latex: '#0\\prime', display: "x′", tooltip: 'Prime', isTemplate: true },
-      { latex: '#0\\prime\\prime', display: "x″", tooltip: 'Double prime', isTemplate: true },
+      { latex: '#0\\prime', display: 'x′', tooltip: 'Prime', isTemplate: true },
+      { latex: '#0\\prime\\prime', display: 'x″', tooltip: 'Double prime', isTemplate: true },
     ],
   },
   {
@@ -56,8 +76,18 @@ const row2: ToolbarCategory[] = [
     palette: [
       { latex: '\\sum #0', display: 'Σ', tooltip: 'Sum (no limits)', isTemplate: true },
       { latex: '\\sum_{#0} #1', display: 'Σₙ', tooltip: 'Sum (lower limit)', isTemplate: true },
-      { latex: '\\sum_{#0}^{#1} #2', display: 'Σₙᵐ', tooltip: 'Sum (both limits)', isTemplate: true },
-      { latex: '\\displaystyle\\sum_{#0}^{#1} #2', display: '⬛Σ', tooltip: 'Display sum', isTemplate: true },
+      {
+        latex: '\\sum_{#0}^{#1} #2',
+        display: 'Σₙᵐ',
+        tooltip: 'Sum (both limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\displaystyle\\sum_{#0}^{#1} #2',
+        display: '⬛Σ',
+        tooltip: 'Display sum',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -66,13 +96,33 @@ const row2: ToolbarCategory[] = [
     tooltip: 'Integrals',
     palette: [
       { latex: '\\int #0 \\, d#1', display: '∫', tooltip: 'Integral', isTemplate: true },
-      { latex: '\\int_{#0} #1 \\, d#2', display: '∫₀', tooltip: 'Integral (lower)', isTemplate: true },
-      { latex: '\\int_{#0}^{#1} #2 \\, d#3', display: '∫₀¹', tooltip: 'Integral (both)', isTemplate: true },
+      {
+        latex: '\\int_{#0} #1 \\, d#2',
+        display: '∫₀',
+        tooltip: 'Integral (lower)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\int_{#0}^{#1} #2 \\, d#3',
+        display: '∫₀¹',
+        tooltip: 'Integral (both)',
+        isTemplate: true,
+      },
       { latex: '\\iint #0 \\, d#1', display: '∬', tooltip: 'Double integral', isTemplate: true },
-      { latex: '\\iint_{#0} #1 \\, d#2', display: '∬₀', tooltip: 'Double integral (lower)', isTemplate: true },
+      {
+        latex: '\\iint_{#0} #1 \\, d#2',
+        display: '∬₀',
+        tooltip: 'Double integral (lower)',
+        isTemplate: true,
+      },
       { latex: '\\iiint #0 \\, d#1', display: '∭', tooltip: 'Triple integral', isTemplate: true },
       { latex: '\\oint #0 \\, d#1', display: '∮', tooltip: 'Contour integral', isTemplate: true },
-      { latex: '\\oint_{#0} #1 \\, d#2', display: '∮ₒ', tooltip: 'Contour (lower)', isTemplate: true },
+      {
+        latex: '\\oint_{#0} #1 \\, d#2',
+        display: '∮ₒ',
+        tooltip: 'Contour (lower)',
+        isTemplate: true,
+      },
       { latex: '\\oiint #0 \\, d#1', display: '∯', tooltip: 'Surface integral', isTemplate: true },
     ],
   },
@@ -92,8 +142,18 @@ const row2: ToolbarCategory[] = [
       { latex: '\\overbrace{#0}^{#1}', display: '⏞', tooltip: 'Overbrace', isTemplate: true },
       { latex: '\\underbrace{#0}_{#1}', display: '⏟', tooltip: 'Underbrace', isTemplate: true },
       { latex: '\\overleftarrow{#0}', display: '←', tooltip: 'Over left arrow', isTemplate: true },
-      { latex: '\\overrightarrow{#0}', display: '→', tooltip: 'Over right arrow', isTemplate: true },
-      { latex: '\\overleftrightarrow{#0}', display: '↔', tooltip: 'Over both arrows', isTemplate: true },
+      {
+        latex: '\\overrightarrow{#0}',
+        display: '→',
+        tooltip: 'Over right arrow',
+        isTemplate: true,
+      },
+      {
+        latex: '\\overleftrightarrow{#0}',
+        display: '↔',
+        tooltip: 'Over both arrows',
+        isTemplate: true,
+      },
     ],
   },
   {
@@ -102,11 +162,31 @@ const row2: ToolbarCategory[] = [
     tooltip: 'Big Operators',
     palette: [
       { latex: '\\prod #0', display: 'Π', tooltip: 'Product (no limits)', isTemplate: true },
-      { latex: '\\prod_{#0}^{#1} #2', display: 'Πₙᵐ', tooltip: 'Product (limits)', isTemplate: true },
+      {
+        latex: '\\prod_{#0}^{#1} #2',
+        display: 'Πₙᵐ',
+        tooltip: 'Product (limits)',
+        isTemplate: true,
+      },
       { latex: '\\bigcup #0', display: '⋃', tooltip: 'Big union (no limits)', isTemplate: true },
-      { latex: '\\bigcup_{#0}^{#1} #2', display: '⋃ₙᵐ', tooltip: 'Big union (limits)', isTemplate: true },
-      { latex: '\\bigcap #0', display: '⋂', tooltip: 'Big intersection (no limits)', isTemplate: true },
-      { latex: '\\bigcap_{#0}^{#1} #2', display: '⋂ₙᵐ', tooltip: 'Big intersection (limits)', isTemplate: true },
+      {
+        latex: '\\bigcup_{#0}^{#1} #2',
+        display: '⋃ₙᵐ',
+        tooltip: 'Big union (limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\bigcap #0',
+        display: '⋂',
+        tooltip: 'Big intersection (no limits)',
+        isTemplate: true,
+      },
+      {
+        latex: '\\bigcap_{#0}^{#1} #2',
+        display: '⋂ₙᵐ',
+        tooltip: 'Big intersection (limits)',
+        isTemplate: true,
+      },
       { latex: '\\bigoplus #0', display: '⊕', tooltip: 'Big direct sum', isTemplate: true },
       { latex: '\\bigotimes #0', display: '⊗', tooltip: 'Big tensor product', isTemplate: true },
     ],
@@ -116,18 +196,68 @@ const row2: ToolbarCategory[] = [
     glyph: '▦',
     tooltip: 'Matrices',
     palette: [
-      { latex: '\\begin{pmatrix} #0 \\end{pmatrix}', display: '1×1()', tooltip: '1×1 pmatrix', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 \\\\ #2 & #3 \\end{pmatrix}', display: '2×2()', tooltip: '2×2 pmatrix', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{pmatrix}', display: '3×3()', tooltip: '3×3 pmatrix', isTemplate: true },
-      { latex: '\\begin{bmatrix} #0 & #1 \\\\ #2 & #3 \\end{bmatrix}', display: '2×2[]', tooltip: '2×2 bmatrix', isTemplate: true },
-      { latex: '\\begin{bmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{bmatrix}', display: '3×3[]', tooltip: '3×3 bmatrix', isTemplate: true },
-      { latex: '\\begin{vmatrix} #0 & #1 \\\\ #2 & #3 \\end{vmatrix}', display: '2×2||', tooltip: '2×2 determinant', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 \\\\ #1 \\end{pmatrix}', display: 'col2', tooltip: '2-row column vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 \\\\ #1 \\\\ #2 \\end{pmatrix}', display: 'col3', tooltip: '3-row column vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 \\end{pmatrix}', display: 'row2', tooltip: '2-col row vector', isTemplate: true },
-      { latex: '\\begin{pmatrix} #0 & #1 & #2 \\end{pmatrix}', display: 'row3', tooltip: '3-col row vector', isTemplate: true },
+      {
+        latex: '\\begin{pmatrix} #0 \\end{pmatrix}',
+        display: '1×1()',
+        tooltip: '1×1 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 \\\\ #2 & #3 \\end{pmatrix}',
+        display: '2×2()',
+        tooltip: '2×2 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{pmatrix}',
+        display: '3×3()',
+        tooltip: '3×3 pmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{bmatrix} #0 & #1 \\\\ #2 & #3 \\end{bmatrix}',
+        display: '2×2[]',
+        tooltip: '2×2 bmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{bmatrix} #0 & #1 & #2 \\\\ #3 & #4 & #5 \\\\ #6 & #7 & #8 \\end{bmatrix}',
+        display: '3×3[]',
+        tooltip: '3×3 bmatrix',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{vmatrix} #0 & #1 \\\\ #2 & #3 \\end{vmatrix}',
+        display: '2×2||',
+        tooltip: '2×2 determinant',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 \\\\ #1 \\end{pmatrix}',
+        display: 'col2',
+        tooltip: '2-row column vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 \\\\ #1 \\\\ #2 \\end{pmatrix}',
+        display: 'col3',
+        tooltip: '3-row column vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 \\end{pmatrix}',
+        display: 'row2',
+        tooltip: '2-col row vector',
+        isTemplate: true,
+      },
+      {
+        latex: '\\begin{pmatrix} #0 & #1 & #2 \\end{pmatrix}',
+        display: 'row3',
+        tooltip: '3-col row vector',
+        isTemplate: true,
+      },
     ],
   },
-]
+];
 
-export default row2
+export default row2;

@@ -79,11 +79,11 @@ LaTeXPanel onChange  → setCurrentLatex(draft)  → mathField.setValue()  [debo
 
 ## Files Touched
 
-| File | Action |
-|------|--------|
-| `src/App.module.css` | Modify `.canvas` |
-| `src/App.tsx` | Swap `LaTeXBar` → `LaTeXPanel`, add debounce |
-| `src/components/Editor/LaTeXBar.tsx` | Delete |
-| `src/components/Editor/LaTeXBar.module.css` | Delete |
-| `src/components/Editor/LaTeXPanel.tsx` | Create |
-| `src/components/Editor/LaTeXPanel.module.css` | Create |
+| File                                          | Action                                       |
+| --------------------------------------------- | -------------------------------------------- |
+| `src/App.module.css`                          | Modify `.canvas`                             |
+| `src/App.tsx`                                 | Swap `LaTeXBar` → `LaTeXPanel`, add debounce |
+| `src/components/Editor/LaTeXBar.tsx`          | Delete                                       |
+| `src/components/Editor/LaTeXBar.module.css`   | Delete                                       |
+| `src/components/Editor/LaTeXPanel.tsx`        | Create                                       |
+| `src/components/Editor/LaTeXPanel.module.css` | Create                                       |

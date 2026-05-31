@@ -22,7 +22,11 @@
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: border-color 130ms ease, box-shadow 130ms ease, transform 80ms ease, background 130ms ease;
+  transition:
+    border-color 130ms ease,
+    box-shadow 130ms ease,
+    transform 80ms ease,
+    background 130ms ease;
 }
 
 .chip:hover {

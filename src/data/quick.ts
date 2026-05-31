@@ -1,4 +1,4 @@
-import type { PaletteItem } from '../types'
+import type { PaletteItem } from '../types';
 
 const quick: PaletteItem[] = [
   { latex: '\\pi', display: 'π', tooltip: 'Pi' },
@@ -18,6 +18,6 @@ const quick: PaletteItem[] = [
   { latex: '#0_{#1}', display: 'xₙ', tooltip: 'Subscript', isTemplate: true },
   { latex: '\\sum_{#0}^{#1} #2', display: 'Σₙᵐ', tooltip: 'Summation', isTemplate: true },
   { latex: '\\int_{#0}^{#1} #2 \\, d#3', display: '∫₀¹', tooltip: 'Integral', isTemplate: true },
-]
+];
 
-export default quick
+export default quick;

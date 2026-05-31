@@ -62,7 +62,9 @@
   color: var(--ee-text);
   font-family: var(--math-font);
   font-size: 15px;
-  transition: background 120ms ease, border-color 120ms ease;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
 }
 
 .quickPreview {

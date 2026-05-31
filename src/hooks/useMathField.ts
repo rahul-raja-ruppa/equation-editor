@@ -16,17 +16,17 @@ export function useMathField() {
       format: 'latex',
     });
     ref.current.focus();
-  }, [])
+  }, []);
 
   const getValue = useCallback((format: OutputFormat): string => {
     if (!ref.current) return '';
     return ref.current.getValue(format);
-  }, [])
+  }, []);
 
   const setValue = useCallback((latex: string): void => {
     if (!ref.current) return;
     ref.current.setValue(latex);
-  }, [])
+  }, []);
 
   return useMemo(() => ({ ref, insert, getValue, setValue }), [insert, getValue, setValue]);
 }

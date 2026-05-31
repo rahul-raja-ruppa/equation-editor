@@ -2,12 +2,36 @@
   "id": "matrices",
   "label": "Matrices",
   "items": [
-    { "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}", "display": "2×2", "label": "2×2 matrix" },
-    { "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}", "display": "3×3", "label": "3×3 matrix" },
-    { "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\end{pmatrix}", "display": "2×3", "label": "2×3 matrix" },
-    { "latex": "\\begin{pmatrix} a \\\\ b \\\\ c \\end{pmatrix}", "display": "col", "label": "Column vector" },
-    { "latex": "\\begin{pmatrix} a & b & c \\end{pmatrix}", "display": "row", "label": "Row vector" },
-    { "latex": "\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc", "display": "det", "label": "Determinant" },
+    {
+      "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+      "display": "2×2",
+      "label": "2×2 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}",
+      "display": "3×3",
+      "label": "3×3 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\\\ d & e & f \\end{pmatrix}",
+      "display": "2×3",
+      "label": "2×3 matrix"
+    },
+    {
+      "latex": "\\begin{pmatrix} a \\\\ b \\\\ c \\end{pmatrix}",
+      "display": "col",
+      "label": "Column vector"
+    },
+    {
+      "latex": "\\begin{pmatrix} a & b & c \\end{pmatrix}",
+      "display": "row",
+      "label": "Row vector"
+    },
+    {
+      "latex": "\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc",
+      "display": "det",
+      "label": "Determinant"
+    },
     { "latex": "A^{-1} = \\frac{1}{\\det A} \\text{adj}(A)", "display": "A⁻¹", "label": "Inverse" }
   ]
 }

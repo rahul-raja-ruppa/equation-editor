@@ -20,19 +20,19 @@ The bar uses a dark background (`#1f2937`) to visually distinguish editor-level 
 
 ## Files Modified
 
-| File | Change |
-|------|--------|
-| `src/components/Editor/MathField.tsx` | Add `virtual-keyboard-policy="off"` to `<math-field>` |
-| `src/components/Toolbar/ToolbarZone.tsx` | Accept `mathFieldRef` prop; render `menuBar` div above rows |
-| `src/components/Toolbar/ToolbarZone.module.css` | Add `.menuBar` and `.menuBtn` styles |
-| `src/App.tsx` | Pass `mathField.ref` to `<ToolbarZone mathFieldRef={...}>` |
+| File                                            | Change                                                      |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| `src/components/Editor/MathField.tsx`           | Add `virtual-keyboard-policy="off"` to `<math-field>`       |
+| `src/components/Toolbar/ToolbarZone.tsx`        | Accept `mathFieldRef` prop; render `menuBar` div above rows |
+| `src/components/Toolbar/ToolbarZone.module.css` | Add `.menuBar` and `.menuBtn` styles                        |
+| `src/App.tsx`                                   | Pass `mathField.ref` to `<ToolbarZone mathFieldRef={...}>`  |
 
 ## ToolbarZone Props (after change)
 
 ```ts
 interface ToolbarZoneProps {
-  onInsert: (latex: string) => void
-  mathFieldRef: React.RefObject<HTMLElement>
+  onInsert: (latex: string) => void;
+  mathFieldRef: React.RefObject<HTMLElement>;
 }
 ```
 

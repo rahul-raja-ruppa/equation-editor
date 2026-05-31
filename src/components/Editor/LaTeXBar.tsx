@@ -29,7 +29,7 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
   }
 
   async function handleCopy() {
-    await navigator.clipboard?.writeText(value)
+    await navigator.clipboard?.writeText(value);
   }
 
   return (

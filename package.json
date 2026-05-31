@@ -1,5 +1,6 @@
 {
   "name": "equation-editor",
+  "homepage": "https://rahul-raja-ruppa.github.io/equation-editor-poc",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +10,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "mathlive": "^0.101.2",
