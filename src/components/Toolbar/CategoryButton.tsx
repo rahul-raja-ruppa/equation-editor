@@ -80,6 +80,7 @@ export function CategoryButton({
       </button>
       {isOpen && (
         <FlyoutPalette
+          label={category.tooltip}
           items={category.palette}
           position={position}
           onInsert={onInsert}

@@ -4,6 +4,8 @@ export interface PaletteItem {
   display: string    // shown on the palette button face (Unicode or HTML entity)
   tooltip: string
   isTemplate?: boolean  // true → renders wider, violet-tinted
+  isSpace?: boolean     // true → renders a proportional gap-bar visual instead of MathPreview
+  spaceSize?: 'thin' | 'med' | 'quad' | 'qquad'  // controls gap bar width
 }
 
 export interface ToolbarCategory {

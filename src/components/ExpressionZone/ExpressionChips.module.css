@@ -5,14 +5,14 @@
   padding: 11px 12px 13px;
   border-top: 1px solid var(--ee-border);
   overflow: hidden;
-  align-items: center;
+  align-items: stretch;
 }
 
 .chip {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 5px;
   min-width: 64px;
   padding: 8px 11px 7px;
@@ -48,6 +48,7 @@
   letter-spacing: 0.2px;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: auto;
 }
 
 .chip:hover .chipLabel {

@@ -17,7 +17,7 @@ export default function App() {
   let [mathType, setMathType] = useState<'display' | 'inline'>('display')
   let [fontSize, setFontSize] = useState<number>(12)
   let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null)
-  let [currentLatex, setCurrentLatex] = useState<string>('\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}')
+  let [currentLatex, setCurrentLatex] = useState<string>('')
 
   const onLoad = useCallback((msg: LoadMessage) => {
     mathField.setValue(msg.latex)
@@ -30,10 +30,8 @@ export default function App() {
   const { send } = usePostMessage(onLoad)
 
   useEffect(() => {
-    const seed = '\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}'
     const timer = window.setTimeout(() => {
       if (!seeded.current && !mathField.getValue('latex')) {
-        mathField.setValue(seed)
         seeded.current = true
       }
     }, 100)

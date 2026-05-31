@@ -21,6 +21,7 @@ function getViewportSize() {
 }
 
 interface FlyoutPaletteProps {
+  label: string
   items: PaletteItem[]
   position: FlyoutPosition
   onInsert: (latex: string) => void
@@ -29,6 +30,7 @@ interface FlyoutPaletteProps {
 }
 
 export function FlyoutPalette({
+  label,
   items,
   position,
   onInsert,
@@ -92,17 +94,32 @@ export function FlyoutPalette({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {items.map((item, i) => (
-        <button
-          key={i}
-          className={item.isTemplate ? `${styles.item} ${styles.template}` : styles.item}
-          title={item.tooltip}
-          onClick={() => handleClick(item.latex)}
-          type="button"
-        >
-          <MathPreview latex={item.latex} />
-        </button>
-      ))}
+      <div className={styles.title}>{label}</div>
+      <div className={styles.grid}>
+        {items.map((item, i) => (
+          <button
+            key={i}
+            className={[
+              styles.item,
+              item.isTemplate ? styles.template : '',
+              item.isSpace ? styles.spaceItem : '',
+            ].filter(Boolean).join(' ')}
+            title={item.tooltip}
+            onClick={() => handleClick(item.latex)}
+            type="button"
+          >
+            {item.isSpace ? (
+              <span className={styles.spaceVisual} data-size={item.spaceSize}>
+                <span className={styles.spaceDot} />
+                <span className={styles.spaceGap} data-size={item.spaceSize} />
+                <span className={styles.spaceDot} />
+              </span>
+            ) : (
+              <MathPreview latex={item.latex} />
+            )}
+          </button>
+        ))}
+      </div>
     </div>,
     document.body,
   )
