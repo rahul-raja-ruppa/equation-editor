@@ -52,3 +52,11 @@
   color: var(--ee-accent);
   opacity: 1;
 }
+
+@media (max-width: 520px) {
+  .btn {
+    height: 44px;
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+}
