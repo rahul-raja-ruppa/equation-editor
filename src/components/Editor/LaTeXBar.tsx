@@ -28,8 +28,13 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
     }
   }
 
+  async function handleCopy() {
+    await navigator.clipboard?.writeText(value)
+  }
+
   return (
     <div className={styles.latexBar}>
+      <span className={styles.label}>LaTeX</span>
       {editing ? (
         <input
           className={styles.input}
@@ -41,9 +46,12 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
         />
       ) : (
         <div className={styles.pill} onClick={handlePillClick} title="Click to edit LaTeX">
-          ▎ {value}
+          {value}
         </div>
       )}
+      <button type="button" className={styles.copyBtn} onClick={handleCopy}>
+        Copy
+      </button>
     </div>
   );
 }

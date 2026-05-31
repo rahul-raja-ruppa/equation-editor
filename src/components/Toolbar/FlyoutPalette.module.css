@@ -1,49 +1,64 @@
 .palette {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  padding: 6px;
+  background: var(--ee-bg);
+  border: 1px solid var(--ee-border-strong);
+  border-radius: 12px;
+  box-shadow: var(--ee-shadow);
+  padding: 9px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
-  min-width: 160px;
-  max-width: 280px;
+  grid-template-columns: repeat(var(--flyout-columns, 4), minmax(0, 1fr));
+  gap: 5px;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .item {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  min-height: 34px;
-  padding: 4px;
-  font-size: 16px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 4px 6px;
+  font-size: clamp(13px, 3.5vw, 17px);
+  background: var(--ee-panel);
+  border: 1px solid var(--ee-border);
+  border-radius: var(--ee-radius-sm);
+  color: var(--ee-text);
   cursor: pointer;
-  transition: background 80ms, border-color 80ms;
-  font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, transform 70ms ease;
+  font-family: var(--math-font);
   line-height: 1;
+  overflow: hidden;
+}
+
+.item > :global(span),
+.item :global(.ML__mathlive),
+.item :global(.ML__base) {
+  max-width: 100%;
 }
 
 .item:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
+  background: var(--ee-accent-weak);
+  border-color: var(--ee-accent);
+  color: var(--ee-accent-ink);
+}
+
+.item:active {
+  transform: translateY(0.5px);
 }
 
 .item.template {
-  grid-column: span 2;
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   font-family: inherit;
-  background: #f5f3ff;
-  border-color: #ddd6fe;
+  background: var(--ee-tpl);
+  border-color: var(--ee-tpl-border);
+  min-width: var(--flyout-item-width, 74px);
 }
 
 .item.template:hover {
-  background: #ede9fe;
-  border-color: #a78bfa;
+  background: var(--ee-accent-weak);
+  border-color: var(--ee-accent);
 }

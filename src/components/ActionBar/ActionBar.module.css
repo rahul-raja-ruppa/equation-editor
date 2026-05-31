@@ -3,9 +3,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px;
-  background: var(--bg-panel);
-  border-top: 1px solid var(--border-normal);
+  min-height: 46px;
+  padding: 8px 14px;
+  background: var(--ee-panel);
+  border-top: 1px solid var(--ee-border);
 }
 
 .spacer { flex: 1; }
@@ -81,53 +82,51 @@
 
 /* ── Cancel button ──────────────────────────────────────────── */
 .cancelBtn {
-  padding: 5px 14px;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--border-normal);
-  background: var(--bg-app);
-  color: var(--text-1);
-  font-size: 11px;
-  font-weight: 500;
-  font-family: var(--ui-font);
+  padding: 6px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--ee-border-strong);
+  background: var(--ee-bg);
+  color: var(--ee-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: var(--shadow-xs);
-  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+  transition: border-color 130ms ease, color 130ms ease, background 130ms ease;
 }
 
 .cancelBtn:hover {
-  border-color: var(--border-strong);
-  color: var(--text-0);
-  background: var(--bg-surface);
+  border-color: var(--ee-accent);
+  color: var(--ee-accent-ink);
+  background: var(--ee-bg);
 }
 
 /* ── Insert button ──────────────────────────────────────────── */
 .insertBtn {
-  padding: 5px 22px;
-  border-radius: var(--r-pill);
+  padding: 7px 22px;
+  border-radius: 7px;
   border: none;
-  background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+  background: var(--ee-accent);
   color: #ffffff;
   font-size: 12px;
   font-weight: 600;
   font-family: var(--ui-font);
-  letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 2px 10px var(--indigo-glow);
+  box-shadow: 0 8px 18px -10px var(--ee-accent);
   transition:
-    filter var(--t-fast),
-    box-shadow var(--t-fast),
+    background 130ms ease,
+    box-shadow 130ms ease,
     transform 80ms ease;
 }
 
 .insertBtn:hover:not(:disabled) {
-  filter: brightness(1.08);
-  box-shadow: 0 4px 16px var(--indigo-glow);
+  background: var(--ee-accent-ink);
+  box-shadow: 0 10px 24px -12px var(--ee-accent);
   transform: translateY(-1px);
 }
 
 .insertBtn:active:not(:disabled) {
   transform: scale(0.97);
-  box-shadow: 0 1px 6px var(--indigo-glow);
+  box-shadow: none;
 }
 
 .insertBtn:disabled {

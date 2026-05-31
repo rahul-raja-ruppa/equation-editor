@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { ExpressionTabId, ExpressionItem } from '../../types'
+import { MathPreview } from '../MathPreview/MathPreview'
 import styles from './ExpressionChips.module.css'
 
 interface ExpressionChipsProps {
@@ -47,7 +48,7 @@ export function ExpressionChips({ tabId, onInsert }: ExpressionChipsProps) {
           onClick={() => onInsert(item.latex)}
           type="button"
         >
-          <span className={styles.chipDisplay}>{item.display}</span>
+          <MathPreview className={styles.chipDisplay} latex={item.latex} />
           <span className={styles.chipLabel}>{item.label}</span>
         </button>
       ))}

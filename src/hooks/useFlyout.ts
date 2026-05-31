@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 export interface FlyoutPosition {
   top: number
   left: number
+  anchorWidth: number
 }
 
 interface UseFlyoutReturn {
@@ -14,7 +15,7 @@ interface UseFlyoutReturn {
 
 export function useFlyout(): UseFlyoutReturn {
   let [openId, setOpenId] = useState<string | null>(null)
-  let [position, setPosition] = useState<FlyoutPosition>({ top: 0, left: 0 })
+  let [position, setPosition] = useState<FlyoutPosition>({ top: 0, left: 0, anchorWidth: 0 })
 
   const close = useCallback(() => {
     setOpenId(null)
@@ -22,7 +23,7 @@ export function useFlyout(): UseFlyoutReturn {
 
   const open = useCallback((id: string, rect: DOMRect) => {
     setOpenId(id)
-    setPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX })
+    setPosition({ top: rect.bottom, left: rect.left, anchorWidth: rect.width })
   }, [])
 
   useEffect(() => {

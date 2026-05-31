@@ -1,20 +1,103 @@
 .zone {
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 4px 8px;
+  background: var(--ee-bg);
+  border-bottom: 1px solid var(--ee-border);
+  padding: 10px 12px 11px;
   flex-shrink: 0;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
+  gap: 6px;
   align-items: center;
-  padding: 2px 0;
 }
 
 .row + .row {
-  border-top: 1px solid #e5e7eb;
-  margin-top: 2px;
-  padding-top: 4px;
+  margin-top: 6px;
+}
+
+.row + .row :global(button) {
+  background: var(--ee-tpl);
+  border-color: var(--ee-tpl-border);
+}
+
+.quick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--ee-border);
+}
+
+.quickLabel {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--ee-muted);
+  margin-right: 4px;
+  flex: 0 0 auto;
+}
+
+.quickItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-width: 0;
+}
+
+.quickBtn {
+  appearance: none;
+  cursor: pointer;
+  min-width: 34px;
+  height: 40px;
+  padding: 0 8px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--ee-radius-sm);
+  color: var(--ee-text);
+  font-family: var(--math-font);
+  font-size: 15px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.quickPreview {
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+  max-height: 34px;
+  line-height: 1;
+  transform: scale(0.86);
+  transform-origin: center;
+}
+
+.quickPreview :global(.ML__mathlive),
+.quickPreview :global(.ML__base) {
+  max-width: 100%;
+}
+
+.template {
+  min-width: 46px;
+  color: var(--ee-accent-ink);
+}
+
+.template .quickPreview {
+  transform: scale(0.78);
+}
+
+.wideTemplate {
+  min-width: 62px;
+}
+
+.wideTemplate .quickPreview {
+  transform: scale(0.66);
+}
+
+.quickBtn:hover {
+  background: var(--ee-hover);
+  border-color: var(--ee-border-strong);
 }
