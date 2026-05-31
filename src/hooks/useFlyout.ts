@@ -23,7 +23,9 @@ export function useFlyout(): UseFlyoutReturn {
 
   const open = useCallback((id: string, rect: DOMRect) => {
     setOpenId(id);
-    setPosition({ top: rect.bottom, left: rect.left, anchorWidth: rect.width });
+    const paletteMaxWidth = Math.min(280, window.innerWidth - 16);
+    const clampedLeft = Math.min(rect.left, window.innerWidth - paletteMaxWidth - 8);
+    setPosition({ top: rect.bottom, left: clampedLeft, anchorWidth: rect.width });
   }, []);
 
   useEffect(() => {
