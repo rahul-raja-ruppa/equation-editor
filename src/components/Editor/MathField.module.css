@@ -61,3 +61,10 @@
   border-color: var(--ee-accent);
   color: var(--ee-accent-ink);
 }
+
+@media (max-width: 520px) {
+  .mathFieldWrapper {
+    padding: 16px 12px;
+    min-height: 120px;
+  }
+}
