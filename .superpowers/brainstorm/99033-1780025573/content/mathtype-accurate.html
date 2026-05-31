@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MathType-Accurate Design</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #dde1ea;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 28px 16px 40px;
+  gap: 16px;
+}
+
+h1 { font-size: 17px; font-weight: 700; color: #1e1b4b; }
+.sub { font-size: 12px; color: #6b7280; text-align: center; }
+
+/* ═══════════════════════════════════
+   EDITOR SHELL
+═══════════════════════════════════ */
+.editor {
+  width: 760px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(79,70,229,0.13),
+    0 4px 6px rgba(0,0,0,0.06),
+    0 18px 40px rgba(79,70,229,0.14);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════
+   1. FONT / STYLE BAR
+═══════════════════════════════════ */
+.style-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 10px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.style-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #9ca3af;
+  margin-right: 4px;
+}
+
+.style-sep { width: 1px; height: 16px; background: #e5e7eb; margin: 0 6px; }
+
+.sty-btn {
+  height: 22px;
+  padding: 0 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.1s;
+  white-space: nowrap;
+}
+.sty-btn:hover { background: #eef1ff; border-color: #c7d2fe; color: #4f46e5; }
+.sty-btn.active { background: #eef1ff; border-color: #a5b4fc; color: #4f46e5; }
+
+.size-ctrl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 22px;
+}
+.size-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  padding: 0 6px;
+  min-width: 28px;
+  text-align: center;
+  background: #fff;
+}
+.size-arrow {
+  width: 14px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #9ca3af;
+  cursor: pointer;
+  background: #f9fafb;
+  border-left: 1px solid #e5e7eb;
+  transition: all 0.1s;
+  user-select: none;
+}
+.size-arrow:hover { background: #eef1ff; color: #4f46e5; }
+
+.color-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #1f2937;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: border-color 0.1s;
+}
+.color-dot:hover { border-color: #a5b4fc; }
+
+/* ═══════════════════════════════════
+   2. TAB STRIP
+═══════════════════════════════════ */
+.tab-strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  padding: 0 8px;
+  background: #f3f4f6;
+  border-bottom: 2px solid #e5e7eb;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+.tab-strip::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 6px 11px 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.12s;
+  user-select: none;
+}
+.tab:hover { color: #4f46e5; background: #eef1ff; }
+.tab.active {
+  color: #4f46e5;
+  font-weight: 700;
+  border-bottom-color: #4f46e5;
+  background: #fff;
+}
+
+/* ═══════════════════════════════════
+   3. SYMBOL GRID AREA
+═══════════════════════════════════ */
+.symbol-area {
+  background: #fff;
+  border-bottom: 1px solid #e8eaf0;
+  padding: 6px 10px 8px;
+  flex-shrink: 0;
+}
+
+/* Section header */
+.section-header {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: #c7d2fe;
+  margin-bottom: 4px;
+  margin-top: 6px;
+}
+.section-header:first-child { margin-top: 0; }
+
+/* Section row of symbols */
+.sym-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 2px;
+}
+
+/* Regular symbol button — 20×20 equivalent */
+.s {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #fafbff;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.1s;
+  position: relative;
+  user-select: none;
+}
+.s:hover {
+  background: #eef1ff;
+  border-color: #6366f1;
+  color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(99,102,241,0.18);
+  z-index: 2;
+}
+.s:active { transform: scale(0.93); }
+
+/* Large template button — 31×31 equivalent */
+.t {
+  min-width: 36px;
+  height: 34px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid #e0e4f8;
+  border-radius: 5px;
+  background: #f5f3ff;
+  color: #5b21b6;
+  cursor: pointer;
+  transition: all 0.1s;
+  position: relative;
+  user-select: none;
+  flex-direction: column;
+  gap: 1px;
+}
+.t:hover {
+  background: #ede9fe;
+  border-color: #7c3aed;
+  color: #4c1d95;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(124,58,237,0.2);
+  z-index: 2;
+}
+.t:active { transform: scale(0.93); }
+.t .t-label {
+  font-size: 7px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #7c3aed;
+  line-height: 1;
+}
+
+/* Fraction template visual */
+.frac {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.frac .num, .frac .den {
+  font-size: 9px;
+  color: #5b21b6;
+  line-height: 1;
+  padding: 0 2px;
+}
+.frac .line {
+  width: 18px;
+  height: 1.5px;
+  background: #5b21b6;
+  border-radius: 1px;
+}
+
+/* Section divider */
+.sec-div {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #e8eaf6, transparent);
+  margin: 5px 0 4px;
+}
+
+/* Expander button */
+.expander {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef1ff;
+  border: 1px dashed #a5b4fc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.1s;
+  user-select: none;
+}
+.expander:hover { background: #e0e7ff; border-color: #6366f1; }
+.expander.open { background: #e0e7ff; border-style: solid; }
+
+.extra-row {
+  display: none;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 3px;
+  padding: 4px 0 2px;
+  border-top: 1px dashed #e0e7ff;
+  animation: fadeIn 0.15s ease;
+}
+.extra-row.visible { display: flex; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(-3px); } to { opacity:1; transform: none; } }
+
+/* Tooltip */
+.s::after, .t::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1b4b;
+  color: #e0e7ff;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+  font-family: -apple-system, sans-serif;
+}
+.s:hover::after, .t:hover::after { opacity: 1; }
+
+/* ═══════════════════════════════════
+   4. CANVAS
+═══════════════════════════════════ */
+.canvas-zone {
+  flex: 1;
+  min-height: 140px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-inner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 32px;
+  cursor: text;
+  position: relative;
+}
+
+/* The equation being built */
+.equation {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 30px;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Slot boxes — gray dotted boxes showing where to type */
+.slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 22px;
+  border: 2px dashed #94a3b8;
+  border-radius: 3px;
+  background: rgba(148,163,184,0.07);
+  padding: 1px 4px;
+  font-size: 16px;
+  color: #94a3b8;
+  cursor: text;
+  transition: all 0.15s;
+}
+.slot.active {
+  border-color: #6366f1;
+  background: rgba(99,102,241,0.07);
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
+}
+.slot.filled {
+  border-style: solid;
+  border-color: transparent;
+  color: #111827;
+}
+
+/* Blinking cursor */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 30px;
+  background: #4f46e5;
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Floating mini toolbar in canvas */
+.canvas-float {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.float-btn {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.12s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.float-btn:hover { background: #eef1ff; border-color: #a5b4fc; color: #4f46e5; }
+
+/* ═══════════════════════════════════
+   5. ACTION BAR
+═══════════════════════════════════ */
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid #e8eaf0;
+  background: #fafbff;
+  flex-shrink: 0;
+}
+
+.math-type-toggle {
+  display: flex;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f9fafb;
+}
+.mtt {
+  padding: 4px 13px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.12s;
+  user-select: none;
+}
+.mtt.on { background: #4f46e5; color: #fff; }
+
+.spacer { flex: 1; }
+
+.btn-cancel {
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e5e7eb;
+  background: transparent;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-cancel:hover { border-color: #d1d5db; color: #374151; background: #f9fafb; }
+
+.btn-insert {
+  padding: 5px 22px;
+  border-radius: 20px;
+  border: none;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.32);
+  transition: all 0.15s;
+}
+.btn-insert:hover {
+  background: linear-gradient(135deg, #4338ca, #4f46e5);
+  box-shadow: 0 4px 14px rgba(79,70,229,0.42);
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════
+   TAB CONTENT DATA
+═══════════════════════════════════ */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<h1>MathType-Accurate Design — Interactive Mockup</h1>
+<p class="sub">Hover symbols for tooltips · Click tabs to switch · Click ▼ to expand · Template shows slot behavior</p>
+
+<div class="editor">
+
+  <!-- 1. STYLE BAR -->
+  <div class="style-bar">
+    <span class="style-label">Style</span>
+    <button class="sty-btn active">𝑥 Auto-italic</button>
+    <button class="sty-btn"><b>B</b></button>
+    <button class="sty-btn"><i>I</i></button>
+    <div class="style-sep"></div>
+    <span class="style-label">Size</span>
+    <div class="size-ctrl">
+      <div class="size-arrow" onclick="changeSize(-1)">▼</div>
+      <div class="size-num" id="sizeNum">12</div>
+      <div class="size-arrow" onclick="changeSize(1)">▲</div>
+    </div>
+    <div class="style-sep"></div>
+    <span class="style-label">Color</span>
+    <div class="color-dot" style="background:#1f2937" title="Black"></div>
+    <div class="color-dot" style="background:#dc2626" title="Red"></div>
+    <div class="color-dot" style="background:#2563eb" title="Blue"></div>
+    <div class="color-dot" style="background:#16a34a" title="Green"></div>
+  </div>
+
+  <!-- 2. TAB STRIP -->
+  <div class="tab-strip">
+    <div class="tab active" onclick="switchTab('general',this)">General</div>
+    <div class="tab" onclick="switchTab('symbols',this)">Symbols</div>
+    <div class="tab" onclick="switchTab('arrows',this)">Arrows</div>
+    <div class="tab" onclick="switchTab('greek',this)">Greek &amp; Letters</div>
+    <div class="tab" onclick="switchTab('matrices',this)">Matrices</div>
+    <div class="tab" onclick="switchTab('scripts',this)">Scripts &amp; Layouts</div>
+    <div class="tab" onclick="switchTab('bigops',this)">Big Operators</div>
+    <div class="tab" onclick="switchTab('calculus',this)">Calculus</div>
+    <div class="tab" onclick="switchTab('contextual',this)" style="color:#9ca3af;font-style:italic;">Contextual</div>
+  </div>
+
+  <!-- 3. SYMBOL AREA -->
+  <div class="symbol-area">
+
+    <!-- GENERAL TAB -->
+    <div class="tab-content active" id="tab-general">
+      <div class="section-header">Common Operations</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Fraction" onclick="insertTemplate('frac')">
+          <div class="frac"><div class="num">□</div><div class="line"></div><div class="den">□</div></div>
+        </div>
+        <div class="t" data-tip="Square Root" onclick="insertTemplate('sqrt')">√<span style="font-size:9px;border-top:1.5px solid #5b21b6;padding:0 2px;">□</span></div>
+        <div class="t" data-tip="Superscript" onclick="insertTemplate('sup')"><span style="font-size:13px;">x</span><span style="font-size:9px;vertical-align:super;">□</span></div>
+        <div class="t" data-tip="Subscript" onclick="insertTemplate('sub')"><span style="font-size:13px;">x</span><span style="font-size:9px;vertical-align:sub;">□</span></div>
+        <div class="t" data-tip="Sub + Superscript"><span style="font-size:11px;">x</span><span style="font-size:8px;vertical-align:super;">□</span><span style="font-size:8px;vertical-align:sub;">□</span></div>
+        <div class="t" data-tip="Absolute Value">|□|</div>
+        <div class="t" data-tip="Parentheses">(□)</div>
+        <div class="t" data-tip="Brackets">[□]</div>
+        <div class="t" data-tip="Braces">{□}</div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Relations</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Less than or equal">≤</div>
+        <div class="s" data-tip="Greater than or equal">≥</div>
+        <div class="s" data-tip="Not equal">≠</div>
+        <div class="s" data-tip="Approximately equal">≈</div>
+        <div class="s" data-tip="Identical to">≡</div>
+        <div class="s" data-tip="Proportional to">∝</div>
+        <div class="s" data-tip="Much less than">≪</div>
+        <div class="s" data-tip="Much greater than">≫</div>
+        <div class="s" data-tip="Plus or minus">±</div>
+        <div class="s" data-tip="Minus or plus">∓</div>
+        <div class="s" data-tip="Multiplication">×</div>
+        <div class="s" data-tip="Division">÷</div>
+        <div class="s" data-tip="Dot product">·</div>
+        <div class="s" data-tip="Asterisk operator">∗</div>
+        <div class="expander" id="exp-general" onclick="toggleExpander('general-extra','exp-general')">▼ More</div>
+      </div>
+      <div class="extra-row" id="general-extra">
+        <div class="s" data-tip="Therefore">∴</div>
+        <div class="s" data-tip="Because">∵</div>
+        <div class="s" data-tip="Similar to">∼</div>
+        <div class="s" data-tip="Congruent to">≅</div>
+        <div class="s" data-tip="Precedes">≺</div>
+        <div class="s" data-tip="Succeeds">≻</div>
+        <div class="s" data-tip="Dagger">†</div>
+        <div class="s" data-tip="Double dagger">‡</div>
+      </div>
+    </div>
+
+    <!-- SYMBOLS TAB -->
+    <div class="tab-content" id="tab-symbols">
+      <div class="section-header">Operators</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Plus">+</div>
+        <div class="s" data-tip="Minus">−</div>
+        <div class="s" data-tip="Plus or minus">±</div>
+        <div class="s" data-tip="Multiplication">×</div>
+        <div class="s" data-tip="Division">÷</div>
+        <div class="s" data-tip="Dot product">·</div>
+        <div class="s" data-tip="Asterisk">∗</div>
+        <div class="s" data-tip="Circle plus">⊕</div>
+        <div class="s" data-tip="Circle minus">⊖</div>
+        <div class="s" data-tip="Circle times">⊗</div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Miscellaneous</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Infinity">∞</div>
+        <div class="s" data-tip="Partial derivative">∂</div>
+        <div class="s" data-tip="Nabla / Del">∇</div>
+        <div class="s" data-tip="For all">∀</div>
+        <div class="s" data-tip="There exists">∃</div>
+        <div class="s" data-tip="Does not exist">∄</div>
+        <div class="s" data-tip="Empty set">∅</div>
+        <div class="s" data-tip="Aleph">ℵ</div>
+        <div class="s" data-tip="Real numbers">ℝ</div>
+        <div class="s" data-tip="Natural numbers">ℕ</div>
+        <div class="s" data-tip="Integers">ℤ</div>
+        <div class="s" data-tip="Complex numbers">ℂ</div>
+        <div class="s" data-tip="Rational numbers">ℚ</div>
+        <div class="s" data-tip="Planck constant">ℏ</div>
+      </div>
+    </div>
+
+    <!-- ARROWS TAB -->
+    <div class="tab-content" id="tab-arrows">
+      <div class="section-header">Simple Arrows</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Right arrow">→</div>
+        <div class="s" data-tip="Left arrow">←</div>
+        <div class="s" data-tip="Up arrow">↑</div>
+        <div class="s" data-tip="Down arrow">↓</div>
+        <div class="s" data-tip="Left-right arrow">↔</div>
+        <div class="s" data-tip="Up-down arrow">↕</div>
+        <div class="s" data-tip="Northeast arrow">↗</div>
+        <div class="s" data-tip="Southeast arrow">↘</div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Double Arrows</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Double right arrow">⇒</div>
+        <div class="s" data-tip="Double left arrow">⇐</div>
+        <div class="s" data-tip="Double left-right">⇔</div>
+        <div class="s" data-tip="Long right arrow">⟶</div>
+        <div class="s" data-tip="Long left arrow">⟵</div>
+        <div class="s" data-tip="Long double right">⟹</div>
+        <div class="s" data-tip="Long double l-r">⟺</div>
+        <div class="s" data-tip="Maps to">↦</div>
+      </div>
+    </div>
+
+    <!-- GREEK TAB -->
+    <div class="tab-content" id="tab-greek">
+      <div class="section-header">Lowercase Greek</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Alpha">α</div>
+        <div class="s" data-tip="Beta">β</div>
+        <div class="s" data-tip="Gamma">γ</div>
+        <div class="s" data-tip="Delta">δ</div>
+        <div class="s" data-tip="Epsilon">ε</div>
+        <div class="s" data-tip="Zeta">ζ</div>
+        <div class="s" data-tip="Eta">η</div>
+        <div class="s" data-tip="Theta">θ</div>
+        <div class="s" data-tip="Iota">ι</div>
+        <div class="s" data-tip="Kappa">κ</div>
+        <div class="s" data-tip="Lambda">λ</div>
+        <div class="s" data-tip="Mu">μ</div>
+        <div class="s" data-tip="Nu">ν</div>
+        <div class="s" data-tip="Xi">ξ</div>
+        <div class="s" data-tip="Pi">π</div>
+        <div class="s" data-tip="Rho">ρ</div>
+        <div class="s" data-tip="Sigma">σ</div>
+        <div class="s" data-tip="Tau">τ</div>
+        <div class="s" data-tip="Phi">φ</div>
+        <div class="s" data-tip="Chi">χ</div>
+        <div class="s" data-tip="Psi">ψ</div>
+        <div class="s" data-tip="Omega">ω</div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Uppercase Greek</div>
+      <div class="sym-row">
+        <div class="s" data-tip="Gamma (upper)">Γ</div>
+        <div class="s" data-tip="Delta (upper)">Δ</div>
+        <div class="s" data-tip="Theta (upper)">Θ</div>
+        <div class="s" data-tip="Lambda (upper)">Λ</div>
+        <div class="s" data-tip="Xi (upper)">Ξ</div>
+        <div class="s" data-tip="Pi (upper)">Π</div>
+        <div class="s" data-tip="Sigma (upper)">Σ</div>
+        <div class="s" data-tip="Phi (upper)">Φ</div>
+        <div class="s" data-tip="Psi (upper)">Ψ</div>
+        <div class="s" data-tip="Omega (upper)">Ω</div>
+      </div>
+    </div>
+
+    <!-- MATRICES TAB -->
+    <div class="tab-content" id="tab-matrices">
+      <div class="section-header">Matrix Templates</div>
+      <div class="sym-row">
+        <div class="t" data-tip="2×2 Matrix" onclick="insertTemplate('matrix22')" style="font-size:11px;min-width:48px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:8px;color:#5b21b6;">
+            <span style="border:1px dashed #94a3b8;padding:1px 2px;border-radius:1px;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px 2px;border-radius:1px;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px 2px;border-radius:1px;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px 2px;border-radius:1px;">□</span>
+          </div>
+        </div>
+        <div class="t" data-tip="3×3 Matrix" style="font-size:11px;min-width:52px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;font-size:7px;color:#5b21b6;">
+            <span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span><span style="border:1px dashed #94a3b8;padding:1px;border-radius:1px;">□</span>
+          </div>
+        </div>
+        <div class="t" data-tip="Column Vector" style="min-width:30px;">
+          <div style="display:flex;flex-direction:column;gap:2px;align-items:center;">
+            <span style="border:1px dashed #94a3b8;padding:1px 4px;border-radius:1px;font-size:8px;color:#5b21b6;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px 4px;border-radius:1px;font-size:8px;color:#5b21b6;">□</span>
+            <span style="border:1px dashed #94a3b8;padding:1px 4px;border-radius:1px;font-size:8px;color:#5b21b6;">□</span>
+          </div>
+        </div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Fences</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Parentheses fence">(□)</div>
+        <div class="t" data-tip="Bracket fence">[□]</div>
+        <div class="t" data-tip="Brace fence">{□}</div>
+        <div class="t" data-tip="Absolute value">|□|</div>
+        <div class="t" data-tip="Norm">‖□‖</div>
+        <div class="t" data-tip="Angle brackets">⟨□⟩</div>
+        <div class="t" data-tip="Floor">⌊□⌋</div>
+        <div class="t" data-tip="Ceiling">⌈□⌉</div>
+      </div>
+    </div>
+
+    <!-- SCRIPTS TAB -->
+    <div class="tab-content" id="tab-scripts">
+      <div class="section-header">Positioning</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Superscript"><span style="font-size:13px;">x</span><span style="font-size:9px;vertical-align:super;color:#94a3b8;">□</span></div>
+        <div class="t" data-tip="Subscript"><span style="font-size:13px;">x</span><span style="font-size:9px;vertical-align:sub;color:#94a3b8;">□</span></div>
+        <div class="t" data-tip="Both scripts"><span style="font-size:11px;">x</span><span style="font-size:7px;vertical-align:super;color:#94a3b8;">□</span><span style="font-size:7px;vertical-align:sub;color:#94a3b8;">□</span></div>
+        <div class="t" data-tip="Overline" style="font-size:13px;text-decoration:overline;">x□</div>
+        <div class="t" data-tip="Underline" style="font-size:13px;text-decoration:underline;">x□</div>
+        <div class="t" data-tip="Hat" style="font-size:12px;">x̂</div>
+        <div class="t" data-tip="Tilde" style="font-size:12px;">x̃</div>
+        <div class="t" data-tip="Bar" style="font-size:12px;">x̄</div>
+        <div class="t" data-tip="Vector" style="font-size:12px;">x⃗</div>
+      </div>
+    </div>
+
+    <!-- BIG OPERATORS TAB -->
+    <div class="tab-content" id="tab-bigops">
+      <div class="section-header">Summation &amp; Products</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Sum" onclick="insertTemplate('sum')" style="font-size:20px;">∑</div>
+        <div class="t" data-tip="Product" style="font-size:20px;">∏</div>
+        <div class="t" data-tip="Co-product" style="font-size:20px;">∐</div>
+        <div class="t" data-tip="Sum with limits" style="position:relative;font-size:14px;min-width:38px;">
+          <span style="font-size:8px;display:block;color:#94a3b8;line-height:1;">n</span>
+          <span style="font-size:18px;line-height:1;">∑</span>
+          <span style="font-size:8px;display:block;color:#94a3b8;line-height:1;">i=1</span>
+        </div>
+        <div class="t" data-tip="Limit" style="font-size:13px;font-family:serif;font-weight:bold;">lim</div>
+        <div class="t" data-tip="Union (big)" style="font-size:20px;">⋃</div>
+        <div class="t" data-tip="Intersection (big)" style="font-size:20px;">⋂</div>
+      </div>
+    </div>
+
+    <!-- CALCULUS TAB -->
+    <div class="tab-content" id="tab-calculus">
+      <div class="section-header">Integrals</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Integral" onclick="insertTemplate('int')" style="font-size:22px;">∫</div>
+        <div class="t" data-tip="Double integral" style="font-size:20px;">∬</div>
+        <div class="t" data-tip="Triple integral" style="font-size:18px;">∭</div>
+        <div class="t" data-tip="Contour integral" style="font-size:20px;">∮</div>
+        <div class="t" data-tip="Surface integral" style="font-size:18px;">∯</div>
+        <div class="t" data-tip="Integral with limits" style="font-size:11px;min-width:38px;">
+          <span style="font-size:8px;color:#94a3b8;">b</span>
+          <span style="font-size:18px;line-height:1;">∫</span>
+          <span style="font-size:8px;color:#94a3b8;">a</span>
+        </div>
+      </div>
+      <div class="sec-div"></div>
+      <div class="section-header">Derivatives</div>
+      <div class="sym-row">
+        <div class="t" data-tip="Partial derivative" style="font-size:14px;">∂□/∂□</div>
+        <div class="t" data-tip="Nabla">∇</div>
+        <div class="t" data-tip="Laplacian">∆</div>
+        <div class="s" data-tip="Prime">′</div>
+        <div class="s" data-tip="Double prime">″</div>
+        <div class="s" data-tip="Triple prime">‴</div>
+      </div>
+    </div>
+
+    <!-- CONTEXTUAL TAB (empty) -->
+    <div class="tab-content" id="tab-contextual">
+      <div style="padding: 16px 12px; color: #9ca3af; font-size: 12px; font-style: italic;">
+        Contextual controls appear here based on cursor position — e.g. matrix row/column adjustments when editing inside a matrix.
+      </div>
+    </div>
+
+  </div><!-- /symbol-area -->
+
+  <!-- 4. CANVAS -->
+  <div class="canvas-zone">
+    <div class="canvas-inner" id="canvas">
+      <div class="equation" id="equation-display">
+        <!-- Default: show a fraction template with slots -->
+        <span style="font-size:22px;font-style:italic;">x</span>
+        <span style="font-size:22px;"> = </span>
+        <span style="display:inline-flex;flex-direction:column;align-items:center;gap:0px;">
+          <span class="slot filled" style="font-size:20px;border:none;">−b ± √(b²−4ac)</span>
+          <span style="border-bottom: 2px solid #111827; width:100%; display:block;"></span>
+          <span class="slot active" style="font-size:20px;">2a<span class="cursor"></span></span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Floating mini-toolbar -->
+    <div class="canvas-float">
+      <div class="float-btn" title="Undo (Ctrl+Z)">↩</div>
+      <div class="float-btn" title="Redo (Ctrl+Y)">↪</div>
+      <div class="float-btn" title="Clear">🗑</div>
+    </div>
+  </div>
+
+  <!-- 5. ACTION BAR -->
+  <div class="action-bar">
+    <div class="math-type-toggle">
+      <div class="mtt on" onclick="toggleMathType(this)">Display</div>
+      <div class="mtt" onclick="toggleMathType(this)">Inline</div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn-cancel">Cancel</button>
+    <button class="btn-insert">Insert</button>
+  </div>
+
+</div><!-- /editor -->
+
+<!-- ANNOTATION PANEL -->
+<div style="width:760px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px;">
+  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#6366f1;margin-bottom:6px;">Style Bar</div>
+    <div style="font-size:11px;color:#4b5563;line-height:1.5;">Bold, italic, size, color — always at top. Applies to full equation or selected region.</div>
+  </div>
+  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#6366f1;margin-bottom:6px;">Tabs + Grid</div>
+    <div style="font-size:11px;color:#4b5563;line-height:1.5;">Text tabs switch the symbol grid. Sections inside tabs have headers + dividers. ▼ expanders for overflow.</div>
+  </div>
+  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#6366f1;margin-bottom:6px;">Slot Behavior</div>
+    <div style="font-size:11px;color:#4b5563;line-height:1.5;">Templates insert dashed slot boxes. Active slot glows indigo. Cursor jumps to first slot automatically.</div>
+  </div>
+  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#6366f1;margin-bottom:6px;">Floating Tools</div>
+    <div style="font-size:11px;color:#4b5563;line-height:1.5;">Undo/Redo/Clear float inside the canvas bottom-right. Don't compete with the equation display.</div>
+  </div>
+</div>
+
+<p class="sub" style="margin-top:6px;">Click tabs to explore · Hover any symbol for its name · Tell me what to change in terminal</p>
+
+<script>
+function switchTab(id, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function toggleExpander(rowId, btnId) {
+  const row = document.getElementById(rowId);
+  const btn = document.getElementById(btnId);
+  const isOpen = row.classList.contains('visible');
+  row.classList.toggle('visible');
+  btn.classList.toggle('open');
+  btn.textContent = isOpen ? '▼ More' : '▲ Less';
+}
+
+function insertTemplate(type) {
+  const display = document.getElementById('equation-display');
+  if (type === 'frac') {
+    display.innerHTML = `
+      <span style="font-size:22px;font-style:italic;">f(x)</span>
+      <span style="font-size:22px;"> = </span>
+      <span style="display:inline-flex;flex-direction:column;align-items:center;gap:0px;">
+        <span class="slot active" style="min-width:50px;font-size:18px;"><span class="cursor"></span></span>
+        <span style="border-bottom:2px solid #111827;width:100%;display:block;"></span>
+        <span class="slot" style="min-width:50px;font-size:18px;color:#94a3b8;">□</span>
+      </span>`;
+  } else if (type === 'sqrt') {
+    display.innerHTML = `
+      <span style="font-size:22px;font-style:italic;">x = </span>
+      <span style="font-size:26px;color:#111827;">√</span>
+      <span style="border-top:2px solid #111827;padding:2px 6px;">
+        <span class="slot active" style="font-size:20px;"><span class="cursor"></span></span>
+      </span>`;
+  } else if (type === 'sum') {
+    display.innerHTML = `
+      <span style="display:inline-flex;flex-direction:column;align-items:center;">
+        <span class="slot" style="font-size:13px;color:#94a3b8;">n</span>
+        <span style="font-size:32px;line-height:1;">∑</span>
+        <span class="slot" style="font-size:11px;color:#94a3b8;">i=0</span>
+      </span>
+      <span class="slot active" style="font-size:22px;margin-left:8px;"><span class="cursor"></span></span>`;
+  } else if (type === 'int') {
+    display.innerHTML = `
+      <span style="display:inline-flex;align-items:center;gap:2px;">
+        <span style="display:inline-flex;flex-direction:column;align-items:center;">
+          <span class="slot" style="font-size:12px;color:#94a3b8;vertical-align:super;">b</span>
+          <span style="font-size:34px;line-height:0.9;margin:0 2px;">∫</span>
+          <span class="slot" style="font-size:12px;color:#94a3b8;vertical-align:sub;">a</span>
+        </span>
+        <span class="slot active" style="font-size:20px;"><span class="cursor"></span></span>
+        <span style="font-size:18px;color:#374151;margin-left:2px;">dx</span>
+      </span>`;
+  } else if (type === 'matrix22') {
+    display.innerHTML = `
+      <span style="font-size:24px;">(</span>
+      <span style="display:inline-grid;grid-template-columns:1fr 1fr;gap:6px 14px;padding:4px 6px;align-items:center;">
+        <span class="slot active" style="font-size:18px;"><span class="cursor"></span></span>
+        <span class="slot" style="font-size:18px;color:#94a3b8;">□</span>
+        <span class="slot" style="font-size:18px;color:#94a3b8;">□</span>
+        <span class="slot" style="font-size:18px;color:#94a3b8;">□</span>
+      </span>
+      <span style="font-size:24px;">)</span>`;
+  }
+}
+
+function toggleMathType(el) {
+  document.querySelectorAll('.mtt').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function changeSize(delta) {
+  const el = document.getElementById('sizeNum');
+  let val = parseInt(el.textContent) + delta;
+  val = Math.max(6, Math.min(72, val));
+  el.textContent = val;
+}
+
+// Send events to server
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    fetch('/event', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({type:'click', choice:'tab-'+tab.textContent.trim(), text:tab.textContent.trim(), id:null, timestamp:Date.now()})
+    }).catch(()=>{});
+  });
+});
+</script>
+
+</body>
+</html>

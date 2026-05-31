@@ -1,0 +1,7 @@
+node_modules
+dist
+pnpm-lock.yaml
+.superpowers
+.claude
+package.json
+tsconfig.json
