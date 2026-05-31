@@ -16,9 +16,10 @@ declare global {
 interface MathFieldProps {
   mathFieldRef: ReturnType<typeof useMathField>['ref'];
   onChange?: (latex: string) => void;
+  fontSize: number;
 }
 
-export function MathField({ mathFieldRef, onChange }: MathFieldProps) {
+export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) {
   useEffect(() => {
     const el = mathFieldRef.current;
     if (!el || !onChange) return;
@@ -48,16 +49,20 @@ export function MathField({ mathFieldRef, onChange }: MathFieldProps) {
 
   return (
     <div className={styles.mathFieldWrapper}>
-      <math-field ref={mathFieldRef as React.RefObject<HTMLElement>} className={styles.mathField} />
+      <math-field
+        ref={mathFieldRef as React.RefObject<HTMLElement>}
+        className={styles.mathField}
+        style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
+      />
       <div className={styles.floatingToolbar}>
         <button type="button" className={styles.toolbarBtn} onClick={handleUndo} title="Undo">
-          ↩
+          ↶
         </button>
         <button type="button" className={styles.toolbarBtn} onClick={handleRedo} title="Redo">
-          ↪
+          ↷
         </button>
         <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
-          🗑
+          ×
         </button>
       </div>
     </div>

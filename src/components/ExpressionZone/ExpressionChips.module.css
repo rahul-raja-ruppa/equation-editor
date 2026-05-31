@@ -1,12 +1,11 @@
 .chips {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 4px;
-  padding: 4px 8px;
-  overflow-x: auto;
-  scrollbar-width: thin;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 11px 12px 13px;
+  border-top: 1px solid var(--ee-border);
+  overflow: hidden;
   align-items: center;
-  min-height: 42px;
 }
 
 .chip {
@@ -14,37 +13,49 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3px 8px;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
+  gap: 5px;
+  min-width: 64px;
+  padding: 8px 11px 7px;
+  background: var(--ee-bg);
+  border: 1px solid var(--ee-border);
+  border-radius: var(--ee-radius);
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 80ms, border-color 80ms;
+  transition: border-color 130ms ease, box-shadow 130ms ease, transform 80ms ease, background 130ms ease;
 }
 
 .chip:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
+  border-color: var(--ee-accent);
+  box-shadow: 0 0 0 3px var(--ee-accent-weak);
+  transform: translateY(-1px);
 }
 
 .chipDisplay {
-  font-size: 14px;
-  font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', serif;
-  line-height: 1.2;
+  min-height: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-family: var(--math-font);
+  line-height: 1;
 }
 
 .chipLabel {
-  font-size: 9px;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  margin-top: 1px;
+  max-width: 96px;
+  font-size: 10px;
+  font-weight: 550;
+  color: var(--ee-muted);
+  letter-spacing: 0.2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip:hover .chipLabel {
+  color: var(--ee-accent-ink);
 }
 
 .loading {
-  padding: 4px 8px;
-  font-size: 12px;
-  color: #9ca3af;
+  padding: 11px 12px 13px;
+  font-size: 12.5px;
+  color: var(--ee-muted);
 }

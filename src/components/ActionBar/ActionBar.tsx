@@ -1,15 +1,11 @@
-import { TypeToggle } from './TypeToggle';
-import { SizeControl } from './SizeControl';
 import { CancelButton } from './CancelButton';
 import { InsertButton } from './InsertButton';
 import type { LoadConfig, OutboundMessage } from '../../types';
 import styles from './ActionBar.module.css';
 
 interface ActionBarProps {
-  mathType: 'display' | 'inline';
-  onMathTypeChange: (v: 'display' | 'inline') => void;
   fontSize: number;
-  onFontSizeChange: (v: number) => void;
+  mathType: 'display' | 'inline';
   getLatex: () => string;
   getMathML: () => string;
   loadConfig: LoadConfig | null;
@@ -18,10 +14,8 @@ interface ActionBarProps {
 }
 
 export function ActionBar({
-  mathType,
-  onMathTypeChange,
   fontSize,
-  onFontSizeChange,
+  mathType,
   getLatex,
   getMathML,
   loadConfig,
@@ -30,8 +24,6 @@ export function ActionBar({
 }: ActionBarProps) {
   return (
     <div className={styles.actionBar}>
-      <TypeToggle value={mathType} onChange={onMathTypeChange} />
-      <SizeControl value={fontSize} onChange={onFontSizeChange} />
       <div className={styles.spacer} />
       <CancelButton onCancel={onCancel} className={styles.cancelBtn} />
       <InsertButton

@@ -1,7 +1,8 @@
 .strip {
   display: flex;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
+  gap: 2px;
+  padding: 9px 12px 0;
+  background: var(--ee-panel);
   overflow-x: auto;
   scrollbar-width: none;
   flex-shrink: 0;
@@ -12,24 +13,35 @@
 }
 
 .tab {
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #6b7280;
+  padding: 8px 13px 10px;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--ee-muted);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-radius: 8px 8px 0 0;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 80ms, border-color 80ms;
-  margin-bottom: -1px;
+  position: relative;
+  transition: color 140ms ease, background 140ms ease;
 }
 
 .tab:hover {
-  color: #374151;
+  color: var(--ee-text);
+  background: var(--ee-hover);
 }
 
 .tab.active {
-  color: #2563eb;
-  border-bottom-color: #2563eb;
+  color: var(--ee-accent-ink);
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2.5px;
+  background: var(--ee-accent);
+  border-radius: 2px;
 }

@@ -1,5 +1,5 @@
 .zone {
-  border-bottom: 1px solid #e5e7eb;
-  background: #fff;
+  border-bottom: 1px solid var(--ee-border);
+  background: var(--ee-panel);
   flex-shrink: 0;
 }

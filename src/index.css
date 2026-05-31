@@ -1,4 +1,22 @@
 :root {
+  --ee-bg: #ffffff;
+  --ee-panel: #fafbfc;
+  --ee-panel-2: #f1f3f6;
+  --ee-border: #e7e9ee;
+  --ee-border-strong: #d7dae1;
+  --ee-text: #1b1d22;
+  --ee-muted: #6a6f78;
+  --ee-accent: #4f46e5;
+  --ee-accent-ink: #4338ca;
+  --ee-accent-weak: #eef0fe;
+  --ee-hover: #f0f1f5;
+  --ee-tpl: #f6f5ff;
+  --ee-tpl-border: #e6e3fb;
+  --ee-dot: #eceef2;
+  --ee-radius: 7px;
+  --ee-radius-sm: 6px;
+  --ee-shadow: 0 10px 30px -8px rgba(22, 24, 34, 0.2), 0 2px 8px -3px rgba(22, 24, 34, 0.12);
+
   /* ── Background layers ───────────────────────────────────── */
   --bg-base:    #f5f6fa;
   --bg-app:     #ffffff;

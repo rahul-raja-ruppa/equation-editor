@@ -1,44 +1,75 @@
 .latexBar {
   display: flex;
   align-items: center;
-  padding: 4px 10px;
-  background: var(--bg-panel);
-  border-top: 1px solid var(--border-faint);
-  min-height: 28px;
-  gap: 8px;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--ee-panel);
+  border-top: 1px solid var(--ee-border);
+  min-height: 42px;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--ee-muted);
+  flex: 0 0 auto;
 }
 
 .pill {
   font-family: var(--mono-font);
-  font-size: 11px;
-  color: var(--text-1);
+  font-size: 12.5px;
+  color: var(--ee-text);
   cursor: pointer;
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 3px 6px;
-  border-radius: var(--r-sm);
-  border: 1px solid transparent;
-  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+
+.pill:empty::before {
+  content: "Empty equation";
+  color: var(--ee-muted);
 }
 
 .pill:hover {
-  background: var(--bg-btn-hov);
-  border-color: var(--border-normal);
-  color: var(--text-0);
+  color: var(--ee-accent-ink);
 }
 
 .input {
   font-family: var(--mono-font);
-  font-size: 11px;
+  font-size: 12.5px;
   flex: 1;
-  border: 1px solid var(--indigo);
-  border-radius: var(--r-sm);
-  padding: 3px 7px;
+  min-width: 0;
+  border: 1px solid var(--ee-accent);
+  border-radius: 7px;
+  padding: 5px 9px;
   outline: none;
-  background: var(--bg-app);
-  color: var(--text-0);
-  caret-color: var(--indigo);
-  box-shadow: 0 0 0 3px var(--indigo-dim);
+  background: var(--ee-bg);
+  color: var(--ee-text);
+  caret-color: var(--ee-accent);
+  box-shadow: 0 0 0 3px var(--ee-accent-weak);
+}
+
+.copyBtn {
+  appearance: none;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ee-muted);
+  background: transparent;
+  border: 1px solid var(--ee-border-strong);
+  border-radius: 6px;
+  padding: 4px 9px;
+  transition: color 130ms ease, border-color 130ms ease;
+}
+
+.copyBtn:hover {
+  color: var(--ee-accent-ink);
+  border-color: var(--ee-accent);
 }
