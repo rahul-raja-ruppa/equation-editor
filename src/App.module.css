@@ -1,13 +1,17 @@
 .root {
-  --editor-zoom: 0.8;
-
   display: flex;
-  height: calc(100vh / var(--editor-zoom));
-  width: calc(100% / var(--editor-zoom));
   overflow: hidden;
   background: var(--ee-bg);
-  transform: scale(var(--editor-zoom));
-  transform-origin: top left;
+}
+
+@media (min-width: 760px) {
+  .root {
+    --editor-zoom: 0.8;
+    height: calc(100vh / var(--editor-zoom));
+    width: calc(100% / var(--editor-zoom));
+    transform: scale(var(--editor-zoom));
+    transform-origin: top left;
+  }
 }
 
 .editor {
