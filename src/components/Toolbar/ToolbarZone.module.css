@@ -103,3 +103,31 @@
   background: var(--ee-hover);
   border-color: var(--ee-border-strong);
 }
+
+@media (max-width: 520px) {
+  .row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quick {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .quick::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quickBtn {
+    height: 44px;
+    min-width: 40px;
+    flex-shrink: 0;
+  }
+}
