@@ -10,16 +10,18 @@ interface ExpressionTabStripProps {
 const ExpressionTabStrip: FC<ExpressionTabStripProps> = ({ activeTab, onTabChange }) => {
   return (
     <div className={styles.strip}>
-      {EXPRESSION_TAB_IDS.map((id) => (
-        <button
-          key={id}
-          className={id === activeTab ? `${styles.tab} ${styles.active}` : styles.tab}
-          onClick={() => onTabChange(id)}
-          type="button"
-        >
-          {EXPRESSION_TAB_LABELS[id]}
-        </button>
-      ))}
+      <div className={styles.track}>
+        {EXPRESSION_TAB_IDS.map((id) => (
+          <button
+            key={id}
+            className={id === activeTab ? `${styles.tab} ${styles.active}` : styles.tab}
+            onClick={() => onTabChange(id)}
+            type="button"
+          >
+            {EXPRESSION_TAB_LABELS[id]}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

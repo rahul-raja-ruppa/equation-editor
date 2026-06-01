@@ -1,8 +1,8 @@
 .strip {
   display: flex;
-  gap: 2px;
-  padding: 9px 12px 0;
-  background: var(--ee-panel);
+  padding: 8px 12px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--ee-border);
   overflow-x: auto;
   scrollbar-width: none;
   flex-shrink: 0;
@@ -12,38 +12,37 @@
   display: none;
 }
 
+.track {
+  display: inline-flex;
+  background: #eaecf4;
+  border: 1px solid #d8dbe8;
+  border-radius: 9px;
+  padding: 2px;
+  gap: 1px;
+}
+
 .tab {
-  padding: 8px 13px 10px;
-  font-size: 12.5px;
+  padding: 5px 13px;
+  font-size: 12px;
   font-weight: 550;
   color: var(--ee-muted);
   background: transparent;
   border: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: 7px;
   cursor: pointer;
   white-space: nowrap;
-  position: relative;
   transition:
-    color 140ms ease,
-    background 140ms ease;
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .tab:hover {
   color: var(--ee-text);
-  background: var(--ee-hover);
 }
 
 .tab.active {
+  background: #ffffff;
   color: var(--ee-accent-ink);
-}
-
-.tab.active::after {
-  content: '';
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 0;
-  height: 2.5px;
-  background: var(--ee-accent);
-  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
 }

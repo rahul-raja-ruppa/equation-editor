@@ -4,9 +4,19 @@
   align-items: center;
   gap: 8px;
   min-height: 46px;
-  padding: 8px 14px;
+  /* env() safe-area-inset-bottom adds clearance for iOS home bar and
+     browser sticky toolbars (e.g. Brave bottom search bar) */
+  padding: 8px 14px max(8px, env(safe-area-inset-bottom));
   background: var(--ee-panel);
   border-top: 1px solid var(--ee-border);
+}
+
+@media (max-width: 600px) {
+  .actionBar {
+    gap: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 .spacer {

@@ -41,10 +41,10 @@
 }
 
 .chevron {
-  font-size: 7px;
-  opacity: 0.6;
-  font-family: sans-serif;
+  opacity: 0.55;
   color: var(--ee-muted);
+  flex-shrink: 0;
+  transition: opacity 120ms ease, color 120ms ease;
 }
 
 .btn:hover .chevron,
