@@ -1,8 +1,9 @@
 import 'mathlive';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Undo2, Redo2, X } from 'lucide-react';
 import type { MathfieldElement } from 'mathlive';
 import type { useMathField } from '../../hooks/useMathField';
+import { MathJaxPreview } from '../MathPreview/MathJaxPreview';
 import styles from './MathField.module.css';
 
 declare global {
@@ -18,16 +19,20 @@ interface MathFieldProps {
   mathFieldRef: ReturnType<typeof useMathField>['ref'];
   onChange?: (latex: string) => void;
   fontSize: number;
+  latex: string;
+  mathType: 'display' | 'inline';
 }
 
-export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) {
+export function MathField({ mathFieldRef, onChange, fontSize, latex, mathType }: MathFieldProps) {
+  let [previewOpen, setPreviewOpen] = useState(false);
+
   useEffect(() => {
     const el = mathFieldRef.current;
     if (!el || !onChange) return;
 
     function handler() {
-      const latex = (el as MathfieldElement).getValue('latex');
-      onChange!(latex);
+      const value = (el as MathfieldElement).getValue('latex');
+      onChange!(value);
     }
 
     el.addEventListener('input', handler);
@@ -63,23 +68,40 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
 
   return (
     <div className={styles.mathFieldWrapper}>
-      <div className={styles.card}>
-        <math-field
-          ref={mathFieldRef as React.RefObject<HTMLElement>}
-          className={styles.mathField}
-          style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
-        />
-        <div className={styles.floatingToolbar}>
-          <button type="button" className={styles.toolbarBtn} onClick={handleUndo} title="Undo">
-            <Undo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleRedo} title="Redo">
-            <Redo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
-            <X size={12} strokeWidth={2} />
-          </button>
+      <div className={previewOpen ? styles.cardsSplit : styles.cards}>
+        <div className={styles.card}>
+          <math-field
+            ref={mathFieldRef as React.RefObject<HTMLElement>}
+            className={styles.mathField}
+            style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
+          />
+          <div className={styles.floatingToolbar}>
+            <button type="button" className={styles.toolbarBtn} onClick={handleUndo} title="Undo">
+              <Undo2 size={13} strokeWidth={1.75} />
+            </button>
+            <button type="button" className={styles.toolbarBtn} onClick={handleRedo} title="Redo">
+              <Redo2 size={13} strokeWidth={1.75} />
+            </button>
+            <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
+              <X size={12} strokeWidth={2} />
+            </button>
+            <div className={styles.sep} />
+            <button
+              type="button"
+              className={previewOpen ? styles.previewBtnActive : styles.previewBtn}
+              onClick={() => setPreviewOpen((v) => !v)}
+              title="Toggle MathJax preview"
+            >
+              ⚡ MathJax
+            </button>
+          </div>
         </div>
+        {previewOpen && (
+          <div className={styles.previewCard}>
+            <div className={styles.previewHeader}>MathJax Preview</div>
+            <MathJaxPreview latex={latex} mathType={mathType} />
+          </div>
+        )}
       </div>
     </div>
   );

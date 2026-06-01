@@ -10,7 +10,6 @@
 
 .card {
   position: relative;
-  width: min(50%, 580px);
   min-height: 110px;
   background: #ffffff;
   border: 1.5px solid var(--ee-border-strong);
@@ -21,7 +20,6 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: cardIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes cardIn {
@@ -83,4 +81,103 @@
   background: var(--ee-accent-weak);
   border-color: var(--ee-accent);
   color: var(--ee-accent-ink);
+}
+
+/* ── Split layout container ─────────────────────────────── */
+
+.cards {
+  position: relative;
+  width: min(50%, 580px);
+  animation: cardIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cardsSplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: min(92%, 1140px);
+  animation: cardIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Preview card ────────────────────────────────────────── */
+
+.previewCard {
+  background: #ffffff;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 14px;
+  box-shadow:
+    0 4px 24px rgba(16, 185, 129, 0.07),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 110px;
+  animation: cardIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.previewHeader {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #059669;
+  background: #f0fdf4;
+  border-bottom: 1px solid #d1fae5;
+  padding: 5px 12px;
+  flex-shrink: 0;
+}
+
+/* ── Toolbar separator and preview toggle ────────────────── */
+
+.sep {
+  width: 1px;
+  height: 14px;
+  background: var(--ee-border);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+.previewBtn {
+  height: 26px;
+  padding: 0 9px;
+  border-radius: var(--ee-radius-sm);
+  border: 1px solid var(--ee-border);
+  background: var(--ee-bg);
+  color: var(--ee-muted);
+  cursor: pointer;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-family: var(--ui-font);
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.previewBtn:hover {
+  background: var(--ee-accent-weak);
+  border-color: var(--ee-accent);
+  color: var(--ee-accent-ink);
+}
+
+.previewBtnActive {
+  height: 26px;
+  padding: 0 9px;
+  border-radius: var(--ee-radius-sm);
+  border: 1px solid var(--ee-accent);
+  background: var(--ee-accent-weak);
+  color: var(--ee-accent-ink);
+  cursor: pointer;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-family: var(--ui-font);
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.previewBtnActive:hover {
+  background: var(--ee-accent);
+  color: #ffffff;
 }
