@@ -4,9 +4,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ command }) => ({
   plugins: [react()],
   base: command === 'build' ? '/equation-editor/' : '/',
-  optimizeDeps: {
-    exclude: ['mathjax-full'],
-  },
   build: {
     target: 'es2020',
     cssCodeSplit: false,
