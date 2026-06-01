@@ -19,6 +19,8 @@ interface UtilityRowProps {
   fontSize: number;
   onFontSizeChange: (v: number) => void;
   onInsert: (latex: string) => void;
+  previewOpen: boolean;
+  onPreviewToggle: () => void;
 }
 
 const SIZE_OPTIONS = [10, 11, 12, 14, 16, 18] as const;
@@ -34,6 +36,8 @@ export function UtilityRow({
   fontSize,
   onFontSizeChange,
   onInsert,
+  previewOpen,
+  onPreviewToggle,
 }: UtilityRowProps) {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(-1);
@@ -208,6 +212,14 @@ export function UtilityRow({
       </div>
 
       <div className={styles.right}>
+        <button
+          type="button"
+          className={previewOpen ? styles.previewBtnActive : styles.previewBtn}
+          onClick={onPreviewToggle}
+          title="Toggle MathJax preview"
+        >
+          ⚡ MathJax
+        </button>
         <div className={styles.toggle} aria-label="Equation type">
           <button
             type="button"

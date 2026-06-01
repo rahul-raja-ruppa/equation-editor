@@ -1,5 +1,5 @@
 import 'mathlive';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Undo2, Redo2, X } from 'lucide-react';
 import type { MathfieldElement } from 'mathlive';
 import type { useMathField } from '../../hooks/useMathField';
@@ -21,11 +21,17 @@ interface MathFieldProps {
   fontSize: number;
   latex: string;
   mathType: 'display' | 'inline';
+  previewOpen: boolean;
 }
 
-export function MathField({ mathFieldRef, onChange, fontSize, latex, mathType }: MathFieldProps) {
-  let [previewOpen, setPreviewOpen] = useState(false);
-
+export function MathField({
+  mathFieldRef,
+  onChange,
+  fontSize,
+  latex,
+  mathType,
+  previewOpen,
+}: MathFieldProps) {
   useEffect(() => {
     const el = mathFieldRef.current;
     if (!el || !onChange) return;
@@ -84,15 +90,6 @@ export function MathField({ mathFieldRef, onChange, fontSize, latex, mathType }:
             </button>
             <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
               <X size={12} strokeWidth={2} />
-            </button>
-            <div className={styles.sep} />
-            <button
-              type="button"
-              className={previewOpen ? styles.previewBtnActive : styles.previewBtn}
-              onClick={() => setPreviewOpen((v) => !v)}
-              title="Toggle MathJax preview"
-            >
-              ⚡ MathJax
             </button>
           </div>
         </div>

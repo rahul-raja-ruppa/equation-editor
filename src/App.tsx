@@ -18,6 +18,7 @@ export default function App() {
   let [fontSize, setFontSize] = useState<number>(12);
   let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
   let [currentLatex, setCurrentLatex] = useState<string>('');
+  let [previewOpen, setPreviewOpen] = useState(false);
 
   const onLoad = useCallback(
     (msg: LoadMessage) => {
@@ -72,6 +73,8 @@ export default function App() {
           fontSize={fontSize}
           onFontSizeChange={setFontSize}
           onInsert={handleInsert}
+          previewOpen={previewOpen}
+          onPreviewToggle={() => setPreviewOpen((v) => !v)}
         />
         <div className={styles.toolbar}>
           <ToolbarZone onInsert={handleInsert} />
@@ -80,7 +83,14 @@ export default function App() {
           <ExpressionZone onInsert={handleInsert} />
         </div>
         <div className={styles.canvas}>
-          <MathField mathFieldRef={mathField.ref} onChange={setCurrentLatex} fontSize={fontSize} />
+          <MathField
+            mathFieldRef={mathField.ref}
+            onChange={setCurrentLatex}
+            fontSize={fontSize}
+            latex={currentLatex}
+            mathType={mathType}
+            previewOpen={previewOpen}
+          />
           <LaTeXBar value={currentLatex} onCommit={handleLatexCommit} />
         </div>
         <div className={styles.actionBar}>
