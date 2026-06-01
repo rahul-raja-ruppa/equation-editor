@@ -10,7 +10,7 @@
 
 .card {
   position: relative;
-  width: min(580px, 100%);
+  width: min(50%, 580px);
   min-height: 110px;
   background: #ffffff;
   border: 1.5px solid var(--ee-border-strong);

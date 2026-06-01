@@ -46,6 +46,7 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
 
   function handleClear() {
     (mathFieldRef.current as MathfieldElement | null)?.setValue('');
+    onChange?.('');
   }
 
   return (

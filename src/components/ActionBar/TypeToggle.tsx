@@ -8,6 +8,9 @@ interface TypeToggleProps {
 export function TypeToggle({ value, onChange }: TypeToggleProps) {
   return (
     <div className={styles.typeToggle}>
+      <span
+        className={`${styles.typeSlider}${value === 'inline' ? ` ${styles.slideRight}` : ''}`}
+      />
       <button
         type="button"
         className={`${styles.typeOption}${value === 'display' ? ` ${styles.typeOptionActive}` : ''}`}
