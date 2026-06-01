@@ -36,6 +36,18 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
     };
   }, [mathFieldRef, onChange]);
 
+  useEffect(() => {
+    const el = mathFieldRef.current as MathfieldElement | null;
+    if (!el) return;
+    customElements.whenDefined('math-field').then(() => {
+      el.macros = {
+        ...el.macros,
+        boldsymbol: { def: '\\mathbf{#1}', args: 1 },
+        bm: { def: '\\mathbf{#1}', args: 1 },
+      };
+    });
+  }, [mathFieldRef]);
+
   function handleUndo() {
     (mathFieldRef.current as MathfieldElement | null)?.executeCommand('undo');
   }
