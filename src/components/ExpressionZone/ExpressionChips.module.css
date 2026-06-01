@@ -22,7 +22,9 @@
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.09), 0 0 0 1px rgba(79, 70, 229, 0.06);
+  box-shadow:
+    0 1px 3px rgba(79, 70, 229, 0.09),
+    0 0 0 1px rgba(79, 70, 229, 0.06);
   transition:
     border-color 130ms ease,
     box-shadow 130ms ease,
@@ -32,7 +34,9 @@
 
 .chip:hover {
   border-color: var(--ee-accent);
-  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.18), 0 0 0 1px var(--ee-accent);
+  box-shadow:
+    0 3px 10px rgba(79, 70, 229, 0.18),
+    0 0 0 1px var(--ee-accent);
   transform: translateY(-1px);
 }
 
