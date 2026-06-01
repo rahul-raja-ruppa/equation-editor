@@ -81,7 +81,15 @@ export default function App() {
         </div>
         <div className={styles.canvas}>
           <MathField mathFieldRef={mathField.ref} onChange={setCurrentLatex} fontSize={fontSize} />
-          <LaTeXBar value={currentLatex} onCommit={handleLatexCommit} />
+          <LaTeXBar
+            value={currentLatex}
+            onCommit={handleLatexCommit}
+            mathFieldRef={mathField.ref}
+            onClear={() => {
+              mathField.setValue('');
+              setCurrentLatex('');
+            }}
+          />
         </div>
         <div className={styles.actionBar}>
           <ActionBar

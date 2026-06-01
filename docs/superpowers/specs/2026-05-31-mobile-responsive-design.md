@@ -13,11 +13,11 @@ Make the equation editor usable on narrow screens (mobile browsers, narrow ifram
 
 ## Breakpoints
 
-| Range | Label | Behavior |
-|---|---|---|
-| ≥ 760px | Desktop | Current behavior, zoom hack active |
-| 520px – 759px | Tablet / narrow iframe | Zoom removed, layout reflows |
-| < 520px | Phone | Zoom removed, action bar simplified, toolbar scrolls |
+| Range         | Label                  | Behavior                                             |
+| ------------- | ---------------------- | ---------------------------------------------------- |
+| ≥ 760px       | Desktop                | Current behavior, zoom hack active                   |
+| 520px – 759px | Tablet / narrow iframe | Zoom removed, layout reflows                         |
+| < 520px       | Phone                  | Zoom removed, action bar simplified, toolbar scrolls |
 
 ---
 
@@ -58,14 +58,18 @@ The `.root` flex layout and `overflow: hidden` remain unconditional.
     overflow-x: auto;
     scrollbar-width: none;
   }
-  .row::-webkit-scrollbar { display: none; }
+  .row::-webkit-scrollbar {
+    display: none;
+  }
 
   .quick {
     overflow-x: auto;
     scrollbar-width: none;
     flex-wrap: nowrap;
   }
-  .quick::-webkit-scrollbar { display: none; }
+  .quick::-webkit-scrollbar {
+    display: none;
+  }
 
   .quickBtn {
     height: 44px;
@@ -199,12 +203,12 @@ The bar is a single flex row with `flex: 1` on the pill — already handles narr
 
 All interactive elements hit 44px minimum height on mobile:
 
-| Component | Desktop height | Mobile height |
-|---|---|---|
-| CategoryButton | 38px | 44px |
-| QuickBtn | 40px | 44px |
-| FlyoutPalette item | 42px | 48px |
-| ActionBar buttons | ~36px | 44px (via `min-height`) |
+| Component          | Desktop height | Mobile height           |
+| ------------------ | -------------- | ----------------------- |
+| CategoryButton     | 38px           | 44px                    |
+| QuickBtn           | 40px           | 44px                    |
+| FlyoutPalette item | 42px           | 48px                    |
+| ActionBar buttons  | ~36px          | 44px (via `min-height`) |
 
 ---
 

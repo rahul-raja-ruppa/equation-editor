@@ -1,6 +1,5 @@
 import 'mathlive';
 import React, { useEffect } from 'react';
-import { Undo2, Redo2, X } from 'lucide-react';
 import type { MathfieldElement } from 'mathlive';
 import type { useMathField } from '../../hooks/useMathField';
 import styles from './MathField.module.css';
@@ -36,19 +35,6 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
     };
   }, [mathFieldRef, onChange]);
 
-  function handleUndo() {
-    (mathFieldRef.current as MathfieldElement | null)?.executeCommand('undo');
-  }
-
-  function handleRedo() {
-    (mathFieldRef.current as MathfieldElement | null)?.executeCommand('redo');
-  }
-
-  function handleClear() {
-    (mathFieldRef.current as MathfieldElement | null)?.setValue('');
-    onChange?.('');
-  }
-
   return (
     <div className={styles.mathFieldWrapper}>
       <div className={styles.card}>
@@ -57,17 +43,6 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
           className={styles.mathField}
           style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
         />
-        <div className={styles.floatingToolbar}>
-          <button type="button" className={styles.toolbarBtn} onClick={handleUndo} title="Undo">
-            <Undo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleRedo} title="Redo">
-            <Redo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
-            <X size={12} strokeWidth={2} />
-          </button>
-        </div>
       </div>
     </div>
   );
