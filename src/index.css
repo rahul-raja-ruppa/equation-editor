@@ -86,3 +86,18 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+math-field {
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+}
+
+math-field::part(virtual-keyboard-toggle) {
+  display: none;
+}
+
+math-field::part(menu-toggle) {
+  opacity: 0;
+  pointer-events: none;
+}
