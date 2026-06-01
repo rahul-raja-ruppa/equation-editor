@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
 import styles from './LaTeXBar.module.css';
 
 interface LaTeXBarProps {
@@ -9,6 +10,7 @@ interface LaTeXBarProps {
 export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
   let [editing, setEditing] = useState(false);
   let [draft, setDraft] = useState('');
+  let [copied, setCopied] = useState(false);
 
   function handlePillClick() {
     setDraft(value);
@@ -30,6 +32,8 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
 
   async function handleCopy() {
     await navigator.clipboard?.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1400);
   }
 
   return (
@@ -49,8 +53,13 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
           {value}
         </div>
       )}
-      <button type="button" className={styles.copyBtn} onClick={handleCopy}>
-        Copy
+      <button
+        type="button"
+        className={`${styles.copyBtn}${copied ? ` ${styles.copyBtnDone}` : ''}`}
+        onClick={handleCopy}
+        title="Copy LaTeX"
+      >
+        {copied ? <Check size={13} strokeWidth={2.5} /> : <Copy size={13} strokeWidth={1.75} />}
       </button>
     </div>
   );

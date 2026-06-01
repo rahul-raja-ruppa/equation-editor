@@ -2,18 +2,23 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 14px;
-  background: var(--ee-panel);
-  border-top: 1px solid var(--ee-border);
-  min-height: 42px;
+  padding: 8px 14px;
+  background: #f5f4ff;
+  border-top: 1px solid #e4e1fb;
+  min-height: 40px;
 }
 
 .label {
-  font-size: 10px;
-  font-weight: 650;
-  letter-spacing: 0.6px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: var(--ee-accent);
+  color: #ffffff;
+  border-radius: 100px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: var(--ee-muted);
   flex: 0 0 auto;
 }
 
@@ -31,8 +36,9 @@
 }
 
 .pill:empty::before {
-  content: 'Empty equation';
+  content: '— empty —';
   color: var(--ee-muted);
+  font-style: italic;
 }
 
 .pill:hover {
@@ -58,20 +64,30 @@
   appearance: none;
   cursor: pointer;
   flex: 0 0 auto;
-  font: inherit;
-  font-size: 11px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   color: var(--ee-muted);
   background: transparent;
   border: 1px solid var(--ee-border-strong);
-  border-radius: 6px;
-  padding: 4px 9px;
+  border-radius: 7px;
+  padding: 0;
   transition:
     color 130ms ease,
-    border-color 130ms ease;
+    border-color 130ms ease,
+    background 130ms ease;
 }
 
 .copyBtn:hover {
   color: var(--ee-accent-ink);
   border-color: var(--ee-accent);
+  background: var(--ee-accent-weak);
+}
+
+.copyBtnDone {
+  color: #16a34a;
+  border-color: #86efac;
+  background: #f0fdf4;
 }

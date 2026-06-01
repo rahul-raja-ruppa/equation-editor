@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 import type { ToolbarCategory } from '../../types';
 import type { FlyoutPosition } from '../../hooks/useFlyout';
 import { FlyoutPalette } from './FlyoutPalette';
@@ -79,7 +80,7 @@ export function CategoryButton({
           className={styles.math}
           latex={CATEGORY_ICONS[category.id] ?? category.palette[0].latex}
         />
-        <span className={styles.chevron}>▾</span>
+        <ChevronDown size={9} strokeWidth={2.5} className={styles.chevron} />
       </button>
       {isOpen && (
         <FlyoutPalette

@@ -84,8 +84,9 @@
 }
 
 /* ── Space items ─────────────────────────────────────── */
+/* No min-width override — let the grid control cell width uniformly */
 .item.spaceItem {
-  min-width: 64px;
+  min-width: 0;
 }
 
 .spaceVisual {
@@ -93,34 +94,34 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  gap: 0;
 }
 
+/* Vertical rule on each side of the gap */
 .spaceDot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
-.spaceGap {
-  height: 2px;
+  width: 2px;
+  height: 14px;
   border-radius: 1px;
   background: currentColor;
-  opacity: 0.25;
+  opacity: 0.55;
   flex-shrink: 0;
 }
 
-.spaceGapThin {
-  width: 6px;
+/* The gap between the two vertical rules — sized to fit within a 44px button */
+.spaceGap {
+  flex-shrink: 0;
+  height: 0;
 }
-.spaceGapMed {
-  width: 12px;
+
+.spaceGap[data-size='thin'] {
+  width: 4px;
 }
-.spaceGapQuad {
+.spaceGap[data-size='med'] {
+  width: 9px;
+}
+.spaceGap[data-size='quad'] {
+  width: 15px;
+}
+.spaceGap[data-size='qquad'] {
   width: 22px;
-}
-.spaceGapQquad {
-  width: 38px;
 }
