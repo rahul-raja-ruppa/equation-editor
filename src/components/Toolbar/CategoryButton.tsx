@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import type { ToolbarCategory } from '../../types';
 import type { FlyoutPosition } from '../../hooks/useFlyout';
 import { FlyoutPalette } from './FlyoutPalette';
-import { MathPreview } from '../MathPreview/MathPreview';
+import { CategoryIcon } from './CategoryIcon';
 import styles from './CategoryButton.module.css';
 
 interface CategoryButtonProps {
@@ -16,26 +16,6 @@ interface CategoryButtonProps {
   onInsert: (latex: string) => void;
   position: FlyoutPosition;
 }
-
-const CATEGORY_ICONS: Record<string, string> = {
-  relations: '\\leq',
-  decorations: '\\cdots',
-  operators: '\\pm',
-  arrows: '\\rightarrow',
-  logic: '\\forall',
-  sets: '\\subset',
-  misc: '\\partial',
-  'greek-lower': '\\lambda',
-  'greek-upper': '\\Omega',
-  fences: '\\left(\\square\\right)',
-  fractions: '\\frac{\\square}{\\square}',
-  scripts: '\\square^{\\square}',
-  summation: '\\sum',
-  integrals: '\\int',
-  'over-under': '\\vec{\\square}',
-  bigops: '\\prod',
-  matrices: '\\begin{smallmatrix}\\square&\\square\\\\\\square&\\square\\end{smallmatrix}',
-};
 
 export function CategoryButton({
   category,
@@ -76,10 +56,7 @@ export function CategoryButton({
         type="button"
         data-category-btn="true"
       >
-        <MathPreview
-          className={styles.math}
-          latex={CATEGORY_ICONS[category.id] ?? category.palette[0].latex}
-        />
+        <CategoryIcon id={category.id} />
         <ChevronDown size={9} strokeWidth={2.5} className={styles.chevron} />
       </button>
       {isOpen && (

@@ -66,7 +66,28 @@ export function MathField({
         `;
         shadow.appendChild(style);
       }
+
+      el.focus();
     });
+  }, [mathFieldRef]);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const active = document.activeElement;
+      const tag = active?.tagName.toLowerCase() ?? '';
+      // Don't steal focus from text inputs or the math field itself
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      if (active === mathFieldRef.current) return;
+      // Only redirect printable keys, not modifiers/function keys
+      if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      const el = mathFieldRef.current as MathfieldElement | null;
+      if (!el) return;
+      el.focus();
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [mathFieldRef]);
 
   return (

@@ -54,3 +54,17 @@
   color: var(--ee-accent);
   opacity: 1;
 }
+
+.unicodeIcon {
+  font-family: var(--math-font);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.svgIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
