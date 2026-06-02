@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Eye } from 'lucide-react';
 import row1 from '../../data/toolbar/row1';
 import row2 from '../../data/toolbar/row2';
 import quick from '../../data/quick';
@@ -216,9 +217,10 @@ export function UtilityRow({
           type="button"
           className={previewOpen ? styles.previewBtnActive : styles.previewBtn}
           onClick={onPreviewToggle}
-          title="Toggle MathJax preview"
+          title="Toggle preview"
         >
-          ⚡ MathJax
+          <Eye size={13} strokeWidth={1.75} />
+          Preview
         </button>
         <div className={styles.toggle} aria-label="Equation type">
           <button

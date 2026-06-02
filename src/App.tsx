@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import type { MathfieldElement } from 'mathlive';
 import { useMathField } from './hooks/useMathField';
 import { usePostMessage } from './hooks/usePostMessage';
 import { ToolbarZone } from './components/Toolbar/ToolbarZone';
@@ -51,6 +52,19 @@ export default function App() {
     setCurrentLatex(latex);
   }
 
+  function handleUndo() {
+    (mathField.ref.current as MathfieldElement | null)?.executeCommand('undo');
+  }
+
+  function handleRedo() {
+    (mathField.ref.current as MathfieldElement | null)?.executeCommand('redo');
+  }
+
+  function handleClear() {
+    (mathField.ref.current as MathfieldElement | null)?.setValue('');
+    setCurrentLatex('');
+  }
+
   function handleCancel() {
     const payload: OutboundMessage = { type: 'cancel' };
     send(payload);
@@ -91,7 +105,13 @@ export default function App() {
             mathType={mathType}
             previewOpen={previewOpen}
           />
-          <LaTeXBar value={currentLatex} onCommit={handleLatexCommit} />
+          <LaTeXBar
+            value={currentLatex}
+            onCommit={handleLatexCommit}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            onClear={handleClear}
+          />
         </div>
         <div className={styles.actionBar}>
           <ActionBar
