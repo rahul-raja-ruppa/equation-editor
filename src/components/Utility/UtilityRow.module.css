@@ -223,6 +223,57 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
+.previewBtn {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ee-border);
+  background: var(--ee-bg);
+  color: var(--ee-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 550;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+.previewBtn:hover {
+  background: var(--ee-accent-weak);
+  border-color: var(--ee-accent);
+  color: var(--ee-accent-ink);
+}
+
+.previewBtnActive {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ee-accent);
+  background: var(--ee-accent-weak);
+  color: var(--ee-accent-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 550;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+.previewBtnActive:hover {
+  background: var(--ee-accent);
+  color: #ffffff;
+}
+
 @media (max-width: 760px) {
   .utility {
     align-items: stretch;

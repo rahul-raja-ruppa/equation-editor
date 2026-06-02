@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Undo2, Redo2, X } from 'lucide-react';
 import styles from './LaTeXBar.module.css';
 
 interface LaTeXBarProps {
   value: string;
   onCommit: (latex: string) => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  onClear: () => void;
 }
 
-export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
+export function LaTeXBar({ value, onCommit, onUndo, onRedo, onClear }: LaTeXBarProps) {
   let [editing, setEditing] = useState(false);
   let [draft, setDraft] = useState('');
   let [copied, setCopied] = useState(false);
@@ -53,6 +56,17 @@ export function LaTeXBar({ value, onCommit }: LaTeXBarProps) {
           {value}
         </div>
       )}
+      <div className={styles.editBtns}>
+        <button type="button" className={styles.editBtn} onClick={onUndo} title="Undo">
+          <Undo2 size={13} strokeWidth={1.75} />
+        </button>
+        <button type="button" className={styles.editBtn} onClick={onRedo} title="Redo">
+          <Redo2 size={13} strokeWidth={1.75} />
+        </button>
+        <button type="button" className={styles.editBtn} onClick={onClear} title="Clear">
+          <X size={12} strokeWidth={2} />
+        </button>
+      </div>
       <button
         type="button"
         className={`${styles.copyBtn}${copied ? ` ${styles.copyBtnDone}` : ''}`}

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Eye } from 'lucide-react';
 import row1 from '../../data/toolbar/row1';
 import row2 from '../../data/toolbar/row2';
 import quick from '../../data/quick';
@@ -19,6 +20,8 @@ interface UtilityRowProps {
   fontSize: number;
   onFontSizeChange: (v: number) => void;
   onInsert: (latex: string) => void;
+  previewOpen: boolean;
+  onPreviewToggle: () => void;
 }
 
 const SIZE_OPTIONS = [10, 11, 12, 14, 16, 18] as const;
@@ -34,6 +37,8 @@ export function UtilityRow({
   fontSize,
   onFontSizeChange,
   onInsert,
+  previewOpen,
+  onPreviewToggle,
 }: UtilityRowProps) {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(-1);
@@ -208,6 +213,15 @@ export function UtilityRow({
       </div>
 
       <div className={styles.right}>
+        <button
+          type="button"
+          className={previewOpen ? styles.previewBtnActive : styles.previewBtn}
+          onClick={onPreviewToggle}
+          title="Toggle preview"
+        >
+          <Eye size={13} strokeWidth={1.75} />
+          Preview
+        </button>
         <div className={styles.toggle} aria-label="Equation type">
           <button
             type="button"

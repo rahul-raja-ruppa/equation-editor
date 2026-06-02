@@ -60,6 +60,37 @@
   box-shadow: 0 0 0 3px var(--ee-accent-weak);
 }
 
+.editBtns {
+  display: flex;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.editBtn {
+  appearance: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--ee-muted);
+  background: transparent;
+  border: 1px solid var(--ee-border-strong);
+  border-radius: 7px;
+  padding: 0;
+  transition:
+    color 130ms ease,
+    border-color 130ms ease,
+    background 130ms ease;
+}
+
+.editBtn:hover {
+  color: var(--ee-accent-ink);
+  border-color: var(--ee-accent);
+  background: var(--ee-accent-weak);
+}
+
 .copyBtn {
   appearance: none;
   cursor: pointer;

@@ -1,8 +1,8 @@
 import 'mathlive';
 import React, { useEffect } from 'react';
-import { Undo2, Redo2, X } from 'lucide-react';
 import type { MathfieldElement } from 'mathlive';
 import type { useMathField } from '../../hooks/useMathField';
+import { MathJaxPreview } from '../MathPreview/MathJaxPreview';
 import styles from './MathField.module.css';
 
 declare global {
@@ -18,16 +18,26 @@ interface MathFieldProps {
   mathFieldRef: ReturnType<typeof useMathField>['ref'];
   onChange?: (latex: string) => void;
   fontSize: number;
+  latex: string;
+  mathType: 'display' | 'inline';
+  previewOpen: boolean;
 }
 
-export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) {
+export function MathField({
+  mathFieldRef,
+  onChange,
+  fontSize,
+  latex,
+  mathType,
+  previewOpen,
+}: MathFieldProps) {
   useEffect(() => {
     const el = mathFieldRef.current;
     if (!el || !onChange) return;
 
     function handler() {
-      const latex = (el as MathfieldElement).getValue('latex');
-      onChange!(latex);
+      const value = (el as MathfieldElement).getValue('latex');
+      onChange!(value);
     }
 
     el.addEventListener('input', handler);
@@ -45,41 +55,40 @@ export function MathField({ mathFieldRef, onChange, fontSize }: MathFieldProps) 
         boldsymbol: { def: '\\mathbf{#1}', args: 1 },
         bm: { def: '\\mathbf{#1}', args: 1 },
       };
+
+      const shadow = el.shadowRoot;
+      if (shadow) {
+        const style = document.createElement('style');
+        style.textContent = `
+          :host { border: none !important; outline: none !important; box-shadow: none !important; border-radius: 0 !important; }
+          :host(:focus-within) { border: none !important; outline: none !important; box-shadow: none !important; }
+          .ML__container { border: none !important; box-shadow: none !important; }
+        `;
+        shadow.appendChild(style);
+      }
     });
   }, [mathFieldRef]);
 
-  function handleUndo() {
-    (mathFieldRef.current as MathfieldElement | null)?.executeCommand('undo');
-  }
-
-  function handleRedo() {
-    (mathFieldRef.current as MathfieldElement | null)?.executeCommand('redo');
-  }
-
-  function handleClear() {
-    (mathFieldRef.current as MathfieldElement | null)?.setValue('');
-    onChange?.('');
-  }
-
   return (
     <div className={styles.mathFieldWrapper}>
-      <div className={styles.card}>
-        <math-field
-          ref={mathFieldRef as React.RefObject<HTMLElement>}
-          className={styles.mathField}
-          style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
-        />
-        <div className={styles.floatingToolbar}>
-          <button type="button" className={styles.toolbarBtn} onClick={handleUndo} title="Undo">
-            <Undo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleRedo} title="Redo">
-            <Redo2 size={13} strokeWidth={1.75} />
-          </button>
-          <button type="button" className={styles.toolbarBtn} onClick={handleClear} title="Clear">
-            <X size={12} strokeWidth={2} />
-          </button>
+      <div className={previewOpen ? styles.cardsSplit : styles.cards}>
+        <div className={styles.card}>
+          <math-field
+            ref={mathFieldRef as React.RefObject<HTMLElement>}
+            className={styles.mathField}
+            style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
+          />
+          {!latex && (
+            <p className={styles.emptyHint}>
+              Type LaTeX · click a symbol above · or search with <kbd>/</kbd>
+            </p>
+          )}
         </div>
+        {previewOpen && (
+          <div className={styles.previewCard}>
+            <MathJaxPreview latex={latex} mathType={mathType} />
+          </div>
+        )}
       </div>
     </div>
   );

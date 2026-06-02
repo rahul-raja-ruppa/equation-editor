@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import type { MathfieldElement } from 'mathlive';
 import { useMathField } from './hooks/useMathField';
 import { usePostMessage } from './hooks/usePostMessage';
 import { ToolbarZone } from './components/Toolbar/ToolbarZone';
@@ -18,6 +19,7 @@ export default function App() {
   let [fontSize, setFontSize] = useState<number>(12);
   let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
   let [currentLatex, setCurrentLatex] = useState<string>('');
+  let [previewOpen, setPreviewOpen] = useState(false);
 
   const onLoad = useCallback(
     (msg: LoadMessage) => {
@@ -50,6 +52,19 @@ export default function App() {
     setCurrentLatex(latex);
   }
 
+  function handleUndo() {
+    (mathField.ref.current as MathfieldElement | null)?.executeCommand('undo');
+  }
+
+  function handleRedo() {
+    (mathField.ref.current as MathfieldElement | null)?.executeCommand('redo');
+  }
+
+  function handleClear() {
+    (mathField.ref.current as MathfieldElement | null)?.setValue('');
+    setCurrentLatex('');
+  }
+
   function handleCancel() {
     const payload: OutboundMessage = { type: 'cancel' };
     send(payload);
@@ -72,6 +87,8 @@ export default function App() {
           fontSize={fontSize}
           onFontSizeChange={setFontSize}
           onInsert={handleInsert}
+          previewOpen={previewOpen}
+          onPreviewToggle={() => setPreviewOpen((v) => !v)}
         />
         <div className={styles.toolbar}>
           <ToolbarZone onInsert={handleInsert} />
@@ -80,8 +97,21 @@ export default function App() {
           <ExpressionZone onInsert={handleInsert} />
         </div>
         <div className={styles.canvas}>
-          <MathField mathFieldRef={mathField.ref} onChange={setCurrentLatex} fontSize={fontSize} />
-          <LaTeXBar value={currentLatex} onCommit={handleLatexCommit} />
+          <MathField
+            mathFieldRef={mathField.ref}
+            onChange={setCurrentLatex}
+            fontSize={fontSize}
+            latex={currentLatex}
+            mathType={mathType}
+            previewOpen={previewOpen}
+          />
+          <LaTeXBar
+            value={currentLatex}
+            onCommit={handleLatexCommit}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            onClear={handleClear}
+          />
         </div>
         <div className={styles.actionBar}>
           <ActionBar
