@@ -16,14 +16,14 @@ The preview is **off by default** and toggled via a button in the MathField card
 
 ## 2. Design Decisions
 
-| Concern | Decision | Reason |
-|---|---|---|
-| MathJax loading | Lazy npm import (dynamic `import()`, code-split by Vite) | Keeps TTI < 1s and bundle < 200KB gzip; no CDN dependency |
-| Toggle placement | Inside `MathField` `floatingToolbar`, beside Undo/Redo/Clear | Self-contained — only `MathField.tsx` needs to change |
-| Preview state | Local `useState` inside `MathField` | Preview is purely a canvas concern; no need to lift to `App.tsx` |
-| Canvas split | CSS Grid `1fr 1fr` when preview is on, `1fr` when off | Smooth animated transition via CSS `grid-template-columns` |
-| MathJax error handling | Silent fallback — show a neutral "could not render" message | Invalid LaTeX is common mid-edit; don't interrupt the flow |
-| LaTeX input to MathJax | `currentLatex` prop passed down from `App.tsx` → `MathField` | Already flows as `onChange` callback; just needs to be stored |
+| Concern                | Decision                                                     | Reason                                                           |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| MathJax loading        | Lazy npm import (dynamic `import()`, code-split by Vite)     | Keeps TTI < 1s and bundle < 200KB gzip; no CDN dependency        |
+| Toggle placement       | Inside `MathField` `floatingToolbar`, beside Undo/Redo/Clear | Self-contained — only `MathField.tsx` needs to change            |
+| Preview state          | Local `useState` inside `MathField`                          | Preview is purely a canvas concern; no need to lift to `App.tsx` |
+| Canvas split           | CSS Grid `1fr 1fr` when preview is on, `1fr` when off        | Smooth animated transition via CSS `grid-template-columns`       |
+| MathJax error handling | Silent fallback — show a neutral "could not render" message  | Invalid LaTeX is common mid-edit; don't interrupt the flow       |
+| LaTeX input to MathJax | `currentLatex` prop passed down from `App.tsx` → `MathField` | Already flows as `onChange` callback; just needs to be stored    |
 
 ---
 
@@ -54,6 +54,7 @@ The preview is **off by default** and toggled via a button in the MathField card
 ## 4. Canvas Layout
 
 **Default (preview off):**
+
 ```
 ┌─────────────────────────────────────────┐
 │         math-field (MathLive)           │
@@ -63,6 +64,7 @@ The preview is **off by default** and toggled via a button in the MathField card
 ```
 
 **Preview on:**
+
 ```
 ┌─────────────────────────┬───────────────────────────┐
 │  math-field (MathLive)  │  MathJax Preview          │

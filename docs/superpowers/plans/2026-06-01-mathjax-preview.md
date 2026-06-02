@@ -12,14 +12,14 @@
 
 ## File Map
 
-| Action | Path | What changes |
-|---|---|---|
-| Create | `src/components/MathPreview/MathJaxPreview.tsx` | New lazy-loaded MathJax render component |
-| Create | `src/components/MathPreview/MathJaxPreview.module.css` | Preview card styles |
-| Modify | `src/components/Editor/MathField.tsx` | Add `latex`/`mathType` props, `previewOpen` state, toggle button, split layout |
-| Modify | `src/components/Editor/MathField.module.css` | Add `.cards`, `.cardsSplit`, `.previewCard`, `.previewHeader`, `.previewBody`, `.sep`, `.previewBtn`, `.previewBtnActive` |
-| Modify | `src/App.tsx` | Pass `currentLatex` and `mathType` to `<MathField>` |
-| Modify | `vite.config.ts` | Exclude `mathjax-full` from `optimizeDeps`, bump `chunkSizeWarningLimit` to 400 |
+| Action | Path                                                   | What changes                                                                                                              |
+| ------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Create | `src/components/MathPreview/MathJaxPreview.tsx`        | New lazy-loaded MathJax render component                                                                                  |
+| Create | `src/components/MathPreview/MathJaxPreview.module.css` | Preview card styles                                                                                                       |
+| Modify | `src/components/Editor/MathField.tsx`                  | Add `latex`/`mathType` props, `previewOpen` state, toggle button, split layout                                            |
+| Modify | `src/components/Editor/MathField.module.css`           | Add `.cards`, `.cardsSplit`, `.previewCard`, `.previewHeader`, `.previewBody`, `.sep`, `.previewBtn`, `.previewBtnActive` |
+| Modify | `src/App.tsx`                                          | Pass `currentLatex` and `mathType` to `<MathField>`                                                                       |
+| Modify | `vite.config.ts`                                       | Exclude `mathjax-full` from `optimizeDeps`, bump `chunkSizeWarningLimit` to 400                                           |
 
 ---
 
@@ -91,6 +91,7 @@ git commit -m "feat: install mathjax-full, exclude from vite optimizeDeps"
 ## Task 2: Create MathJaxPreview component
 
 **Files:**
+
 - Create: `src/components/MathPreview/MathJaxPreview.tsx`
 - Create: `src/components/MathPreview/MathJaxPreview.module.css`
 
@@ -184,12 +185,7 @@ export const MathJaxPreview = memo(function MathJaxPreview({
   if (status === 'error') {
     return <div className={styles.state}>Could not render</div>;
   }
-  return (
-    <div
-      className={styles.render}
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
-  );
+  return <div className={styles.render} dangerouslySetInnerHTML={{ __html: svg }} />;
 });
 ```
 
@@ -217,7 +213,9 @@ export const MathJaxPreview = memo(function MathJaxPreview({
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .render {
@@ -255,6 +253,7 @@ git commit -m "feat: add MathJaxPreview component with lazy-loaded mathjax-full"
 ## Task 3: Update MathField — new props, toggle button, split layout CSS
 
 **Files:**
+
 - Modify: `src/components/Editor/MathField.tsx`
 - Modify: `src/components/Editor/MathField.module.css`
 
@@ -516,16 +515,19 @@ git commit -m "feat: add MathJax preview toggle to MathField card toolbar"
 ## Task 4: Wire new props in App.tsx
 
 **Files:**
+
 - Modify: `src/App.tsx`
 
 - [ ] **Step 1: Update the `<MathField>` call in `App.tsx`**
 
 Find this line in `App.tsx`:
+
 ```tsx
 <MathField mathFieldRef={mathField.ref} onChange={setCurrentLatex} fontSize={fontSize} />
 ```
 
 Replace it with:
+
 ```tsx
 <MathField
   mathFieldRef={mathField.ref}

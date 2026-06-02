@@ -85,10 +85,5 @@ export const MathJaxPreview = memo(function MathJaxPreview({
   if (status === 'error') {
     return <div className={styles.state}>Could not render</div>;
   }
-  return (
-    <div
-      className={styles.render}
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
-  );
+  return <div className={styles.render} dangerouslySetInnerHTML={{ __html: svg }} />;
 });
