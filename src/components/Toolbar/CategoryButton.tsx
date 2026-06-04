@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import type { ToolbarCategory } from '../../types';
 import type { FlyoutPosition } from '../../hooks/useFlyout';
 import { FlyoutPalette } from './FlyoutPalette';
-import { CategoryIcon } from './CategoryIcon';
+import { MathPreview } from '../MathPreview/MathPreview';
 import styles from './CategoryButton.module.css';
 
 interface CategoryButtonProps {
@@ -56,7 +56,9 @@ export function CategoryButton({
         type="button"
         data-category-btn="true"
       >
-        <CategoryIcon id={category.id} />
+        <span className={styles.iconWrap}>
+          <MathPreview latex={category.icon} />
+        </span>
         <ChevronDown size={9} strokeWidth={2.5} className={styles.chevron} />
       </button>
       {isOpen && (

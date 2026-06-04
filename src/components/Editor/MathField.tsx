@@ -90,6 +90,31 @@ export function MathField({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [mathFieldRef]);
 
+  useEffect(() => {
+    if (mathType !== 'display') return;
+
+    const el = mathFieldRef.current as MathfieldElement | null;
+    if (!el) return;
+
+    function handleEnter(e: KeyboardEvent) {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+
+      const mf = el as MathfieldElement;
+      const current = mf.getValue('latex');
+
+      if (current.includes('\\begin{aligned}')) {
+        mf.insert('\\\\');
+      } else {
+        mf.setValue(`\\begin{aligned}${current}\\\\ \\placeholder{}\\end{aligned}`);
+        mf.executeCommand('moveToNextPlaceholder');
+      }
+    }
+
+    el.addEventListener('keydown', handleEnter);
+    return () => el.removeEventListener('keydown', handleEnter);
+  }, [mathFieldRef, mathType]);
+
   return (
     <div className={styles.mathFieldWrapper}>
       <div className={previewOpen ? styles.cardsSplit : styles.cards}>
@@ -101,7 +126,7 @@ export function MathField({
           />
           {!latex && (
             <p className={styles.emptyHint}>
-              Type LaTeX · click a symbol above · or search with <kbd>/</kbd>
+              Type LaTeX · click a symbol above · or search with Ctrl+F
             </p>
           )}
         </div>

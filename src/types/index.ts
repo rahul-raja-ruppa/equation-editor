@@ -10,8 +10,8 @@ export interface PaletteItem {
 
 export interface ToolbarCategory {
   id: string;
-  glyph: string; // shown on the compact category button face
-  tooltip: string; // button tooltip
+  icon: string; // LaTeX string rendered as MathLive icon on the category button
+  tooltip: string;
   palette: PaletteItem[];
 }
 

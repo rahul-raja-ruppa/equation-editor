@@ -73,9 +73,9 @@ export function UtilityRow({
     function onKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
       if (
-        e.key === '/' &&
-        target !== inputRef.current &&
-        !target?.closest('input, textarea, math-field')
+        e.key === 'f' &&
+        (e.ctrlKey || e.metaKey) &&
+        target !== inputRef.current
       ) {
         e.preventDefault();
         inputRef.current?.focus();
@@ -180,7 +180,6 @@ export function UtilityRow({
             placeholder="Search symbols & templates..."
             aria-label="Search symbols and templates"
           />
-          <span className={styles.kbd}>/</span>
         </div>
         {query && (
           <div className={styles.results}>

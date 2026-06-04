@@ -7,8 +7,7 @@
   min-width: 46px;
   height: 38px;
   padding: 0 9px;
-  font-size: 17px;
-  font-family: var(--math-font);
+  font-size: 13px;
   background: var(--ee-panel);
   border: 1px solid var(--ee-border);
   border-radius: var(--ee-radius);
@@ -55,16 +54,12 @@
   opacity: 1;
 }
 
-.unicodeIcon {
-  font-family: var(--math-font);
-  font-size: 15px;
-  line-height: 1;
-  display: flex;
+.iconWrap {
+  display: inline-flex;
   align-items: center;
-}
-
-.svgIcon {
-  display: flex;
-  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  font-size: 13px;
   flex-shrink: 0;
 }

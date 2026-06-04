@@ -3,7 +3,7 @@ import type { ToolbarCategory } from '../../types';
 const row2: ToolbarCategory[] = [
   {
     id: 'fences',
-    glyph: '( )',
+    icon: '\\left(a\\right)',
     tooltip: 'Fences & Brackets',
     palette: [
       { latex: '\\left(#0\\right)', display: '(…)', tooltip: 'Parentheses', isTemplate: true },
@@ -42,7 +42,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'fractions',
-    glyph: '½√',
+    icon: '\\tfrac{1}{2}',
     tooltip: 'Fractions & Roots',
     palette: [
       { latex: '\\frac{#0}{#1}', display: '□/□', tooltip: 'Fraction', isTemplate: true },
@@ -56,7 +56,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'scripts',
-    glyph: 'x²',
+    icon: 'x^{n}',
     tooltip: 'Scripts & Positions',
     palette: [
       { latex: '#0^{#1}', display: 'x²', tooltip: 'Superscript', isTemplate: true },
@@ -71,7 +71,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'summation',
-    glyph: 'Σ',
+    icon: '\\textstyle\\sum',
     tooltip: 'Summation',
     palette: [
       { latex: '\\sum #0', display: 'Σ', tooltip: 'Sum (no limits)', isTemplate: true },
@@ -92,7 +92,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'integrals',
-    glyph: '∫',
+    icon: '\\textstyle\\int',
     tooltip: 'Integrals',
     palette: [
       { latex: '\\int #0 \\, d#1', display: '∫', tooltip: 'Integral', isTemplate: true },
@@ -128,7 +128,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'over-under',
-    glyph: 'â→',
+    icon: '\\hat{a}',
     tooltip: 'Over/Under Decorations',
     palette: [
       { latex: '\\vec{#0}', display: 'a⃗', tooltip: 'Vector arrow', isTemplate: true },
@@ -158,7 +158,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'bigops',
-    glyph: 'Π∪',
+    icon: '\\textstyle\\prod',
     tooltip: 'Big Operators',
     palette: [
       { latex: '\\prod #0', display: 'Π', tooltip: 'Product (no limits)', isTemplate: true },
@@ -193,7 +193,7 @@ const row2: ToolbarCategory[] = [
   },
   {
     id: 'matrices',
-    glyph: '▦',
+    icon: '\\begin{smallmatrix}a&b\\\\c&d\\end{smallmatrix}',
     tooltip: 'Matrices',
     palette: [
       {
