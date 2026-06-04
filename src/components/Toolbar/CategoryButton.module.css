@@ -58,9 +58,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
+  min-width: 20px;
   height: 20px;
-  overflow: hidden;
-  font-size: 14px;
+  font-size: 13px;
   flex-shrink: 0;
 }
