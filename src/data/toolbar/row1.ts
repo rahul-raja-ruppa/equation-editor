@@ -3,7 +3,7 @@ import type { ToolbarCategory } from '../../types';
 const row1: ToolbarCategory[] = [
   {
     id: 'relations',
-    glyph: '≤≥≈',
+    icon: '\\leq',
     tooltip: 'Relations',
     palette: [
       { latex: '\\le', display: '≤', tooltip: 'Less than or equal' },
@@ -27,7 +27,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'decorations',
-    glyph: '…',
+    icon: '\\cdots',
     tooltip: 'Spacing & Dots',
     palette: [
       { latex: '\\ldots', display: '…', tooltip: 'Horizontal dots (baseline)' },
@@ -56,7 +56,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'operators',
-    glyph: '±•⊗',
+    icon: '\\pm',
     tooltip: 'Operators',
     palette: [
       { latex: '\\pm', display: '±', tooltip: 'Plus or minus' },
@@ -76,7 +76,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'arrows',
-    glyph: '→',
+    icon: '\\rightarrow',
     tooltip: 'Arrows',
     palette: [
       { latex: '\\leftrightarrow', display: '↔', tooltip: 'Left-right arrow' },
@@ -100,7 +100,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'logic',
-    glyph: '∴∀',
+    icon: '\\forall',
     tooltip: 'Logic',
     palette: [
       { latex: '\\therefore', display: '∴', tooltip: 'Therefore' },
@@ -119,7 +119,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'sets',
-    glyph: '∈∩⊂',
+    icon: '\\subset',
     tooltip: 'Set Theory',
     palette: [
       { latex: '\\in', display: '∈', tooltip: 'Element of' },
@@ -137,7 +137,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'misc',
-    glyph: '∂∞ℓ',
+    icon: '\\partial',
     tooltip: 'Misc & Letterlike',
     palette: [
       { latex: '\\partial', display: '∂', tooltip: 'Partial derivative' },
@@ -162,7 +162,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'greek-lower',
-    glyph: 'λωθ',
+    icon: '\\lambda',
     tooltip: 'Lowercase Greek',
     palette: [
       { latex: '\\alpha', display: 'α', tooltip: 'alpha' },
@@ -198,7 +198,7 @@ const row1: ToolbarCategory[] = [
   },
   {
     id: 'greek-upper',
-    glyph: 'ΛΩΘ',
+    icon: '\\Omega',
     tooltip: 'Uppercase Greek',
     palette: [
       { latex: '\\Alpha', display: 'Α', tooltip: 'Alpha' },
