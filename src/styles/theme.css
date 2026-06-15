@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand */
+  --color-primary: #6800d6;
+  --color-primary-dark: #7400f0;
+  --color-primary-alt: #ddc2fa;
+  --color-primary-soft: #f3ecfc;
+
+  --color-secondary: #2680d9;
+  --color-secondary-dark: #3c8cdd;
+  --color-secondary-alt: #bed9f4;
+  --color-secondary-soft: #eef5fc;
+
+  --color-tertiary: #924f92;
+  --color-tertiary-alt: #ebe0eb;
+
+  --color-success: #148f47;
+  --color-success-soft: #e7f6ec;
+  --color-danger: #ff3333;
+  --color-danger-soft: #fdeced;
+  --color-warning: #eb7100;
+  --color-warning-soft: #fdf0e2;
+
+  --color-surface: #fcfcfd;
+  --color-surface-dark: #f5f3f7;
+  --color-surface-variant: #f0ebf4;
+
+  /* Warm violet-tinted neutral ramp (hue ~285) */
+  --color-ink-50: #faf9fc;
+  --color-ink-100: #f4f1f7;
+  --color-ink-150: #eee9f3;
+  --color-ink-200: #e7e1ee;
+  --color-ink-300: #d9d2e3;
+  --color-ink-400: #b4aac1;
+  --color-ink-500: #8c8398;
+  --color-ink-600: #6b6276;
+  --color-ink-700: #4a4352;
+  --color-ink-800: #2e2935;
+  --color-ink-900: #1c1a1f;
+
+  /* Typography */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-math: 'Latin Modern Math', 'Cambria Math', serif;
+
+  /* Radius */
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 11px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 1.5px rgba(28,26,31,0.05);
+  --shadow-sm: 0 1px 2px rgba(28,26,31,0.06), 0 1px 1px rgba(28,26,31,0.04);
+  --shadow-pop: 0 14px 34px -12px rgba(54,24,92,0.30), 0 3px 10px -4px rgba(54,24,92,0.14);
+  --shadow-ring-primary: 0 0 0 3px rgba(104,0,214,0.16);
+
+  /* Easing */
+  --ease-snap: cubic-bezier(.2,.7,.2,1);
+}
+
+/* shadcn semantic tokens — required by Button, Tooltip, ScrollArea primitives.
+ * Mapped to Tailwind --color-* / --radius-* via @theme inline below.
+ */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+
+::selection {
+  background: var(--color-primary-alt); /* #ddc2fa — matches math-field selection */
+}
+
+/* math-field shadow-DOM theming — reads the new design tokens */
+math-field {
+  --selection-background-color: var(--color-primary-alt);
+  --contains-highlight-background-color: var(--color-surface-variant);
+  --caret-color: var(--color-primary);
+  --primary: var(--color-primary);
+  --smart-fence-color: var(--color-ink-500);
+}
+
+math-field::part(virtual-keyboard-toggle),
+math-field::part(menu-toggle) {
+  display: none;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../assets/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('../assets/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 400 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Latin Modern Math';
+  src: url('../assets/fonts/latinmodern-math.woff2') format('woff2');
+  font-display: swap;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    background: var(--color-surface-dark);
+    color: var(--color-ink-900);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/*
+ * shadcn token mappings — @theme inline maps the raw CSS vars above to
+ * Tailwind --color-* and --radius-* token names used by generated components.
+ *
+ * COLLISION RULES (Task 3 wins):
+ *   - --color-primary / --color-secondary → NOT mapped here; Task 3 @theme
+ *     block defines these directly as brand hex values.
+ *   - --radius-md / --radius-lg / --radius-xl → NOT mapped here; Task 3 @theme
+ *     block defines these as explicit px values (6px / 8px / 11px).
+ *   - --radius-sm → intentionally not mapped here because Task 3 doesn't define
+ *     it (no collision), so rounded-sm falls back to Tailwind v4's built-in
+ *     default — fine since no Phase 1 primitive uses rounded-sm.
+ *   - --font-sans / --font-mono / --font-math → NOT mapped here; Task 3 @theme
+ *     block defines these with the vendored font stack.
+ *
+ * Everything else below is shadcn-only (no Task 3 name collision).
+ * chart/* and sidebar/* vars dropped (lean — not used by Button/Tooltip/ScrollArea).
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* ── v2.2 redesign utilities (Phase 3) ──────────────────────────────────
+ * Global (NOT CSS-module) because .ee-glyph descendant selectors target
+ * mathlive's runtime .ML__* classes, which must not be hashed.
+ * Extracted verbatim from the v2.2 design bundle.
+ */
+@keyframes ee-pop-in  { from { opacity: 0; transform: translateY(-4px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes ee-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.ee-anim-pop  { animation: ee-pop-in 140ms cubic-bezier(.2,.7,.2,1); transform-origin: top center; }
+.ee-anim-fade { animation: ee-fade-in 130ms ease; }
+
+.ee-canvas-bg {
+  background: radial-gradient(circle at 1px 1px, #e4ddec 1px, transparent 0) 0 0 / 20px 20px, #fbfafd;
+}
+
+@keyframes ee-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(104, 0, 214, 0); }
+  30%  { box-shadow: 0 0 0 3px rgba(104, 0, 214, 0.22); }
+  100% { box-shadow: 0 0 0 0 rgba(104, 0, 214, 0); }
+}
+.ee-flash { animation: ee-flash 520ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ee-anim-pop, .ee-anim-fade, .ee-flash { animation: none !important; }
+}
+
+.ee-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+.ee-scroll::-webkit-scrollbar-thumb { background: #d9d2e3; border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+.ee-scroll::-webkit-scrollbar-thumb:hover { background: #b4aac1; background-clip: padding-box; }
+.ee-scroll::-webkit-scrollbar-track { background: transparent; }
+.ee-scroll.overflow-x-auto { overflow-y: hidden; scrollbar-width: thin; }
+.ee-scroll.overflow-x-auto::-webkit-scrollbar { height: 6px; }
+
+/* Latin Modern Math mapped onto MathLive's class names (static glyph rendering) */
+.ee-glyph { display: inline-flex; align-items: center; justify-content: center; line-height: 1; color: #16131b; -webkit-font-smoothing: antialiased; max-width: 100%; }
+.ee-glyph .ML__latex { font-size: inherit; line-height: 1; }
+.ee-glyph .ML__mathit, .ee-glyph .ML__cmr { letter-spacing: 0; }
+.ee-glyph .ML__mathrm, .ee-glyph .ML__textrm, .ee-glyph .ML__main {
+  font-family: 'Latin Modern Math', 'KaTeX_Main', serif !important;
+}
+.ee-glyph .ML__mathit, .ee-glyph .ML__textit {
+  font-family: 'Latin Modern Math', 'KaTeX_Math', serif !important;
+  font-style: italic !important;
+}

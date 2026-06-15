@@ -20,9 +20,16 @@ between the CMS page and the editor — all state handoff is message-based.
 │   postMessage ←→ usePostMessage hook             │
 └──────────────────────────────────────────────────┘
          │
-         ↓ POST /api/texconversion (on Insert only)
-   kriya2.0 backend
+         ↓ postMessage({ type: 'insert', latex, mathml, ... })
+   kriya2.0 host (eventHandler.js)
+         │
+         ↓ POST /api/texconversion + kriya.general.updateEquation
 ```
+
+The editor converts LaTeX → MathML itself (via MathJax, see `src/lib/texToMathML.ts`) and
+hands the host raw `latex`/`mathml`. The host owns the `/api/texconversion` call — it has the
+customer/project config context (`mathMLConversion`, `class`, etc.) needed to resolve conversion
+settings server-side.
 
 ---
 
@@ -80,7 +87,9 @@ Editor receives (usePostMessage):
   → useMathField.setValue(latex)
   → TypeToggle initialised from config.mathType
   → SizeControl initialised from config.fontSize
-  → customer/project/doi stored in context for Insert call
+  // customer/project/doi are part of the load contract but are not consumed
+  // by the editor — the host resolves them itself when it owns the
+  // /api/texconversion call (see Insert flow below)
 ```
 
 ### Insert — Editor → CMS
@@ -88,25 +97,26 @@ Editor receives (usePostMessage):
 ```
 User clicks Insert
   → latex  = mathfield.getValue('latex')
-  → mathml = mathfield.getValue('math-ml')
-  → POST /api/texconversion {
-        tex:      latex,
-        mathmode: mathType,       // from TypeToggle state
-        customer, project, doi,   // from load config
-        config:   null            // server auto-loads indesignAutoPageConfig.js
-    }
-  → await response → extract imageUrl
+  → mathml = await texToMathML(latex, mathType === 'display')
+       // client-side LaTeX → MathML via MathJax (src/lib/texToMathML.ts);
+       // mirrors the legacy VisualMathEditorNew.js `updateEq()` output,
+       // including the eLife inline-equation attribute strip
   → postMessage({
         type:     'insert',
         latex,
         mathml,
-        imageUrl,
         fontSize,                 // from SizeControl state
         mathType                  // from TypeToggle state
     }, CMS_ORIGIN)
+
+Host (kriya2.0, eventHandler.js `insert` listener) then:
+  → POST /api/texconversion (customer/project/doi resolved server-side)
+  → kriya.general.updateEquation(mathml, latex, data, fontSize, mathType)
 ```
 
-**On API error:** Insert button shows an error state; no message is sent. User can retry or cancel.
+**On conversion error:** `texToMathML` rejects (e.g. malformed LaTeX, or the lazily-loaded
+MathJax chunk fails to fetch) — the Insert button shows an inline error state and no message
+is sent. User can retry or cancel.
 
 ### Cancel
 
@@ -137,7 +147,9 @@ User clicks Cancel (or CMS closes iframe)
 
 - `latex`: empty string `""` for a new equation.
 - `mathType`: `"display"` (block, `\displaystyle`) or `"inline"`.
-- `customer` / `project` / `doi`: required — passed through to `/api/texconversion`.
+- `customer` / `project` / `doi`: required by the load contract, but the editor itself no longer
+  consumes them — the host resolves conversion settings server-side when it owns the
+  `/api/texconversion` call (see Insert flow).
 
 ### Editor → CMS (insert)
 
@@ -146,7 +158,6 @@ User clicks Cancel (or CMS closes iframe)
   "type": "insert",
   "latex": "\\frac{a}{b}",
   "mathml": "<math xmlns='http://www.w3.org/1998/Math/MathML'>...</math>",
-  "imageUrl": "https://s3.../equations/abc123.png",
   "fontSize": 12,
   "mathType": "display"
 }
@@ -166,48 +177,22 @@ User clicks Cancel (or CMS closes iframe)
 
 ---
 
-## /api/texconversion Contract
+## LaTeX → MathML Conversion
 
-Endpoint lives on the kriya2.0 host. The iframe shares the CMS session cookie so auth is automatic.
+Conversion now happens in two independent places — the editor no longer calls
+`/api/texconversion` itself (the earlier `src/api/texconversion.ts` integration was removed):
 
-### Request
-
-```
-POST /api/texconversion
-Content-Type: application/json
-
-{
-  "tex":      "\\frac{a}{b}",   // LaTeX string, required
-  "customer": "bmj",             // required
-  "project":  "bjophthalmol",    // required
-  "doi":      "article-doi",     // required
-  "mathmode": "display",         // 'display' | 'inline'
-  "config":   null               // null → server loads indesignAutoPageConfig.js for customer/project
-}
-```
-
-### Response
-
-`200 OK` — body is the downstream texConversion service response.
-Inferred shape (verify against live instance):
-
-```json
-{ "imageUrl": "https://s3.../equations/abc123.png" }
-```
-
-The old editor passed the full `response.body` as the `data` argument to
-`kriya.general.updateEquation(mathml, tex, data, fontSize, mathType)`.
-
-**Action required before implementing `src/api/texconversion.ts`:** make a real request to
-`/api/texconversion` in a running kriya2.0 instance and log `response.body` to confirm the shape.
-
-### Error cases
-
-| HTTP                           | Meaning                                        | Editor behaviour                |
-| ------------------------------ | ---------------------------------------------- | ------------------------------- |
-| 500 `ERROR:Parameter missing.` | Missing tex/customer/project/doi               | Show inline error, block insert |
-| 500 `ERROR: Config not found.` | No indesignAutoPageConfig for customer/project | Show inline error               |
-| Network failure                | CMS unreachable                                | Show retry option               |
+1. **Client-side, in the editor** — `texToMathML(latex, display)` in `src/lib/texToMathML.ts`
+   runs MathJax (TeX input → internal MmlNode → `SerializedMmlVisitor`, stopping at
+   `STATE.CONVERT`) entirely in the browser, lazily importing the MathJax chunks on first use.
+   It mirrors the legacy `VisualMathEditorNew.js` `updateEq()` post-processing — including
+   stripping `displaystyle`/`scriptlevel` attributes for inline equations per eLife's
+   requirement. The result is sent to the host as `mathml` in the `insert` message.
+2. **Server-side, on the host** — `kriya2.0`'s `eventHandler.js` `insert` listener owns the
+   `POST /api/texconversion` call (resolving `customer`/`project`/`doi`/`indesignAutoPageConfig`
+   itself, since it has that context already) and performs the DOM update via
+   `kriya.general.updateEquation(mathml, latex, data, fontSize, mathType)`. That contract is
+   entirely the host's concern and out of scope for this document.
 
 ---
 

@@ -1,9 +1,16 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ command }) => ({
-  plugins: [react()],
-  base: command === 'build' ? '/equation-editor/' : '/',
+  plugins: [react(), tailwindcss()],
+  base: command === 'build' ? './' : '/',
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
   build: {
     target: 'es2020',
     cssCodeSplit: false,

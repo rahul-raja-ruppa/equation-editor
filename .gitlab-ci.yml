@@ -1,0 +1,26 @@
+stages: # List of stages for jobs, and their order of execution
+    - build
+
+build-job: # This job runs in the build stage, which will run after merging the feature branch to the main branch
+    stage: build
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"
+
+    image: node:latest
+    script:
+        - export GITLAB_TOKEN=$PRIVATE_ACCESS_TOKEN
+        - npm cache clean --force
+        - npm install --loglevel=verbose
+        - npm run build
+        - git config --global user.email "crest@exeterpremedia.com"
+        - git config --global user.name "Crest"
+        - npm version patch --git-tag-version false
+        - npm publish
+        - >
+            if [[ `git status --porcelain` ]]; then
+             NODE_VERSION=$(node -p -e "require('./package.json').version")
+             git add .
+             git commit -m "update patch version to $NODE_VERSION"
+             git remote rm origin && git remote add origin https://gitlab-ci-token:$PRIVATE_ACCESS_TOKEN@gitlab.com/ExeterPremedia/kdocsnextgen/kriya-equation-editor.git
+             git push origin HEAD:main -o ci.skip
+            fi
