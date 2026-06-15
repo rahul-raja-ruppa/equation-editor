@@ -1,6 +1,0 @@
-services:
-  equation-editor:
-    build: .
-    ports:
-      - '8090:80'
-    restart: unless-stopped

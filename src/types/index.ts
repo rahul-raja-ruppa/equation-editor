@@ -5,13 +5,14 @@ export interface PaletteItem {
   tooltip: string;
   isTemplate?: boolean; // true → renders wider, violet-tinted
   isSpace?: boolean; // true → renders a proportional gap-bar visual instead of MathPreview
-  spaceSize?: 'thin' | 'med' | 'quad' | 'qquad'; // controls gap bar width
+  spaceSize?: string; // controls gap bar width — keys into SPACE_WIDTHS in flyout-palette
 }
 
 export interface ToolbarCategory {
   id: string;
-  icon: string; // LaTeX string rendered as MathLive icon on the category button
-  tooltip: string;
+  icon: string; // latex rendered as the category tile glyph (v2.2 rail)
+  glyph: string; // shown on the compact category button face
+  tooltip: string; // button tooltip
   palette: PaletteItem[];
 }
 
@@ -73,7 +74,6 @@ export interface InsertPayload {
   type: 'insert';
   latex: string;
   mathml: string;
-  imageUrl: string;
   fontSize: number;
   mathType: 'display' | 'inline';
 }

@@ -1,84 +1,114 @@
-# Equation Editor POC
+# kriya-equation-editor
 
-A modern, high-performance equation editor built to replace the legacy MathJax 2.7 + jQuery + EasyUI equation editor in Kriya CMS.
+A modern, high-performance math equation editor for the Kriya CMS — built to replace the legacy MathJax 2.7 + jQuery + EasyUI equation editor.
 
-Built as a standalone **React 18 + Vite + TypeScript** application, it embeds into the Kriya CMS via `<iframe>` and communicates exclusively using a secure `postMessage` protocol.
-
----
-
-## 🚀 Tech Stack
-
-- **Framework**: React 18 + Vite
-- **Math Engine**: [MathLive](https://cortexjs.io/mathlive/) (`mathlive`)
-- **Language**: TypeScript
-- **Styling**: Vanilla CSS (CSS Modules)
-- **Integration**: `<iframe>` + `postMessage`
-- **Package Manager**: `pnpm`
+Built as a standalone **React 18 + Vite + TypeScript** application, it embeds into the Kriya CMS via `<iframe>` and communicates exclusively through a `postMessage` protocol.
 
 ---
 
-## 🛠️ Getting Started
+## Tech Stack
 
-### 1. Installation
+| Layer           | Choice                                    |
+| --------------- | ----------------------------------------- |
+| Framework       | React 18 + Vite                           |
+| Math Input      | [MathLive](https://cortexjs.io/mathlive/) |
+| Language        | TypeScript                                |
+| Styling         | CSS Modules                               |
+| Integration     | `<iframe>` + `postMessage`                |
+| Package Manager | `pnpm`                                    |
 
-Install dependencies using `pnpm`:
+---
+
+## Getting Started
+
+### Installation
 
 ```bash
 pnpm install
 ```
 
-### 2. Local Development
-
-Start the Vite development server:
+### Local Development
 
 ```bash
 pnpm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser. The app runs in a standalone mode for easy manual testing.
+Open [http://localhost:5173](http://localhost:5173). The app runs in standalone mode for easy manual testing.
 
-### 3. Production Build
+To simulate a CMS `load` message, open the browser console and run:
 
-Build the optimized static assets ready for deployment:
+```js
+window.postMessage(
+  {
+    type: 'load',
+    latex: '\\frac{a}{b}',
+    config: {
+      fontSize: 12,
+      mathType: 'display',
+      customer: 'bmj',
+      project: 'bjophthalmol',
+      doi: 'test-doi',
+    },
+  },
+  '*'
+);
+```
+
+To observe `insert` output:
+
+```js
+window.addEventListener('message', (e) => console.log(e.data));
+```
+
+### Production Build
 
 ```bash
 pnpm run build
 ```
 
-The output will be generated in the `dist/` directory, which is served under the `/equation-editor/` path in production.
+Output is generated in `dist/` — served under `/equation-editor/` on the Kriya host.
 
-### 4. Code Quality & Formatting
+### Code Quality
 
 ```bash
-# Check linting and styling issues
-pnpm run lint
-
-# Automatically format the code using Prettier
-pnpm run format
+pnpm run lint      # check linting issues
+pnpm run format    # auto-format with Prettier
 ```
 
 ---
 
-## 📐 Architecture & Integration
+## Architecture
 
 ### UI Zones
 
-- **Zone 1 (Quick Access)**: Always-visible toolbar containing frequently used symbols and math templates.
-- **Zone 2 (Expression Library)**: Lazy-loaded tabbed lists of mathematics expressions.
-- **Zone 3 (MathLive Canvas)**: A rich, interactive WYSIWYG math field.
-- **Zone 4 (Footer & Actions)**: Controls for changing display sizes, toggling display/inline mode, and full-screen LaTeX raw editor.
+| Zone                        | Description                                                       |
+| --------------------------- | ----------------------------------------------------------------- |
+| Zone 1 — Quick Access       | Always-visible toolbar with frequently used symbols and templates |
+| Zone 2 — Expression Library | Lazy-loaded tabbed lists of math expressions                      |
+| Zone 3 — MathLive Canvas    | Rich, interactive WYSIWYG math input field                        |
+| Zone 4 — Footer & Actions   | Display/inline toggle, font size, LaTeX raw editor                |
 
-### `postMessage` Data Flow
+### CMS Integration
 
-#### Load (CMS → Editor)
+The built `dist/` is served under `/equation-editor/` on the kriya2.0 host:
 
-When the editor loads inside the iframe, the parent CMS page sends a `load` message to initialize the editor state:
+```html
+<iframe
+  id="eq-editor"
+  src="/equation-editor/index.html"
+  style="width:760px; height:420px; border:none;"
+></iframe>
+```
 
-```javascript
+### postMessage Protocol
+
+#### Load — CMS → Editor
+
+```js
 window.postMessage(
   {
     type: 'load',
-    latex: '\\frac{a}{b}', // Current equation (empty string for new)
+    latex: '\\frac{a}{b}',
     config: {
       fontSize: 12,
       mathType: 'display', // 'display' | 'inline'
@@ -91,17 +121,14 @@ window.postMessage(
 );
 ```
 
-#### Insert (Editor → CMS)
+#### Insert — Editor → CMS
 
-When the user clicks "Insert", the editor serializes the formula to LaTeX and MathML, sends it to the `/api/texconversion` endpoint to generate an image preview, and then posts the data back to the CMS:
-
-```javascript
+```js
 window.postMessage(
   {
     type: 'insert',
     latex: '\\frac{a}{b}',
     mathml: '<math>...</math>',
-    imageUrl: 'https://...',
     mathType: 'display',
     fontSize: 12,
   },
@@ -109,10 +136,13 @@ window.postMessage(
 );
 ```
 
+Full protocol spec: `docs/ARCHITECTURE.md`
+
 ---
 
-## 📖 Key Developer Notes
+## Key Conventions
 
-- **CSS Modules**: Ensure all styling uses CSS Modules (`.module.css`) to maintain scoping and avoid global CSS collisions.
-- **Lazy Loading**: Tabs in the Expression Library are loaded lazily from JSON configuration files (`src/data/tabs/`) to optimize initial load times.
-- **Variables**: Favor `let` by default and `const` only for true constants. Never use `var`.
+- `let` by default, `const` only for true constants. Never `var`.
+- CSS Modules for all component styles — no global class names.
+- Expression Library tabs load lazily from `src/data/expressions/*.json` on first activation.
+- `usePostMessage` validates `e.origin` against `VITE_CMS_ORIGIN` before acting on messages.

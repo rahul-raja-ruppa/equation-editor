@@ -1,25 +1,26 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import type { MathfieldElement } from 'mathlive';
-import { useMathField } from './hooks/useMathField';
-import { usePostMessage } from './hooks/usePostMessage';
-import { ToolbarZone } from './components/Toolbar/ToolbarZone';
-import { ExpressionZone } from './components/ExpressionZone/ExpressionZone';
-import { MathField } from './components/Editor/MathField';
-import { LaTeXBar } from './components/Editor/LaTeXBar';
-import { ActionBar } from './components/ActionBar/ActionBar';
-import { UtilityRow } from './components/Utility/UtilityRow';
-import type { LoadMessage, LoadConfig, OutboundMessage } from './types';
-import styles from './App.module.css';
+import { useMathField } from './hooks/use-math-field';
+import { usePostMessage } from './hooks/use-post-message';
+import { CommandPalette } from './components/command-palette/command-palette';
+import { RailColumn } from './components/rail/rail-column';
+import { EditorColumn } from './components/editor/editor-column';
+import { ActionBar } from './components/action-bar/action-bar';
+import { PreviewColumn } from './components/math-preview/preview-column';
+import { TooltipProvider } from './components/ui/tooltip';
+import { texToMathML } from './lib/tex-to-mathml';
+import type { LoadMessage, OutboundMessage } from './types';
 
 export default function App() {
   const mathField = useMathField();
-  const seeded = useRef(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   let [mathType, setMathType] = useState<'display' | 'inline'>('display');
   let [fontSize, setFontSize] = useState<number>(12);
-  let [loadConfig, setLoadConfig] = useState<LoadConfig | null>(null);
   let [currentLatex, setCurrentLatex] = useState<string>('');
   let [previewOpen, setPreviewOpen] = useState(false);
+  let [paletteOpen, setPaletteOpen] = useState(false);
+  let [hasSelection, setHasSelection] = useState(false);
 
   const onLoad = useCallback(
     (msg: LoadMessage) => {
@@ -27,24 +28,44 @@ export default function App() {
       setCurrentLatex(msg.latex);
       setMathType(msg.config.mathType);
       setFontSize(msg.config.fontSize);
-      setLoadConfig(msg.config);
     },
     [mathField]
   );
 
   const { send } = usePostMessage(onLoad);
 
+  const flash = useCallback(() => {
+    const c = cardRef.current;
+    if (!c) return;
+    c.classList.remove('ee-flash');
+    void c.offsetWidth;
+    c.classList.add('ee-flash');
+  }, []);
+
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      if (!seeded.current && !mathField.getValue('latex')) {
-        seeded.current = true;
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        setPreviewOpen((v) => !v);
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
       }
-    }, 100);
-    return () => window.clearTimeout(timer);
-  }, [mathField]);
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   function handleInsert(latex: string) {
     mathField.insert(latex);
+    setCurrentLatex(mathField.getValue('latex'));
+    flash();
+  }
+
+  function handleWrap(latex: string) {
+    mathField.wrap(latex);
+    setCurrentLatex(mathField.getValue('latex'));
+    flash();
   }
 
   function handleLatexCommit(latex: string) {
@@ -75,56 +96,65 @@ export default function App() {
   }
 
   function getMathML() {
-    return mathField.getValue('math-ml');
+    return texToMathML(mathField.getValue('latex'), mathType === 'display');
   }
 
   return (
-    <div className={styles.root}>
-      <div className={styles.editor} data-skin="a">
-        <UtilityRow
-          mathType={mathType}
-          onMathTypeChange={setMathType}
-          fontSize={fontSize}
-          onFontSizeChange={setFontSize}
-          onInsert={handleInsert}
-          previewOpen={previewOpen}
-          onPreviewToggle={() => setPreviewOpen((v) => !v)}
-        />
-        <div className={styles.toolbar}>
-          <ToolbarZone onInsert={handleInsert} />
-        </div>
-        <div className={styles.expressions}>
-          <ExpressionZone onInsert={handleInsert} />
-        </div>
-        <div className={styles.canvas}>
-          <MathField
-            mathFieldRef={mathField.ref}
-            onChange={setCurrentLatex}
-            fontSize={fontSize}
-            latex={currentLatex}
-            mathType={mathType}
-            previewOpen={previewOpen}
-          />
-          <LaTeXBar
-            value={currentLatex}
-            onCommit={handleLatexCommit}
-            onUndo={handleUndo}
-            onRedo={handleRedo}
-            onClear={handleClear}
-          />
-        </div>
-        <div className={styles.actionBar}>
+    <TooltipProvider>
+      <div className="flex h-dvh w-full items-stretch">
+        <div className="flex h-full w-full flex-col overflow-hidden bg-surface">
+          <div className="flex min-h-0 flex-1">
+            {/* Col 1 — rail */}
+            <RailColumn
+              mathType={mathType}
+              onMathType={setMathType}
+              fontSize={fontSize}
+              onFontSize={setFontSize}
+              previewOpen={previewOpen}
+              onPreviewToggle={() => setPreviewOpen((v) => !v)}
+              onOpenPalette={() => setPaletteOpen(true)}
+              onInsert={handleInsert}
+            />
+
+            {/* Col 2 — editor */}
+            <EditorColumn
+              latex={currentLatex}
+              onCommit={handleLatexCommit}
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              onClear={handleClear}
+              fontSize={fontSize}
+              mathType={mathType}
+              mathFieldRef={mathField.ref}
+              onChange={setCurrentLatex}
+              onSelectionChange={setHasSelection}
+              hasSelection={hasSelection}
+              onWrap={handleWrap}
+              cardRef={cardRef}
+            />
+
+            {/* Col 3 — live preview */}
+            {previewOpen && (
+              <PreviewColumn latex={currentLatex} mathType={mathType} />
+            )}
+          </div>
+
           <ActionBar
+            latex={currentLatex}
             fontSize={fontSize}
             mathType={mathType}
             getLatex={getLatex}
             getMathML={getMathML}
-            loadConfig={loadConfig}
             send={send}
             onCancel={handleCancel}
           />
         </div>
+        <CommandPalette
+          open={paletteOpen}
+          onClose={() => setPaletteOpen(false)}
+          onInsert={handleInsert}
+        />
       </div>
-    </div>
+    </TooltipProvider>
   );
 }
