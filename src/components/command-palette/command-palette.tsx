@@ -54,12 +54,22 @@ function buildIndex(): IndexEntry[] {
   }
 
   for (const item of QUICK) {
-    out.push({ latex: item.latex, name: item.tooltip, group: 'Common', isTemplate: !!item.isTemplate });
+    out.push({
+      latex: item.latex,
+      name: item.tooltip,
+      group: 'Common',
+      isTemplate: !!item.isTemplate,
+    });
   }
 
   for (const id of EXPRESSION_TAB_IDS) {
     for (const item of EXPRESSION_TABS[id].items) {
-      out.push({ latex: item.latex, name: item.label, group: EXPRESSION_TAB_LABELS[id], isTemplate: true });
+      out.push({
+        latex: item.latex,
+        name: item.label,
+        group: EXPRESSION_TAB_LABELS[id],
+        isTemplate: true,
+      });
     }
   }
 
@@ -145,7 +155,11 @@ function ResultRow({ entry, active, onSelect, onHover }: ResultRowProps) {
       }
     >
       <span className="flex min-w-0 flex-1 flex-col gap-1 leading-tight">
-        <span className={'truncate text-[13px] font-medium ' + (active ? 'text-primary' : 'text-ink-800')}>
+        <span
+          className={
+            'truncate text-[13px] font-medium ' + (active ? 'text-primary' : 'text-ink-800')
+          }
+        >
           {entry.name}
         </span>
         <span className="truncate font-mono text-[11px] text-ink-400">{entry.latex}</span>
@@ -270,7 +284,10 @@ export function CommandPalette({ open, onClose, onInsert }: CommandPaletteProps)
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[10vh]">
-      <div className="ee-anim-fade absolute inset-0 bg-ink-900/25 backdrop-blur-[2px]" onClick={onClose} />
+      <div
+        className="ee-anim-fade absolute inset-0 bg-ink-900/25 backdrop-blur-[2px]"
+        onClick={onClose}
+      />
       <div className="ee-anim-pop relative w-full max-w-[640px] overflow-hidden rounded-xl border border-ink-200 bg-surface shadow-pop">
         <div className="flex items-center gap-2.5 border-b border-ink-200 px-3.5 py-3">
           <span className="text-ink-400">

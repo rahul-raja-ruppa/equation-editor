@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { KriyaLogomark } from '@/components/icons/kriya-logomark';
 import { ControlRow } from './control-row';
 import { SymbolGrid } from './symbol-grid';
 import { VerticalLibrary } from './vertical-library';
@@ -28,12 +29,7 @@ export function RailColumn({
     <div className="flex w-[340px] shrink-0 flex-col border-r border-ink-200 bg-surface">
       {/* Header */}
       <div className="flex h-[48px] shrink-0 items-center gap-2 border-b border-ink-200 px-4">
-        <span
-          className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-primary text-[15px] font-semibold leading-none text-white"
-          style={{ fontFamily: 'Georgia, serif' }}
-        >
-          ∑
-        </span>
+        <KriyaLogomark className="h-[26px] w-[26px] shrink-0" />
         <span className="text-[13px] font-semibold tracking-[-0.01em] text-ink-900">
           Equation Editor
         </span>

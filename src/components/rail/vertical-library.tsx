@@ -68,7 +68,10 @@ export function VerticalLibrary({ onInsert }: { onInsert: (latex: string) => voi
               className="group flex h-[62px] w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-ink-200 bg-surface px-2 transition-all duration-150 hover:border-primary/40 hover:bg-primary-soft/40 hover:shadow-xs active:scale-[0.98]"
             >
               <span className="flex min-h-0 w-full flex-1 items-center justify-center overflow-hidden">
-                <MathGlyph latex={it.latex} className="text-[15px] text-ink-800 group-hover:text-primary" />
+                <MathGlyph
+                  latex={it.latex}
+                  className="text-[15px] text-ink-800 group-hover:text-primary"
+                />
               </span>
               <span className="w-full truncate text-center text-[9.5px] font-medium text-ink-400 group-hover:text-primary/70">
                 {it.label}

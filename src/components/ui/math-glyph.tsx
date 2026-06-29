@@ -54,6 +54,11 @@ function renderGlyph(latex: string): string {
   return html;
 }
 
+// Shrink the available box by this fraction before computing the fit
+// scale, so a scaled glyph never sits flush against its clip ancestor's
+// edge — sub-pixel rounding and font-metric drift would otherwise clip it.
+const FIT_SAFETY_MARGIN = 0.96;
+
 export function MathGlyph({ latex, className = '', style }: MathGlyphProps) {
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -66,26 +71,45 @@ export function MathGlyph({ latex, className = '', style }: MathGlyphProps) {
     el.style.transformOrigin = 'center';
     const parent = el.parentElement;
     if (!parent) return;
-    const availH = parent.clientHeight;
-    const availW = parent.clientWidth;
-    const naturalH = el.scrollHeight;
-    const naturalW = el.scrollWidth;
-    const scaleH = availH > 0 && naturalH > availH + 0.5 ? availH / naturalH : 1;
-    const scaleW = availW > 0 && naturalW > availW + 0.5 ? availW / naturalW : 1;
+    const availH = parent.clientHeight * FIT_SAFETY_MARGIN;
+    const availW = parent.clientWidth * FIT_SAFETY_MARGIN;
+    // el.scrollWidth only captures right-side overflow when content is centered
+    // (justify-content:center causes symmetric overflow, left half is invisible to
+    // scrollWidth since scrollLeft cannot go negative). Measure the inner content
+    // element's rendered rect to get the true symmetric natural width.
+    const innerEl = el.firstElementChild as HTMLElement | null;
+    const innerRect = innerEl ? innerEl.getBoundingClientRect() : null;
+    const naturalH =
+      innerRect && innerRect.height > 0
+        ? Math.max(el.scrollHeight, innerRect.height)
+        : el.scrollHeight;
+    const naturalW =
+      innerRect && innerRect.width > 0 ? Math.max(el.scrollWidth, innerRect.width) : el.scrollWidth;
+    const scaleH = availH > 0 && naturalH > availH ? availH / naturalH : 1;
+    const scaleW = availW > 0 && naturalW > availW ? availW / naturalW : 1;
     const scale = Math.min(scaleH, scaleW);
     if (scale < 1) el.style.transform = `scale(${Math.max(0.3, scale)})`;
   }, []);
 
   useLayoutEffect(() => {
     fit();
-  });
+  }, [latex, fit]);
 
   // Re-fit once the math font finishes loading (glyph heights change on swap).
   useEffect(() => {
     if (document.fonts && document.fonts.ready) void document.fonts.ready.then(fit);
-    const t = window.setTimeout(fit, 450);
-    return () => window.clearTimeout(t);
   }, [latex, fit]);
+
+  // Re-fit whenever the clip container itself resizes (sidebar collapse,
+  // panel reflow, viewport resize) — this is the actual signal for when a
+  // previously-correct scale can go stale, replacing a blind timeout.
+  useEffect(() => {
+    const parent = ref.current?.parentElement;
+    if (!parent || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => fit());
+    observer.observe(parent);
+    return () => observer.disconnect();
+  }, [fit]);
 
   return (
     <span

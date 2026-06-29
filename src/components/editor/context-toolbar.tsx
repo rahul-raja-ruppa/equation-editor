@@ -85,7 +85,10 @@ export function ContextToolbar({ visible, onAction }: ContextToolbarProps) {
                   onClick={() => onAction(item.latex)}
                   className="group flex h-[30px] w-[34px] shrink-0 items-center justify-center overflow-hidden rounded-md hover:bg-primary-soft active:scale-[0.95]"
                 >
-                  <MathGlyph latex={item.icon} className="text-[13px] text-ink-800 group-hover:text-primary" />
+                  <MathGlyph
+                    latex={item.icon}
+                    className="text-[13px] text-ink-800 group-hover:text-primary"
+                  />
                 </button>
               </TooltipTrigger>
               <TooltipContent>{item.tip}</TooltipContent>

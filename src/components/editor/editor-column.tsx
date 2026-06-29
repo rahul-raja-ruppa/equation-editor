@@ -21,7 +21,7 @@ interface EditorColumnProps {
 
 export function EditorColumn(props: EditorColumnProps) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col">
+    <div className="flex min-w-[260px] flex-1 flex-col">
       <div className="flex h-[40%] min-h-[132px] flex-col border-b border-ink-200 bg-surface">
         <LaTeXPanel
           value={props.latex}
@@ -35,7 +35,6 @@ export function EditorColumn(props: EditorColumnProps) {
         mathFieldRef={props.mathFieldRef}
         onChange={props.onChange}
         fontSize={props.fontSize}
-        latex={props.latex}
         mathType={props.mathType}
         onSelectionChange={props.onSelectionChange}
         hasSelection={props.hasSelection}

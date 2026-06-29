@@ -4,7 +4,8 @@ export function toInsertLatex(latex: string): string {
 }
 
 /** #0 (the "wrap target" slot) → MathLive's "previous selection" token (#@);
- *  remaining numbered slots → placeholder tokens. Used when wrapping a selection. */
+ *  remaining numbered slots → placeholder tokens. Used when wrapping a selection.
+ *  String replace (not /g) is intentional: a wrap template has exactly one #0 (the selection). */
 export function toWrapLatex(latex: string): string {
   return latex.replace('#0', '#@').replace(/#[1-9]/g, '#?');
 }

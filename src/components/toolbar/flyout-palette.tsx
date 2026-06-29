@@ -123,7 +123,10 @@ export function FlyoutPalette({
         </span>
         <span className="text-[9.5px] font-medium tabular-nums text-ink-400">{items.length}</span>
       </div>
-      <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0,1fr))` }}>
+      <div
+        className="grid gap-1"
+        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0,1fr))` }}
+      >
         {items.map((item, i) => (
           <button
             key={i}

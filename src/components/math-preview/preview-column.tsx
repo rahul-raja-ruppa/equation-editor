@@ -7,7 +7,7 @@ interface PreviewColumnProps {
 
 export function PreviewColumn({ latex, mathType }: PreviewColumnProps) {
   return (
-    <div className="ee-anim-fade flex min-w-0 flex-1 flex-col border-l border-ink-200">
+    <div className="ee-anim-fade flex min-w-[260px] flex-1 flex-col border-l border-ink-200">
       <div className="flex h-[33px] shrink-0 items-center gap-2 border-b border-ink-200/70 px-3">
         <span className="select-none text-[9.5px] font-semibold uppercase tracking-[0.09em] text-ink-400">
           Live preview

@@ -1,24 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Check } from 'lucide-react';
+import { useState, useCallback, useMemo } from 'react';
+import { Loader2 } from 'lucide-react';
 import type { OutboundMessage } from '../../types';
+import { getLatexErrorInfo } from '../../lib/latex-validation';
+import { Toast } from '../ui/toast';
 
-interface ToastProps {
-  message: string;
-  onDone: () => void;
-}
-
-function Toast({ message, onDone }: ToastProps) {
-  useEffect(() => {
-    const t = window.setTimeout(onDone, 2000);
-    return () => window.clearTimeout(t);
-  }, [onDone]);
-
-  return (
-    <div className="ee-anim-fade fixed bottom-16 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-ink-800 px-3 py-1.5 text-[11px] text-white shadow-pop">
-      {message}
-    </div>
-  );
-}
+export type InsertStatus = 'idle' | 'loading';
 
 interface ActionBarProps {
   latex: string;
@@ -28,9 +14,9 @@ interface ActionBarProps {
   getMathML: () => Promise<string>;
   send: (payload: OutboundMessage) => void;
   onCancel: () => void;
+  insertStatus: InsertStatus;
+  onInsertStatusChange: (s: InsertStatus) => void;
 }
-
-type InsertStatus = 'idle' | 'loading' | 'inserted';
 
 export function ActionBar({
   latex,
@@ -40,43 +26,54 @@ export function ActionBar({
   getMathML,
   send,
   onCancel,
+  insertStatus,
+  onInsertStatusChange,
 }: ActionBarProps) {
-  let [status, setStatus] = useState<InsertStatus>('idle');
   let [toastMsg, setToastMsg] = useState<string | null>(null);
 
+  const clearToast = useCallback(() => setToastMsg(null), []);
+
   const hasContent = latex.trim().length > 0;
+  const isLoading = insertStatus === 'loading';
+
+  const hasLatexError = useMemo(
+    () => hasContent && getLatexErrorInfo(latex) !== null,
+    [hasContent, latex]
+  );
 
   async function handleInsert() {
-    if (!hasContent || status === 'loading') return;
-    setStatus('loading');
+    if (!hasContent || isLoading) return;
+    onInsertStatusChange('loading');
     try {
       const latexVal = getLatex();
       const mathml = await getMathML();
       send({ type: 'insert', latex: latexVal, mathml, fontSize, mathType });
-      setStatus('inserted');
-      window.setTimeout(() => setStatus('idle'), 900);
+      // Stay in 'loading' — parent sends insert-success or insert-error to resolve
     } catch (err) {
-      setStatus('idle');
+      onInsertStatusChange('idle');
       setToastMsg((err as Error).message || 'Failed to generate MathML');
     }
   }
 
   return (
     <>
-      {toastMsg && <Toast message={toastMsg} onDone={() => setToastMsg(null)} />}
+      {toastMsg && <Toast message={toastMsg} onDone={clearToast} />}
       <div className="flex min-h-[46px] items-center gap-3 border-t border-ink-200 bg-surface px-3.5 py-2">
         {/* Status indicator */}
         <div className="flex items-center gap-2">
           <span
             className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
-              hasContent ? 'bg-success' : 'bg-ink-300'
+              !hasContent ? 'bg-ink-300' : hasLatexError ? 'bg-danger' : 'bg-success'
             }`}
           />
-          <span className="text-[10px] text-ink-500">
-            {hasContent ? 'MathML & LaTeX ready' : 'Empty equation'}
-          </span>
-          <span className="font-mono text-[10px] text-ink-400 max-sm:hidden">
-            {mathType} · {fontSize}pt
+          <span
+            className={`text-[10px] ${hasContent && hasLatexError ? 'text-danger' : 'text-ink-500'}`}
+          >
+            {!hasContent
+              ? 'Empty equation'
+              : hasLatexError
+                ? 'Invalid LaTeX syntax'
+                : 'MathML & LaTeX ready'}
           </span>
         </div>
 
@@ -85,27 +82,26 @@ export function ActionBar({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-md border border-ink-200 px-3.5 py-1.5 text-[12px] font-semibold text-ink-600 transition-colors hover:border-primary hover:text-primary"
+            disabled={isLoading}
+            className="rounded-md border border-ink-200 px-3.5 py-1.5 text-[12px] font-semibold text-ink-600 transition-colors disabled:cursor-default disabled:opacity-40 hover:border-primary hover:text-primary"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleInsert}
-            disabled={!hasContent || status === 'loading'}
-            className={`flex min-w-[80px] items-center justify-center gap-1.5 rounded-md px-4 py-1.5 text-[12px] font-semibold transition-all disabled:cursor-default disabled:shadow-none ${
+            disabled={!hasContent || isLoading}
+            className={`flex w-[90px] items-center justify-center gap-1.5 rounded-md border px-3.5 py-1.5 text-[12px] font-semibold transition-all disabled:cursor-default disabled:shadow-none ${
               hasContent
-                ? 'bg-primary text-white shadow-[0_8px_18px_-10px_rgba(104,0,214,0.6)] hover:-translate-y-px hover:bg-primary-dark active:scale-[0.97] active:shadow-none'
-                : 'cursor-default bg-ink-200 text-ink-400'
+                ? 'border-primary bg-primary text-white shadow-[0_8px_18px_-10px_rgba(104,0,214,0.6)] hover:-translate-y-px hover:bg-primary-dark active:scale-[0.97] active:shadow-none disabled:opacity-70'
+                : 'cursor-default border-transparent bg-ink-200 text-ink-400'
             }`}
           >
-            {status === 'inserted' ? (
+            {isLoading ? (
               <>
-                <Check size={13} />
-                Inserted
+                <Loader2 size={13} className="animate-spin" />
+                Inserting…
               </>
-            ) : status === 'loading' ? (
-              'Inserting…'
             ) : (
               'Insert'
             )}

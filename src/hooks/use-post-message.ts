@@ -1,8 +1,23 @@
 import { useEffect, useRef } from 'react';
 import type { LoadMessage, OutboundMessage } from '../types';
 
-export function usePostMessage(onLoad: (msg: LoadMessage) => void) {
+export function usePostMessage(
+  onLoad: (msg: LoadMessage) => void,
+  onInsertRequested: () => void,
+  onInsertSuccess: () => void,
+  onInsertError: () => void
+) {
   const originRef = useRef<string | null>(null);
+  // Keep stable refs so the message listener never needs to be re-registered
+  // when the caller's callbacks change across renders.
+  const onInsertRequestedRef = useRef(onInsertRequested);
+  const onInsertSuccessRef = useRef(onInsertSuccess);
+  const onInsertErrorRef = useRef(onInsertError);
+  useEffect(() => {
+    onInsertRequestedRef.current = onInsertRequested;
+    onInsertSuccessRef.current = onInsertSuccess;
+    onInsertErrorRef.current = onInsertError;
+  });
 
   useEffect(() => {
     const cmsOrigin = import.meta.env.VITE_CMS_ORIGIN as string | undefined;
@@ -18,6 +33,12 @@ export function usePostMessage(onLoad: (msg: LoadMessage) => void) {
           originRef.current = e.origin;
         }
         onLoad(e.data as LoadMessage);
+      } else if (e.data?.type === 'insert-requested') {
+        onInsertRequestedRef.current();
+      } else if (e.data?.type === 'insert-success') {
+        onInsertSuccessRef.current();
+      } else if (e.data?.type === 'insert-error') {
+        onInsertErrorRef.current();
       }
     }
 

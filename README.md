@@ -8,14 +8,18 @@ Built as a standalone **React 18 + Vite + TypeScript** application, it embeds in
 
 ## Tech Stack
 
-| Layer           | Choice                                    |
-| --------------- | ----------------------------------------- |
-| Framework       | React 18 + Vite                           |
-| Math Input      | [MathLive](https://cortexjs.io/mathlive/) |
-| Language        | TypeScript                                |
-| Styling         | CSS Modules                               |
-| Integration     | `<iframe>` + `postMessage`                |
-| Package Manager | `pnpm`                                    |
+| Layer           | Choice                                           |
+| --------------- | ------------------------------------------------ |
+| Framework       | React 18 + Vite 5                                |
+| Math Input      | [MathLive](https://cortexjs.io/mathlive/) 0.101  |
+| Math Rendering  | MathJax 3 (client-side LaTeX → MathML + preview) |
+| Language        | TypeScript (strict)                              |
+| Styling         | Tailwind CSS 4                                   |
+| UI Primitives   | Radix UI (Tooltip, ScrollArea)                   |
+| Icons           | Lucide React                                     |
+| Animation       | Framer Motion                                    |
+| Integration     | `<iframe>` + `postMessage`                       |
+| Package Manager | `pnpm`                                           |
 
 ---
 
@@ -79,14 +83,21 @@ pnpm run format    # auto-format with Prettier
 
 ## Architecture
 
-### UI Zones
+### Layout
 
-| Zone                        | Description                                                       |
-| --------------------------- | ----------------------------------------------------------------- |
-| Zone 1 — Quick Access       | Always-visible toolbar with frequently used symbols and templates |
-| Zone 2 — Expression Library | Lazy-loaded tabbed lists of math expressions                      |
-| Zone 3 — MathLive Canvas    | Rich, interactive WYSIWYG math input field                        |
-| Zone 4 — Footer & Actions   | Display/inline toggle, font size, LaTeX raw editor                |
+The editor uses a three-column layout:
+
+| Column        | Width  | Description                                                        |
+| ------------- | ------ | ------------------------------------------------------------------ |
+| RailColumn    | 340px  | Symbol/template library: ControlRow + SymbolGrid + VerticalLibrary |
+| EditorColumn  | flex   | LaTeXPanel (raw edit) + EditorSurface (MathLive WYSIWYG)           |
+| PreviewColumn | 260px+ | Optional live MathJax SVG preview (toggle via eye icon)            |
+| ActionBar     | 46px   | Fixed footer: status indicator + Cancel + Insert                   |
+
+Additional features accessible via keyboard:
+
+- **Cmd+K** — Command palette: fuzzy search across all symbols and expressions
+- **ContextToolbar** — Floating toolbar that appears on selection in the math field
 
 ### CMS Integration
 
@@ -143,6 +154,7 @@ Full protocol spec: `docs/ARCHITECTURE.md`
 ## Key Conventions
 
 - `let` by default, `const` only for true constants. Never `var`.
-- CSS Modules for all component styles — no global class names.
-- Expression Library tabs load lazily from `src/data/expressions/*.json` on first activation.
-- `usePostMessage` validates `e.origin` against `VITE_CMS_ORIGIN` before acting on messages.
+- Tailwind CSS utility classes for all component styles — no CSS Modules, no global class names.
+- Expression Library tabs load lazily from `src/data/expressions/*.json` on first activation; cached module-level.
+- `usePostMessage` validates `e.origin` against `VITE_CMS_ORIGIN`; falls back to locking to the first sender.
+- Template slots use `#0`, `#1` — converted by `src/lib/latex-templates.ts` before calling MathLive APIs.

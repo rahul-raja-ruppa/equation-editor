@@ -1,18 +1,18 @@
-import * as React from "react"
-import { type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
+import * as React from 'react';
+import { type VariantProps } from 'class-variance-authority';
+import { Slot } from 'radix-ui';
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "./button-variants"
+import { cn } from '@/lib/utils';
+import { buttonVariants } from './button-variants';
 
 const Button = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<"button"> &
+  React.ComponentProps<'button'> &
     VariantProps<typeof buttonVariants> & {
-      asChild?: boolean
+      asChild?: boolean;
     }
->(({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot.Root : "button"
+>(({ className, variant = 'default', size = 'default', asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot.Root : 'button';
 
   return (
     <Comp
@@ -23,8 +23,8 @@ const Button = React.forwardRef<
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
-  )
-})
-Button.displayName = "Button"
+  );
+});
+Button.displayName = 'Button';
 
-export { Button }
+export { Button };

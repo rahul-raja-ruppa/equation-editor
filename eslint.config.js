@@ -12,7 +12,11 @@ import checkFile from 'eslint-plugin-check-file';
 //   Classes/Types -> PascalCase
 //   Constants -> UPPER_SNAKE_CASE
 const NAMING_CONVENTION_RULES = [
-  { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'], leadingUnderscore: 'allow' },
+  {
+    selector: 'variable',
+    format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+    leadingUnderscore: 'allow',
+  },
   { selector: 'function', format: ['camelCase', 'PascalCase'] },
   { selector: 'parameter', format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow' },
   { selector: 'typeLike', format: ['PascalCase'] },
@@ -45,7 +49,10 @@ export default tseslint.config(
 
       'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/naming-convention': ['error', ...NAMING_CONVENTION_RULES],
     },
   },
@@ -72,7 +79,11 @@ export default tseslint.config(
     plugins: { 'check-file': checkFile },
     processor: 'check-file/eslint-processor-check-file',
     rules: {
-      'check-file/filename-naming-convention': ['error', { '**/*.css': 'KEBAB_CASE' }, { ignoreMiddleExtensions: true }],
+      'check-file/filename-naming-convention': [
+        'error',
+        { '**/*.css': 'KEBAB_CASE' },
+        { ignoreMiddleExtensions: true },
+      ],
     },
-  },
+  }
 );

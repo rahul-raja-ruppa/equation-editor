@@ -17,6 +17,7 @@ export function IconBtn({ onClick, label, sub, tone, children }: IconBtnProps) {
       <TooltipTrigger asChild>
         <button
           type="button"
+          aria-label={label}
           onClick={onClick}
           className={cn(
             'flex h-[26px] w-[26px] items-center justify-center rounded-md transition-colors',

@@ -82,11 +82,44 @@ export interface CancelPayload {
   type: 'cancel';
 }
 
+export interface CancelRequestedPayload {
+  type: 'cancel-requested';
+  initialLatex: string;
+  currentLatex: string;
+}
+
+// Sent every ~10s while the user is interacting with the iframe, so the parent's
+// idle timer (which only sees activity on its own document) doesn't fire while
+// editing is happening inside this iframe.
+export interface ActivityHeartbeatPayload {
+  type: 'activity-heartbeat';
+}
+
 export interface LoadMessage {
   type: 'load';
   latex: string;
   config: LoadConfig;
 }
 
-export type OutboundMessage = InsertPayload | CancelPayload;
-export type InboundMessage = LoadMessage;
+export interface InsertRequestedMessage {
+  type: 'insert-requested';
+}
+
+export interface InsertSuccessMessage {
+  type: 'insert-success';
+}
+
+export interface InsertErrorMessage {
+  type: 'insert-error';
+}
+
+export type OutboundMessage =
+  | InsertPayload
+  | CancelPayload
+  | CancelRequestedPayload
+  | ActivityHeartbeatPayload;
+export type InboundMessage =
+  | LoadMessage
+  | InsertRequestedMessage
+  | InsertSuccessMessage
+  | InsertErrorMessage;

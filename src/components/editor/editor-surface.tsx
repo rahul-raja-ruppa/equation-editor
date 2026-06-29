@@ -1,8 +1,9 @@
 import 'mathlive';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { MathfieldElement } from 'mathlive';
 import type { useMathField } from '../../hooks/use-math-field';
 import { ContextToolbar } from './context-toolbar';
+import { EditorErrorBoundary } from './editor-error-boundary';
 
 declare global {
   /* eslint-disable-next-line @typescript-eslint/no-namespace */
@@ -17,7 +18,6 @@ interface EditorSurfaceProps {
   mathFieldRef: ReturnType<typeof useMathField>['ref'];
   onChange?: (latex: string) => void;
   fontSize: number;
-  latex: string;
   mathType: 'display' | 'inline';
   onSelectionChange: (hasSelection: boolean) => void;
   hasSelection: boolean;
@@ -29,7 +29,6 @@ export function EditorSurface({
   mathFieldRef,
   onChange,
   fontSize,
-  latex,
   mathType,
   onSelectionChange,
   hasSelection,
@@ -95,30 +94,30 @@ export function EditorSurface({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [mathFieldRef]);
 
+  let [mountKey, setMountKey] = useState(0);
+
+  let handleReset = useCallback(() => {
+    setMountKey((k) => k + 1);
+    onChange?.('');
+  }, [onChange]);
+
   useEffect(() => {
-    if (mathType !== 'display') return;
-
-    const el = mathFieldRef.current as MathfieldElement | null;
-    if (!el) return;
-
-    function handleEnter(e: KeyboardEvent) {
-      if (e.key !== 'Enter') return;
-      e.preventDefault();
-
-      const mf = el as MathfieldElement;
-      const current = mf.getValue('latex');
-
-      if (current.includes('\\begin{aligned}')) {
-        mf.insert('\\\\');
-      } else {
-        mf.setValue(`\\begin{aligned}${current}\\\\ \\placeholder{}\\end{aligned}`);
-        mf.executeCommand('moveToNextPlaceholder');
+    function handleError(event: ErrorEvent) {
+      // MathLive's parser throws this when it encounters invalid environments
+      // (e.g. nested \begin{align}). It creates its own React root inside the
+      // Shadow DOM so the error escapes our tree as a global window error.
+      if (
+        event.error instanceof TypeError &&
+        (event.message?.includes('mathlist') || event.error.stack?.includes('mathlive'))
+      ) {
+        event.preventDefault();
+        setMountKey((k) => k + 1);
+        onChange?.('');
       }
     }
-
-    el.addEventListener('keydown', handleEnter);
-    return () => el.removeEventListener('keydown', handleEnter);
-  }, [mathFieldRef, mathType]);
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, [onChange]);
 
   useEffect(() => {
     const el = mathFieldRef.current as MathfieldElement | null;
@@ -136,27 +135,34 @@ export function EditorSurface({
   return (
     <div className="relative flex min-h-0 flex-1 flex-col bg-surface">
       <div className="flex h-[33px] shrink-0 items-center gap-2 border-b border-ink-200/70 px-3">
-        <span className="select-none text-[9.5px] font-semibold uppercase tracking-[0.09em] text-ink-400">Editor</span>
-        <span className="ml-auto font-mono text-[9.5px] text-ink-400">{mathType} · {fontSize}pt</span>
+        <span className="select-none text-[9.5px] font-semibold uppercase tracking-[0.09em] text-ink-400">
+          Editor
+        </span>
+        <span className="ml-auto font-mono text-[9.5px] text-ink-400">
+          {mathType} · {fontSize}pt
+        </span>
       </div>
-      <div className="ee-canvas-bg relative flex min-h-0 flex-1 flex-col">
+      <div className="relative flex min-h-0 flex-1 flex-col">
         <ContextToolbar visible={hasSelection} onAction={onWrap} />
-        <div className="flex flex-1 items-center justify-center overflow-auto p-6">
-          <div
-            ref={cardRef}
-            className="relative flex min-h-[120px] w-full max-w-[560px] items-center justify-center rounded-xl border border-ink-200 bg-surface px-6 py-6 shadow-sm"
-          >
+        <div
+          ref={cardRef}
+          className="ee-scroll relative flex min-h-0 w-full flex-1 overflow-auto bg-surface px-6 py-6"
+          onClick={(e) => {
+            if (e.target !== e.currentTarget) return;
+            (mathFieldRef.current as MathfieldElement | null)?.focus();
+          }}
+        >
+          <EditorErrorBoundary onReset={handleReset}>
             <math-field
+              key={mountKey}
               ref={mathFieldRef as React.RefObject<HTMLElement>}
-              className="block w-full border-none bg-transparent outline-none"
-              style={{ fontSize: `${30 + (fontSize - 12) * 1.6}px` }}
+              style={{
+                fontSize: `${30 + (fontSize - 12) * 1.6}px`,
+                margin: 'auto',
+                background: 'transparent',
+              }}
             />
-            {!latex && (
-              <p className="pointer-events-none absolute text-[13px] text-ink-400">
-                Type LaTeX · click a symbol · ⌘K
-              </p>
-            )}
-          </div>
+          </EditorErrorBoundary>
         </div>
       </div>
     </div>

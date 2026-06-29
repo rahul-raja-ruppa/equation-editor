@@ -9,7 +9,8 @@ import { ActionBar } from './components/action-bar/action-bar';
 import { PreviewColumn } from './components/math-preview/preview-column';
 import { TooltipProvider } from './components/ui/tooltip';
 import { texToMathML } from './lib/tex-to-mathml';
-import type { LoadMessage, OutboundMessage } from './types';
+import type { LoadMessage } from './types';
+import type { InsertStatus } from './components/action-bar/action-bar';
 
 export default function App() {
   const mathField = useMathField();
@@ -18,21 +19,57 @@ export default function App() {
   let [mathType, setMathType] = useState<'display' | 'inline'>('display');
   let [fontSize, setFontSize] = useState<number>(12);
   let [currentLatex, setCurrentLatex] = useState<string>('');
+  let [initialLatex, setInitialLatex] = useState<string>('');
   let [previewOpen, setPreviewOpen] = useState(false);
   let [paletteOpen, setPaletteOpen] = useState(false);
   let [hasSelection, setHasSelection] = useState(false);
+  let [insertStatus, setInsertStatus] = useState<InsertStatus>('idle');
 
   const onLoad = useCallback(
     (msg: LoadMessage) => {
       mathField.setValue(msg.latex);
       setCurrentLatex(msg.latex);
+      setInitialLatex(msg.latex);
       setMathType(msg.config.mathType);
       setFontSize(msg.config.fontSize);
+      setInsertStatus('idle');
     },
     [mathField]
   );
 
-  const { send } = usePostMessage(onLoad);
+  function handleInsertSuccess() {
+    mathField.replaceValue('');
+    setCurrentLatex('');
+    setInsertStatus('idle');
+  }
+
+  function handleInsertError() {
+    setInsertStatus('idle');
+  }
+
+  const { send } = usePostMessage(
+    onLoad,
+    handleInsertRequested,
+    handleInsertSuccess,
+    handleInsertError
+  );
+  const sendRef = useRef(send);
+  useEffect(() => {
+    sendRef.current = send;
+  });
+
+  async function handleInsertRequested() {
+    const latexVal = mathField.getValue('latex');
+    if (!latexVal.trim()) return;
+    try {
+      const mathml = await texToMathML(latexVal, mathType === 'display');
+      send({ type: 'insert', latex: latexVal, mathml, fontSize, mathType });
+    } catch {
+      // insert-requested failures are silent — user is not looking at the editor
+    }
+  }
+
+  const closePalette = useCallback(() => setPaletteOpen(false), []);
 
   const flash = useCallback(() => {
     const c = cardRef.current;
@@ -56,39 +93,72 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // The parent's idle/session timer only sees activity on its own document, so it
+  // can't tell when the user is interacting inside this iframe. Mirror the heartbeat
+  // contract the biblio editor iframe already uses: report activity every 10s.
+  useEffect(() => {
+    let active = false;
+    function markActive() {
+      active = true;
+    }
+    window.addEventListener('mousemove', markActive);
+    window.addEventListener('mousedown', markActive);
+    window.addEventListener('keydown', markActive);
+    const interval = setInterval(() => {
+      if (active) {
+        sendRef.current({ type: 'activity-heartbeat' });
+        active = false;
+      }
+    }, 10000);
+    return () => {
+      window.removeEventListener('mousemove', markActive);
+      window.removeEventListener('mousedown', markActive);
+      window.removeEventListener('keydown', markActive);
+      clearInterval(interval);
+    };
+  }, []);
+
   function handleInsert(latex: string) {
     mathField.insert(latex);
-    setCurrentLatex(mathField.getValue('latex'));
+    const updated = mathField.getValue('latex');
+    if (updated) setCurrentLatex(updated);
     flash();
   }
 
   function handleWrap(latex: string) {
     mathField.wrap(latex);
-    setCurrentLatex(mathField.getValue('latex'));
+    const updated = mathField.getValue('latex');
+    if (updated) setCurrentLatex(updated);
     flash();
   }
 
   function handleLatexCommit(latex: string) {
-    mathField.setValue(latex);
+    if (latex === mathField.getValue('latex')) return;
+    mathField.replaceValue(latex);
     setCurrentLatex(latex);
   }
 
   function handleUndo() {
-    (mathField.ref.current as MathfieldElement | null)?.executeCommand('undo');
+    const el = mathField.ref.current as MathfieldElement | null;
+    if (!el) return;
+    el.focus();
+    el.executeCommand('undo');
   }
 
   function handleRedo() {
-    (mathField.ref.current as MathfieldElement | null)?.executeCommand('redo');
+    const el = mathField.ref.current as MathfieldElement | null;
+    if (!el) return;
+    el.focus();
+    el.executeCommand('redo');
   }
 
   function handleClear() {
-    (mathField.ref.current as MathfieldElement | null)?.setValue('');
+    mathField.replaceValue('');
     setCurrentLatex('');
   }
 
   function handleCancel() {
-    const payload: OutboundMessage = { type: 'cancel' };
-    send(payload);
+    send({ type: 'cancel-requested', initialLatex, currentLatex });
   }
 
   function getLatex() {
@@ -103,7 +173,7 @@ export default function App() {
     <TooltipProvider>
       <div className="flex h-dvh w-full items-stretch">
         <div className="flex h-full w-full flex-col overflow-hidden bg-surface">
-          <div className="flex min-h-0 flex-1">
+          <div className="flex min-h-0 flex-1 overflow-x-auto">
             {/* Col 1 — rail */}
             <RailColumn
               mathType={mathType}
@@ -134,9 +204,7 @@ export default function App() {
             />
 
             {/* Col 3 — live preview */}
-            {previewOpen && (
-              <PreviewColumn latex={currentLatex} mathType={mathType} />
-            )}
+            {previewOpen && <PreviewColumn latex={currentLatex} mathType={mathType} />}
           </div>
 
           <ActionBar
@@ -147,13 +215,11 @@ export default function App() {
             getMathML={getMathML}
             send={send}
             onCancel={handleCancel}
+            insertStatus={insertStatus}
+            onInsertStatusChange={setInsertStatus}
           />
         </div>
-        <CommandPalette
-          open={paletteOpen}
-          onClose={() => setPaletteOpen(false)}
-          onInsert={handleInsert}
-        />
+        <CommandPalette open={paletteOpen} onClose={closePalette} onInsert={handleInsert} />
       </div>
     </TooltipProvider>
   );

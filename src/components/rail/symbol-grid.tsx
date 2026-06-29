@@ -41,7 +41,9 @@ function GridCatButton({ category, isOpen, onOpen, onScheduleClose }: GridCatBut
     >
       <MathGlyph
         latex={category.icon}
-        className={'text-[17px] ' + (isOpen ? 'text-primary' : 'text-ink-900 group-hover:text-primary')}
+        className={
+          'text-[17px] ' + (isOpen ? 'text-primary' : 'text-ink-900 group-hover:text-primary')
+        }
       />
       <span
         className={
